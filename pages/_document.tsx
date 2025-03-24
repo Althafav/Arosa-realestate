@@ -1,10 +1,13 @@
+import HeadComponent from "@/components/HeadComponent";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
     <Html lang="en">
-      <Head />
-      <body className="antialiased">
+      <Head>
+        <HeadComponent />
+      </Head>
+      <body className="">
         <Main />
         <NextScript />
       </body>

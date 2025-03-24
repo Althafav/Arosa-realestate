@@ -1,0 +1,30 @@
+@import "_partials/_variables";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  background: $background-color;
+  font-family: "Montserrat", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.gradient-1 {
+  background: $gradient;
+}
+
+.ProjectDetailImageSwiper {
+  .custom-pagination .swiper-pagination-bullet {
+    width: 12px;
+    height: 8px;
+    margin: 0 5px;
+
+    border-radius: 2px;
+    transition: background 0.1s ease-in-out;
+    cursor: pointer;
+  }
+
+  .custom-pagination .swiper-pagination-bullet-active {
+    background: $primary-color;
+    transform: scale(1.2);
+  }
+}

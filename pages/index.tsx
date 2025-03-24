@@ -1,113 +1,231 @@
+import SpinnerComponent from "@/components/UI/SpinnerComponent";
+import { Cardblock } from "@/models/cardblock";
+import { Homepage } from "@/models/homepage";
+import { Partneritem } from "@/models/partneritem";
+import Globals from "@/modules/Globals";
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { useEffect, useState } from "react";
+import { FaCheck } from "react-icons/fa";
+import { GoArrowUpRight } from "react-icons/go";
 
 export default function Home() {
+  const [pageData, setPageData] = useState<Homepage | null>(null);
+
+  useEffect(() => {
+    Globals.KontentClient.item("home_page_2025")
+      .withParameter("depth", "4")
+      .toObservable()
+      .subscribe((response: any) => {
+        setPageData(response.item);
+      });
+  }, []);
+
+  if (!pageData) {
+    return <SpinnerComponent />;
+  }
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <div className="home-page-wrapper ">
+      {/* banner */}
+      <div className="banner-wrapper h-screen relative ">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          width={800}
+          height={600}
+          src={pageData.bannerimage.value[0]?.url}
+          alt=""
+          className="h-full w-full absolute -z-10"
         />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <div className="container mx-auto flex items-center justify-center h-full">
+          <div className="pb-20">
+            <h1 className="lg:text-6xl text-3xl text-white font-bold text-center mb-3">
+              {pageData.bannerheading.value}
+            </h1>
+            <h3 className="text-white lg:text-2xl  text-center">
+              {pageData.bannersubheading.value}
+            </h3>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
+      {/* partners */}
+      <div className="partners-wrapper py-10">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-12  lg:gap-10 gap-5">
+            {pageData.partneritems.value.map((m: any, index: number) => {
+              const item: Partneritem = m;
+              return (
+                <div className="lg:col-span-3 col-span-6 " key={item.system.id}>
+                  <img
+                    src={item.image.value[0]?.url}
+                    alt={item.name.value}
+                    className="w-[120px] h-[120px] object-contain"
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* about section */}
+      <div className="about-section-wrapper py-10">
+        <div className="container mx-auto">
+          <div className="flex lg:flex-row flex-col items-center gap-5">
+            <div className="lg:w-1/2 w-full">
+              <h2 className="text-primary text-2xl lg:text-3xl font-semibold mb-8 max-w-[300px]">
+                {pageData.aboutheading.value}
+              </h2>
+              <div className="mb-8 max-w-[340px]">
+                <span
+                  className="text-lg font-light "
+                  dangerouslySetInnerHTML={{
+                    __html: pageData.aboutcontent.value,
+                  }}
+                />
+              </div>
+              <ul className="flex flex-col gap-4 mb-10">
+                {pageData.aboutitems.value.map((m: any, index: number) => {
+                  const item: Cardblock = m;
+                  return (
+                    <li
+                      key={`item-${index}`}
+                      className="flex items-center gap-3"
+                    >
+                      <FaCheck
+                        className="bg-primary text-white rounded-full p-[10px]"
+                        size={30}
+                      />
+                      <span>{item.name.value}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <div>
+                <button className="flex items-center bg-primary text-white py-2 px-4 rounded-xl">
+                  <span>Learn More</span>
+                  <GoArrowUpRight color="white" />
+                </button>
+              </div>
+            </div>
+
+            <div className="lg:w-3/4 w-full">
+              <Image
+                width={600}
+                height={400}
+                priority
+                src={pageData.aboutimage.value[0]?.url}
+                alt={pageData.aboutheading.value}
+                className="w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* how section */}
+      <div className="how-section-wrapper py-10">
+        <div className="container mx-auto">
+          <h2 className="text-primary lg:text-3xl text-2xl font-semibold mb-4">
+            {pageData.howheading.value}
+          </h2>
+
+          <div className="mb-10">
+            <span
+              dangerouslySetInnerHTML={{ __html: pageData.howcontent.value }}
+            />
+          </div>
+
+          <div className="grid grid-cols-12  gap-5">
+            {pageData.howitems.value.map((m: any, index: number) => {
+              const item: Cardblock = m;
+              return (
+                <div
+                  className="lg:col-span-4 sm:col-span-6 col-span-12 flex justify-center items-center"
+                  key={item.system.id}
+                >
+                  <div className="howitem ">
+                    <div className="flex justify-center">
+                      <Image
+                        width={60}
+                        height={60}
+                        className="mb-8 object-contain"
+                        src={item.image.value[0].url}
+                        alt={item.name.value}
+                      />
+                    </div>
+                    <p className="mb-3 text-center font-medium text-primary text-xl">
+                      {item.name.value}
+                    </p>
+                    <span
+                      className="text-center"
+                      dangerouslySetInnerHTML={{ __html: item.content.value }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Why choose */}
+      <div className="why-choose-section py-10">
+        <div className="container mx-auto">
+          <div className="flex lg:flex-row flex-col gap-20 items-center">
+            <div className="lg:w-1/2 w-full">
+              <Image
+                src={pageData.whyimage.value[0]?.url}
+                alt={pageData.whyheading.value}
+                width={400}
+                height={600}
+                style={{ width: "100%" }}
+              />
+            </div>
+            <div className="lg:w-1/2 w-full">
+              <h2 className="text-primary mb-5 text-2xl  lg:text-3xl font-semibold">
+                {pageData.whyheading.value}
+              </h2>
+              <span
+                className="text-tertiary"
+                dangerouslySetInnerHTML={{
+                  __html: pageData.whycontent.value,
+                }}
+              />
+
+              <div className="py-10 flex flex-col gap-5">
+                {pageData.whyitems.value.map((m: any, index: number) => {
+                  const item: Cardblock = m;
+                  return (
+                    <div key={item.system.id}>
+                      <div className="flex gap-5 items-center">
+                        <Image
+                          width={60}
+                          height={60}
+                          src={item.image.value[0]?.url}
+                          alt={item.name.value}
+                          className="object-contain"
+                        />
+
+                        <div>
+                          <h5 className="text-md font-semibold mb-3">
+                            {item.name.value}
+                          </h5>
+                          <span
+                            className="text-tertiary"
+                            dangerouslySetInnerHTML={{
+                              __html: item.content.value,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
