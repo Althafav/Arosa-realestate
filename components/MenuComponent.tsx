@@ -26,7 +26,7 @@ export default function MenuComponent() {
 
   return (
     <div className="menu-component-wrapper relative">
-      <div className="container mx-auto py-5">
+      <div className=" mx-auto container py-5">
         <div className="mobile-menu  justify-between items-center lg:hidden flex ">
           <Link href="/">
             <Image

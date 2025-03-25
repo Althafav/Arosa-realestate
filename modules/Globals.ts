@@ -21,7 +21,7 @@ export default class Globals {
 
 
 
-  static SITE_NAME = "WoodinDesign";
+  static SITE_NAME = "Arosa RealEstate";
 
   static BASE_URL: string =
     process.env.NODE_ENV === "production"
