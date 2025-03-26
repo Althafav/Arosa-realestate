@@ -3,7 +3,7 @@ import { Projectitem } from "@/models/projectitem";
 import { Projectpage } from "@/models/projectpage";
 import Globals from "@/modules/Globals";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { HiMapPin, HiOutlineSquare2Stack } from "react-icons/hi2";
 import { MdLocationPin, MdOutlineKingBed } from "react-icons/md";
@@ -22,6 +22,12 @@ export default function Projects() {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
 
   const [propertyTypes, setPropertyTypes] = useState<string[]>([]);
+  const [selectedPropertyType, setSelectedPropertyType] = useState<string>("");
+
+  const [filters, setFilters] = useState({
+    location: "",
+    propertyType: "",
+  });
 
   useEffect(() => {
     const pageSubscription = Globals.KontentClient.item("project_page")
@@ -29,6 +35,20 @@ export default function Projects() {
       .subscribe({
         next: (response: any) => {
           setPageData(response.item);
+
+          const allProjects: Projectitem[] = response.item.projectitems.value;
+          setProjects(allProjects);
+
+          const allLocations = allProjects.flatMap(
+            (item: any) => item.location.value[0].name
+          );
+          setLocations(allLocations);
+
+          const allTypes = allProjects.flatMap(
+            (item: any) => item.propertytype.value[0].name
+          );
+
+          setPropertyTypes(allTypes);
         },
         error: (error: any) => {
           console.error("Error fetching project page data:", error);
@@ -36,53 +56,32 @@ export default function Projects() {
         },
       });
 
-    // Fetch project items
-    const projectsSubscription = Globals.KontentClient.items()
-      .type("projectitem")
-      .toObservable()
-      .subscribe({
-        next: (response: any) => {
-          setProjects(response.items);
-        },
-        error: (error: any) => {
-          console.error("Error fetching project items:", error);
-          setIsLoading(false);
-        },
-      });
-
     return () => {
       pageSubscription.unsubscribe();
-      projectsSubscription.unsubscribe();
     };
   }, []);
 
-  useEffect(() => {
-    // Calculate unique locations whenever projects change
-    if (projects.length > 0) {
-      const allLocations = projects.map((project) => project.location.value);
-      const uniqueLocations = [...new Set(allLocations)];
-      setLocations(uniqueLocations);
-
-      const allProjectTypes = projects.map(
-        (project) => project.propertytype.value
+  const handleFilterChange = (field: string, value: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [field]: value,
+    }));
+  };
+  
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      return (
+        (!filters.location || project.location.value[0].name === filters.location) &&
+        (!filters.propertyType || project.propertytype.value[0].name === filters.propertyType)
       );
-      const uniqueProjectTypes = [...new Set(allProjectTypes)];
-      setPropertyTypes(uniqueProjectTypes);
-      setIsLoading(false);
-    }
-  }, [projects]);
-
-  if (isLoading) {
-    return <SpinnerComponent />;
-  }
+    });
+  }, [filters, projects]);
 
   if (!pageData) {
     return <SpinnerComponent />;
   }
 
-  const filteredProjects = selectedLocation
-    ? projects.filter((project) => project.location.value === selectedLocation)
-    : projects;
+  
 
   return (
     <div className="project-page-wrapper">
@@ -118,17 +117,20 @@ export default function Projects() {
                 <HiMapPin />
                 <select
                   className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1 text-white"
-                  value={selectedLocation}
-                  onChange={(e) => setSelectedLocation(e.target.value)}
+                  value={filters.location}
+                  onChange={(e) =>
+                    handleFilterChange("location", e.target.value)
+                  }
                   style={{
                     backgroundImage: `url('/assets/icons/dropdown-icon-arosa.svg')`,
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "right 10px center",
                     backgroundSize: "24px",
+                    paddingRight: "60px",
                   }}
                 >
                   <option value="">All Location</option>
-                  {locations.map((location, index) => (
+                  {locations.map((location: any, index: number) => (
                     <option key={index} value={location}>
                       {location}
                     </option>
@@ -139,13 +141,27 @@ export default function Projects() {
               <button className="dropDown-item text-white p-3 rounded-xl bg-primary flex flex-1  items-center justify-between">
                 <div className="flex gap-2 items-center">
                   <FaHouseChimneyWindow />
-                  <span className="border-l px-2  border-white">
-                    Property Type
-                  </span>
-                </div>
-
-                <div>
-                  <IoIosArrowDropdownCircle size={24} />
+                  <select
+                    className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1 text-white"
+                    value={filters.propertyType}
+                    onChange={(e) =>
+                      handleFilterChange("propertyType", e.target.value)
+                    }
+                    style={{
+                      backgroundImage: `url('/assets/icons/dropdown-icon-arosa.svg')`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 10px center",
+                      backgroundSize: "24px",
+                      paddingRight: "60px",
+                    }}
+                  >
+                    <option value="">Property Types</option>
+                    {propertyTypes.map((location: any, index: number) => (
+                      <option key={index} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </button>
 
@@ -210,7 +226,10 @@ export default function Projects() {
                       item.name.value
                     )}`}
                   >
-                    <div className="project-card bg-white p-5 rounded-2xl">
+                    <div
+                      className="project-card bg-white p-5 rounded-2xl"
+                      style={{ background: "white" }}
+                    >
                       <Image
                         width={300}
                         height={256}
@@ -227,7 +246,7 @@ export default function Projects() {
                             <div className="flex items-center gap-2">
                               <MdLocationPin color="gray" />{" "}
                               <span className="font-light text-tertiary">
-                                {item.location.value}
+                                {item.location.value[0].name}
                               </span>
                             </div>
                           </div>

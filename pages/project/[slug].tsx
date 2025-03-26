@@ -14,9 +14,9 @@ import { HiLightningBolt } from "react-icons/hi";
 import { Landmarkitem } from "@/models/landmarkitem";
 import { Facilitiesitem } from "@/models/facilitiesitem";
 import { Cardblock } from "@/models/cardblock";
-import { Paymentplan } from "@/models/paymentplan";
-import { Paymentscheduleitem } from "@/models/paymentscheduleitem";
+
 import Image from "next/image";
+import { Paymentplanitem } from "@/models/paymentplanitem";
 
 interface SlugModel {
   slug: string;
@@ -24,10 +24,6 @@ interface SlugModel {
 
 function DetailPage({ data }: { data: Array<Projectitem> }) {
   const router = useRouter();
-
-  if (!router.isReady) {
-    return <SpinnerComponent />;
-  }
 
   const { slug } = router.query;
   const searchData = data.find(
@@ -61,7 +57,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
               <div className="border border-white flex items-center gap-1 p-2 rounded-md">
                 <MdLocationPin color="white" className="font-bold" />{" "}
                 <span className="text-white font-light">
-                  {searchData.location.value}
+                  {searchData.location.value[0].name}
                 </span>
               </div>
 
@@ -88,7 +84,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                 <div className="border border-tertiary flex items-center gap-1 p-2 rounded-md">
                   <MdLocationPin className="font-bold text-tertiary" />{" "}
                   <span className="text-tertiary font-medium">
-                    {searchData.location.value}
+                    {searchData.location.value[0].name}
                   </span>
                 </div>
               </div>
@@ -157,7 +153,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                 <div className="bg-white p-5 break-inside-avoid rounded-xl mb-4">
                   <h5 className="text-xl font-semibold text-primary mb-10 flex items-center gap-2">
                     <MdLocationPin className="text-primary" />{" "}
-                    {searchData.location.value}
+                    {searchData.location.value[0].name}
                   </h5>
                   <div>
                     <div className="w-full h-[400px] mb-5">
@@ -297,67 +293,20 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                     <div className="grid grid-cols-12 gap-5">
                       {searchData.paymentplanitems.value.map(
                         (m: any, index: number) => {
-                          const item: Paymentplan = m;
+                          const item: Paymentplanitem = m;
                           return (
                             <div
-                              className="lg:col-span-6 col-span-12 bg-white rounded-xl"
+                              className="lg:col-span-4 col-span-12 bg-white rounded-xl"
                               key={index}
                             >
                               <div className="p-5 ">
-                                <h4 className="text-xl font-semibold text-primary">
-                                  {item.name.value}
+                                <h4 className="text-4xl font-semibold text-primary">
+                                  {item.percentage.value}
                                 </h4>
 
-                                <div className="py-5">
-                                  {item.paymentschedule.value.map(
-                                    (p: any, index: number) => {
-                                      const schedule: Paymentscheduleitem = p;
-                                      return (
-                                        <table className="w-full " key={index}>
-                                          <tr className="">
-                                            <td className="p-2">
-                                              <div className="flex gap-2 items-center">
-                                                <span className="text-primary">
-                                                  {schedule.percentage.value}
-                                                </span>
-                                                <span>
-                                                  {" "}
-                                                  {schedule.description.value}
-                                                </span>
-                                              </div>
-                                            </td>
+                                <p className="font-semibold">{item.name.value}</p>
 
-                                            <td className="flex justify-end p-2">
-                                              <span className="font-semibold">
-                                                {schedule.paymenttiming.value}
-                                              </span>
-                                            </td>
-                                          </tr>
-                                        </table>
-                                      );
-                                    }
-                                  )}
-                                </div>
-
-                                <hr className="border-t-gray-400 pb-3" />
-                                <p className="flex gap-2 justify-between p-2">
-                                  {" "}
-                                  <span className="text-primary">EOI</span>
-                                  <span className="font-semibold">
-                                    {" "}
-                                    {item.eoi.value}
-                                  </span>
-                                </p>
-
-                                <p className="flex gap-2 justify-between p-2">
-                                  <span className="text-primary">
-                                    Conditions for the unit resale:{" "}
-                                  </span>
-                                  <div className="font-semibold">
-                                    {" "}
-                                    {item.resalecondition.value}
-                                  </div>
-                                </p>
+                                <p className="text-tertiary">{item.paymenttiming.value}</p>
                               </div>
                             </div>
                           );
@@ -375,54 +324,63 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                 </h5>
 
                 <table className="w-full">
-                  <tr className="border-b">
-                    <td className="p-2">Completion Date</td>
-                    <td className="p-2 flex justify-end">
-                      <span>{searchData.completion.value}</span>
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr className="border-b">
+                      <td className="p-2">Completion Date</td>
+                      <td className="p-2 flex justify-end">
+                        <span>{searchData.completion.value}</span>
+                      </td>
+                    </tr>
 
-                  <tr className="border-b">
-                    <td className="p-2">Status</td>
-                    <td className="p-2 flex justify-end">
-                      <span>{searchData.status.value}</span>
-                    </td>
-                  </tr>
+                    <tr className="border-b">
+                      <td className="p-2">Status</td>
+                      <td className="p-2 flex justify-end">
+                        <span>{searchData.status.value}</span>
+                      </td>
+                    </tr>
 
-                  <tr className="border-b">
-                    <td className="p-2">Unit Types</td>
-                    <td className="p-2 flex justify-end">
-                      <span>{searchData.unittype.value}</span>
-                    </td>
-                  </tr>
+                    <tr className="border-b">
+                      <td className="p-2">Property Type</td>
+                      <td className="p-2 flex justify-end">
+                        <span>{searchData.propertytype.value[0]?.name}</span>
+                      </td>
+                    </tr>
 
-                  <tr className="border-b">
-                    <td className="p-2">Floors</td>
-                    <td className="p-2 flex justify-end">
-                      <span>{searchData.floors.value}</span>
-                    </td>
-                  </tr>
+                    <tr className="border-b">
+                      <td className="p-2">Unit Types</td>
+                      <td className="p-2 flex justify-end">
+                        <span>{searchData.unittype.value}</span>
+                      </td>
+                    </tr>
 
-                  <tr className="border-b">
-                    <td className="p-2">Furnishing</td>
-                    <td className="p-2 flex justify-end">
-                      <span>{searchData.furnishing.value}</span>
-                    </td>
-                  </tr>
+                    <tr className="border-b">
+                      <td className="p-2">Floors</td>
+                      <td className="p-2 flex justify-end">
+                        <span>{searchData.floors.value}</span>
+                      </td>
+                    </tr>
 
-                  <tr className="border-b">
-                    <td className="p-2">Service Charge</td>
-                    <td className="p-2 flex justify-end">
-                      <span>{searchData.servicecharge.value}</span>
-                    </td>
-                  </tr>
+                    <tr className="border-b">
+                      <td className="p-2">Furnishing</td>
+                      <td className="p-2 flex justify-end">
+                        <span>{searchData.furnishing.value}</span>
+                      </td>
+                    </tr>
 
-                  <tr className="border-b">
-                    <td className="p-2">Readiness Progress</td>
-                    <td className="p-2 flex justify-end">
-                      <span>{searchData.readinessprogress.value}</span>
-                    </td>
-                  </tr>
+                    <tr className="border-b">
+                      <td className="p-2">Service Charge</td>
+                      <td className="p-2 flex justify-end">
+                        <span>{searchData.servicecharge.value}</span>
+                      </td>
+                    </tr>
+
+                    <tr className="border-b">
+                      <td className="p-2">Readiness Progress</td>
+                      <td className="p-2 flex justify-end">
+                        <span>{searchData.readinessprogress.value}</span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
