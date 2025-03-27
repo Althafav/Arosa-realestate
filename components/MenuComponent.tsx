@@ -3,6 +3,7 @@ import { Menuitem } from "@/models/menuitem";
 import Globals from "@/modules/Globals";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { FaFacebook, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { MdOutlineMenu } from "react-icons/md";
@@ -10,6 +11,7 @@ import { MdOutlineMenu } from "react-icons/md";
 export default function MenuComponent() {
   const [pageData, setPageData] = useState<Menu | null>(null);
   const [menuToggle, setIsMenuToggle] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     const codename = "menu_2025";
 
@@ -19,7 +21,14 @@ export default function MenuComponent() {
       .subscribe((response: any) => {
         setPageData(response.item);
       });
-  }, []);
+
+    const handleRouteChange = () => setIsMenuToggle(false);
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [router.events]);
 
   if (!pageData) {
     return null;
@@ -43,7 +52,11 @@ export default function MenuComponent() {
             />
           </Link>
 
-          <MdOutlineMenu size={32} className="cursor-pointer" onClick={handleMenuToggle}/>
+          <MdOutlineMenu
+            size={32}
+            className="cursor-pointer"
+            onClick={handleMenuToggle}
+          />
 
           {menuToggle && (
             <div className="mobile-menu-container absolute left-0 right-0 top-[100px] bg-secondary z-10 h-[600px] w-full ">
