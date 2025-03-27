@@ -85,9 +85,9 @@ export default function Projects() {
 
   return (
     <div className="project-page-wrapper">
-      <div className="banner-wrapper py-20 lg:pt-20 lg:pb-40  lg:mb-24 bg-primary relative">
+      <div className="banner-wrapper py-20 lg:pt-20 lg:pb-50  lg:mb-24 bg-primary relative">
         <div className="container mx-auto">
-          <h1 className="lg:text-4xl text-3xl tracking-tight font-medium text-white mb-2">
+          <h1 className="lg:text-4xl text-3xl tracking-tight font-medium text-white mb-5">
             {pageData.bannerheading.value}
           </h1>
           <span
@@ -95,7 +95,7 @@ export default function Projects() {
             dangerouslySetInnerHTML={{ __html: pageData.bannercontent.value }}
           />
 
-          <div className="filter-section-wrapper mt-10  w-full lg:container mx-auto  lg:absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2">
+          <div className="filter-section-wrapper mt-10  container mx-auto  lg:absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2">
             <div className="flex lg:flex-row flex-col-reverse items-center lg:gap-10 gap-5 lg:mx-20 bg-white p-5 rounded-t-2xl">
               <div className="lg:w-10/12 w-full">
                 <input
@@ -227,7 +227,7 @@ export default function Projects() {
                     )}`}
                   >
                     <div
-                      className="project-card bg-white p-5 rounded-2xl"
+                      className="project-card bg-white p-5 rounded-2xl h-full"
                       style={{ background: "white" }}
                     >
                       <Image
