@@ -8,11 +8,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import { HiMapPin, HiOutlineSquare2Stack } from "react-icons/hi2";
 import { MdLocationPin, MdOutlineKingBed } from "react-icons/md";
 import Helper from "@/modules/Helper";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoCall, IoMail, IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDropdownCircle, IoIosCash, IoIosCube } from "react-icons/io";
-import { FaHouseChimneyWindow } from "react-icons/fa6";
-import { FaRegCalendar } from "react-icons/fa";
+import { FaHouseChimneyWindow, FaScaleBalanced } from "react-icons/fa6";
+import { FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
+import { LuImageUpscale } from "react-icons/lu";
 
 export default function Projects() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -67,12 +68,14 @@ export default function Projects() {
       [field]: value,
     }));
   };
-  
+
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
       return (
-        (!filters.location || project.location.value[0].name === filters.location) &&
-        (!filters.propertyType || project.propertytype.value[0].name === filters.propertyType)
+        (!filters.location ||
+          project.location.value[0].name === filters.location) &&
+        (!filters.propertyType ||
+          project.propertytype.value[0].name === filters.propertyType)
       );
     });
   }, [filters, projects]);
@@ -80,8 +83,6 @@ export default function Projects() {
   if (!pageData) {
     return <SpinnerComponent />;
   }
-
-  
 
   return (
     <div className="project-page-wrapper">
@@ -240,7 +241,7 @@ export default function Projects() {
                       <div className="p-3">
                         <div className="flex justify-between mb-5">
                           <div>
-                            <h4 className="text-primary font-bold text-xl">
+                            <h4 className="text-primary font-bold text-xl max-w-[250px]">
                               {item.name.value}
                             </h4>
                             <div className="flex items-center gap-2">
@@ -251,26 +252,32 @@ export default function Projects() {
                             </div>
                           </div>
 
-                          <p className="font-light text-tertiary text-sm">
+                          <p className="font-light text-tertiary text-sm max-w-[100px]">
                             {item.developername.value}
                           </p>
                         </div>
 
                         <div className="flex gap-10 mb-5">
                           <div className="flex items-center gap-2">
-                            <MdOutlineKingBed />{" "}
+                            <MdOutlineKingBed
+                              className="text-primary"
+                              size={20}
+                            />{" "}
                             <span>{item.bedroomcount.value}</span>
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <HiOutlineSquare2Stack />{" "}
+                            <LuImageUpscale
+                              className="text-primary"
+                              size={20}
+                            />
                             <span>{item.propertysize.value}</span>
                           </div>
                         </div>
 
                         <div className="flex justify-between">
                           <div className="">
-                            <p>Price</p>
+                            <p>Starting Price</p>
                             <p className="text-primary text-xl font-bold">
                               {item.price.value}
                             </p>
@@ -283,6 +290,23 @@ export default function Projects() {
                             <p className="text-primary text-xl font-bold">
                               {item.completion.value}
                             </p>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 mt-5 flex-wrap">
+                          <div className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1">
+                            <FaWhatsapp className="text-white" size={20} />
+                            <p className="text-white text-sm">Whatsapp</p>
+                          </div>
+
+                          <div className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1">
+                            <IoCall className="text-white" size={20} />
+                            <p className="text-white text-sm">Call</p>
+                          </div>
+
+                          <div className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1">
+                            <IoMail className="text-white" size={20} />
+                            <p className="text-white text-sm">Email</p>
                           </div>
                         </div>
                       </div>
