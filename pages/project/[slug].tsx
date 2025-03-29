@@ -75,25 +75,72 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
       <div className="project-content-section py-10">
         <div className="container mx-auto">
           {/* Project Head */}
-          <div className="px-5 heading-section py-10">
-            <div className="flex justify-between ">
-              <div className="flex gap-4 items-center">
+          <div className="px-5 heading-section py-10 bg-white rounded-xl mb-5">
+            <div className="flex justify-between lg:flex-row flex-col gap-3">
+              <div className="">
                 <h4 className="font-semibold text-primary text-2xl">
                   {searchData.name.value}
                 </h4>
-                <div className="border border-tertiary flex items-center gap-1 p-2 rounded-md">
-                  <MdLocationPin className="font-bold text-tertiary" />{" "}
-                  <span className="text-tertiary font-medium">
-                    {searchData.location.value[0].name}
-                  </span>
+                <div className="flex items-center gap-4 rounded-md">
+                  <p className="font-light">{searchData.developername.value}</p>
+                  <div className="flex items-center gap-1">
+                    <MdLocationPin className="font-bold text-black" />
+                    <span className="text-black font-light">
+                      {searchData.location.value[0].name}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <div>
+              <div className="">
                 <p className="text-tertiary font-medium text-sm">Price</p>
                 <p className="text-primary font-semibold text-xl">
                   {searchData.price.value}
                 </p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-3 mt-10 gap-10">
+              <div>
+                <div className="flex justify-between">
+                  <p>Property Type</p>
+                  <p>{searchData.propertytype.value[0].name}</p>
+                </div>
+                <hr className="my-3 border-tertiary" />
+                <div className="flex justify-between">
+                  <p>Down Payment</p>
+                  <p>{searchData.downpayment.value}</p>
+                </div>
+
+                <hr className="my-3 border-tertiary" />
+              </div>
+              <div>
+                <div className="flex justify-between">
+                  <p>Unit Type</p>
+                  <p>{searchData.unittype.value}</p>
+                </div>
+
+                <hr className="my-3 border-tertiary" />
+                <div className="flex justify-between">
+                  <p>Payment Plan</p>
+                  <p>{searchData.paymentplantype.value}</p>
+                </div>
+
+                <hr className="my-3 border-tertiary" />
+              </div>
+
+              <div>
+                <div className="flex justify-between">
+                  <p>Size</p>
+                  <p>{searchData.propertysize.value}</p>
+                </div>
+
+                <hr className="my-3 border-tertiary" />
+                <div className="flex justify-between">
+                  <p>Handover</p>
+                  <p>{searchData.completion.value}</p>
+                </div>
+                <hr className="my-3 border-tertiary" />
               </div>
             </div>
           </div>
@@ -304,9 +351,13 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                                   {item.percentage.value}
                                 </h4>
 
-                                <p className="font-semibold">{item.name.value}</p>
+                                <p className="font-semibold">
+                                  {item.name.value}
+                                </p>
 
-                                <p className="text-tertiary">{item.paymenttiming.value}</p>
+                                <p className="text-tertiary">
+                                  {item.paymenttiming.value}
+                                </p>
                               </div>
                             </div>
                           );
