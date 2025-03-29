@@ -28,3 +28,52 @@ body {
     transform: scale(1.2);
   }
 }
+
+.floorplan-table {
+
+  width: 100%;
+  overflow-x: auto; 
+  display: block;
+ 
+
+  tr, th, td {
+    border: 1px solid $tertiary;
+    padding: 10px;
+    
+    :last-child {
+      border-bottom: none;
+    }
+   
+  }
+
+ 
+}
+@media (max-width: 768px) {
+  .floorplan-table {
+    border: none;
+    
+    thead {
+      display: none; /* Hide headers on mobile */
+    }
+    
+    tr {
+      display: block;
+      margin-bottom: 1rem;
+      border: 1px solid $tertiary;
+    }
+    
+    td {
+      display: flex;
+      justify-content: space-between;
+      border: none;
+      border-bottom: 1px solid $tertiary;
+      
+      /* Add pseudo-elements for labels */
+      &:before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 1rem;
+      }
+    }
+  }
+}

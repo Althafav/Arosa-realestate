@@ -22,7 +22,7 @@ export class Projectitem extends ContentItem {
     public featuresheading!: Elements.TextElement;
     public featureitems!: Elements.TextElement;
     public facilitiesheading!: Elements.TextElement;
-    public facilitiesitems!: Elements.LinkedItemsElement<ContentItem>;
+    public facilitiesitems!: Elements.TextElement;
     public unitsheading!: Elements.TextElement;
     public unitsitems!: Elements.LinkedItemsElement<ContentItem>;
     public paymentplansheading!: Elements.TextElement;

@@ -12,6 +12,7 @@ import { FreeMode, Navigation, Thumbs, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { RiArrowLeftLine, RiArrowRightLine } from "react-icons/ri";
+import Image from "next/image";
 
 interface ImageSwiperProps {
   images: { url: string }[];
@@ -39,7 +40,9 @@ const ProjectDetailImageSwiper: React.FC<ImageSwiperProps> = ({ images }) => {
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={image.url}
                 alt={`Thumbnail ${index + 1}`}
                 className="h-[100px] w-full rounded-xl cursor-pointer"
@@ -68,7 +71,9 @@ const ProjectDetailImageSwiper: React.FC<ImageSwiperProps> = ({ images }) => {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <img
+            <Image
+              width={600}
+              height={500}
               src={image.url}
               alt={`Slide ${index + 1}`}
               className="h-[500px] w-full object-cover rounded-xl"

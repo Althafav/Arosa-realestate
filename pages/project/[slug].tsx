@@ -17,6 +17,7 @@ import { Cardblock } from "@/models/cardblock";
 
 import Image from "next/image";
 import { Paymentplanitem } from "@/models/paymentplanitem";
+import { Floorplanitem } from "@/models/floorplanitem";
 
 interface SlugModel {
   slug: string;
@@ -152,9 +153,9 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
           {/* Project Body */}
           <div className="project-body-wrapper py-10">
             <div className="container mx-auto">
-              <div className="lg:columns-2 columns-1  ">
+              <div className=" ">
                 {/* Description */}
-                <div className="bg-white p-5  break-inside-avoid rounded-xl mb-4">
+                <div className="bg-white p-5 rounded-xl   mb-4 description-section">
                   <h5 className="text-xl font-semibold text-primary mb-2">
                     Description
                   </h5>
@@ -166,79 +167,10 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                   />
 
                   <hr className="border-tertiary border-b-2 mt-5 mb-5" />
-                  <div className="grid grid-cols-3">
-                    <div className="border-r-2 col-span-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <IoBed size={24} />
-                        <span className="text-sm">Bedrooms</span>
-                      </div>
-                      <p className="text-primary text-xl font-semibold">
-                        {searchData.bedroomcount.value}
-                      </p>
-                    </div>{" "}
-                    <div className="border-r-2 pl-5 col-span-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <FaBath size={24} />
-                        <span className="text-sm">Bathrooms</span>
-                      </div>
-                      <p className="text-primary text-xl font-semibold">
-                        {searchData.bathroomcount.value}
-                      </p>
-                    </div>{" "}
-                    <div className="col-span-1 pl-5">
-                      <div className="flex items-center gap-2 mb-2">
-                        <PiExcludeSquareThin size={24} />
-                        <span className="text-sm">Area</span>
-                      </div>
-                      <p className="text-primary text-xl font-semibold">
-                        {searchData.propertysize.value}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                {/* Location & Map */}
-                <div className="bg-white p-5 break-inside-avoid rounded-xl mb-4">
-                  <h5 className="text-xl font-semibold text-primary mb-10 flex items-center gap-2">
-                    <MdLocationPin className="text-primary" />{" "}
-                    {searchData.location.value[0].name}
-                  </h5>
-                  <div>
-                    <div className="w-full h-[400px] mb-5">
-                      <iframe
-                        title="Project Location Map"
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        loading="lazy"
-                        allowFullScreen
-                        referrerPolicy="no-referrer-when-downgrade"
-                        src={searchData.locationembedlink.value}
-                      ></iframe>
-                    </div>
-
-                    <div className="px-3 py-5  ">
-                      {searchData.nearestlandmark.value.map(
-                        (m: any, index: number) => {
-                          const item: Landmarkitem = m;
-                          return (
-                            <div key={index} className="mb-5 last:mb-0 ">
-                              <div className="flex justify-between">
-                                <div className="flex items-center gap-2">
-                                  <MdLocationPin className="text-primary" />
-                                  <span>{item.name.value}</span>
-                                </div>
-                                <p>{item.distance.value}</p>
-                              </div>
-                            </div>
-                          );
-                        }
-                      )}
-                    </div>
-                  </div>
                 </div>
 
                 {/* Features */}
-                <div className="bg-white p-5 break-inside-avoid rounded-xl mb-4">
+                <div className="bg-white p-5  rounded-xl mb-4">
                   <h5 className="text-xl font-semibold text-primary mb-10">
                     {searchData.featuresheading.value}
                   </h5>
@@ -260,65 +192,69 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                     })}
                 </div>
 
-                {/* Features */}
-                <div className="bg-white p-5 break-inside-avoid rounded-xl mb-4">
+                {/* Facilities */}
+                <div className="bg-white p-5  rounded-xl mb-4">
                   <h5 className="text-xl font-semibold text-primary mb-10">
                     {searchData.facilitiesheading.value}
                   </h5>
 
-                  <div className="flex gap-10 flex-wrap">
-                    {/* {searchData.facilitiesitems.value.map(
-                      (m: any, index: number) => {
-                        const item: Facilitiesitem = m;
+                  <div className="grid lg:grid-cols-4 gap-5">
+                    {searchData.facilitiesitems.value
+                      .split("|")
+                      .map((m: any, index: number, array: any[]) => {
+                        const isLastInRow =
+                          (index + 1) % 4 === 0 || index === array.length - 1;
                         return (
                           <div
                             key={index}
-                            className="facilitity-card border-r pr-10 last:border-none last:pr-0"
+                            className={`facilitity-card ${
+                              !isLastInRow ? "lg:border-r" : ""
+                            }`}
                           >
                             <div className="flex flex-col gap-2 items-center">
-                              <img
-                                src={item.image.value[0]?.url}
-                                alt=""
-                                className="w-[24px]"
-                              />
-                              <span>{item.name.value}</span>
+                              {m}
                             </div>
                           </div>
                         );
-                      }
-                    )} */}
+                      })}
                   </div>
                 </div>
               </div>
 
-              {/* Typical units and prices */}
-
-              <div className="units-price-wrapper pt-5">
-                <div className=" flex flex-col lg:flex-row">
-                  <div className="lg:w-1/4 w-full mb-5">
-                    <h2 className="lg:text-3xl text-2xl  font-bold text-primary">
-                      {searchData.unitsheading.value}
-                    </h2>
+              {/* Location & Map */}
+              <div className="bg-white p-5 mb-5 rounded-xl">
+                <h5 className="text-xl font-semibold text-primary mb-10 flex items-center gap-2">
+                  <MdLocationPin className="text-primary" />{" "}
+                  {searchData.location.value[0].name}
+                </h5>
+                <div className="flex lg:flex-row flex-col">
+                  <div className="lg:w-1/2 h-[400px] mb-5 rounded-xl overflow-hidden">
+                    <iframe
+                      title="Project Location Map"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      allowFullScreen
+                      referrerPolicy="no-referrer-when-downgrade"
+                      src={searchData.locationembedlink.value}
+                    ></iframe>
                   </div>
 
-                  <div className="grid grid-cols-12 gap-5">
-                    {searchData.unitsitems.value.map(
+                  <div className="lg:px-10 px-5 w-full  lg:w-1/2">
+                    {searchData.nearestlandmark.value.map(
                       (m: any, index: number) => {
-                        const item: Cardblock = m;
+                        const item: Landmarkitem = m;
                         return (
-                          <div
-                            className="lg:col-span-4 col-span-12 bg-white rounded-xl"
-                            key={index}
-                          >
-                            <div className="p-5 ">
-                              <img
-                                className="mb-3"
-                                src={item.image.value[0]?.url}
-                                alt={item.name.value}
-                              />
-                              <h4 className="text-xl font-bold">
-                                {item.name.value}
-                              </h4>
+                          <div key={index} className="mb-5 last:mb-0 ">
+                            <div className="flex justify-between gap-2">
+                              <div className="flex items-center gap-2">
+                                <MdLocationPin className="text-primary" />
+                                <span className="max-w-[200px] lg:max-w-[400px]">
+                                  {item.name.value}
+                                </span>
+                              </div>
+                              <p>{item.distance.value}</p>
                             </div>
                           </div>
                         );
@@ -328,111 +264,89 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                 </div>
               </div>
 
-              {/* Payment plans */}
-              <div className="units-price-wrapper pt-5">
-                <div className="flex flex-col lg:flex-row">
-                  <div className="lg:w-1/4 w-full mb-5">
-                    <h2 className="lg:text-3xl text-2xl font-bold text-primary">
-                      {searchData.paymentplansheading.value}
-                    </h2>
-                  </div>
-                  <div className="lg:w-3/4 w-full">
-                    <div className="grid grid-cols-12 gap-5">
-                      {searchData.paymentplanitems.value.map(
-                        (m: any, index: number) => {
-                          const item: Paymentplanitem = m;
-                          return (
-                            <div
-                              className="lg:col-span-4 col-span-12 bg-white rounded-xl"
-                              key={index}
-                            >
-                              <div className="p-5 ">
-                                <h4 className="text-4xl font-semibold text-primary">
-                                  {item.percentage.value}
-                                </h4>
+              {/* Floor plans Table */}
+              <div className="floor-plans-wrapper mb-5 bg-white px-5 py-10 rounded-xl">
+                <div className="flex justify-between mb-5">
+                  <h2 className="text-xl font-semibold text-primary mb-10">
+                    {searchData.floorplanheading.value}
+                  </h2>
 
-                                <p className="font-semibold">
-                                  {item.name.value}
-                                </p>
-
-                                <p className="text-tertiary">
-                                  {item.paymenttiming.value}
-                                </p>
-                              </div>
-                            </div>
-                          );
-                        }
-                      )}
-                    </div>
+                  <div>
+                    <button className="border-primary border rounded-lg text-primary px-3 py-2">
+                      Download Floor Plan
+                    </button>
                   </div>
                 </div>
-              </div>
 
-              {/* More Details */}
-              <div className="more-details-section bg-white p-5 mt-5 rounded-xl">
-                <h5 className="text-xl font-semibold text-primary mb-5">
-                  More Details
-                </h5>
+                <table className="w-full  floorplan-table">
+                  <thead>
+                    <tr>
+                      <th>Floor Plan</th>
+                      <th>Category</th>
+                      <th>Unit Type</th>
+                      <th>Floor Details</th>
+                      <th>Sizes</th>
+                      <th>Type</th>
+                    </tr>
+                  </thead>
 
-                <table className="w-full">
                   <tbody>
-                    <tr className="border-b">
-                      <td className="p-2">Completion Date</td>
-                      <td className="p-2 flex justify-end">
-                        <span>{searchData.completion.value}</span>
-                      </td>
-                    </tr>
-
-                    <tr className="border-b">
-                      <td className="p-2">Status</td>
-                      <td className="p-2 flex justify-end">
-                        <span>{searchData.status.value}</span>
-                      </td>
-                    </tr>
-
-                    <tr className="border-b">
-                      <td className="p-2">Property Type</td>
-                      <td className="p-2 flex justify-end">
-                        <span>{searchData.propertytype.value[0]?.name}</span>
-                      </td>
-                    </tr>
-
-                    <tr className="border-b">
-                      <td className="p-2">Unit Types</td>
-                      <td className="p-2 flex justify-end">
-                        <span>{searchData.unittype.value}</span>
-                      </td>
-                    </tr>
-
-                    <tr className="border-b">
-                      <td className="p-2">Floors</td>
-                      <td className="p-2 flex justify-end">
-                        <span>{searchData.floors.value}</span>
-                      </td>
-                    </tr>
-
-                    <tr className="border-b">
-                      <td className="p-2">Furnishing</td>
-                      <td className="p-2 flex justify-end">
-                        <span>{searchData.furnishing.value}</span>
-                      </td>
-                    </tr>
-
-                    <tr className="border-b">
-                      <td className="p-2">Service Charge</td>
-                      <td className="p-2 flex justify-end">
-                        <span>{searchData.servicecharge.value}</span>
-                      </td>
-                    </tr>
-
-                    <tr className="border-b">
-                      <td className="p-2">Readiness Progress</td>
-                      <td className="p-2 flex justify-end">
-                        <span>{searchData.readinessprogress.value}</span>
-                      </td>
-                    </tr>
+                    {searchData.floorplanitems.value.map(
+                      (m: any, index: number) => {
+                        const item: Floorplanitem = m;
+                        return (
+                          <tr className="" key={`tr-${index}`}>
+                            <td >
+                              <Image width={100} height={100} className="w-[100px] h-[100px] object-contain" src={item.planimage.value[0]?.url} alt={item.unittype.value} />
+                            </td>
+                            <td data-label="Category">{item.category.value}</td>
+                            <td data-label="Unit Type">
+                              {item.unittype.value}
+                            </td>
+                            <td data-label="Floor Details">
+                              {item.floordetails.value}
+                            </td>
+                            <td data-label="Sizes">{item.sizes.value}</td>
+                            <td data-label="Type">{item.type.value}</td>
+                          </tr>
+                        );
+                      }
+                    )}
                   </tbody>
                 </table>
+              </div>
+
+              {/* Payment plans */}
+              <div className="floor-plans-wrapper mb-5 bg-white px-5 py-10 rounded-xl">
+                <div className="flex justify-between mb-5">
+                  <h2 className="lg:text-3xl text-2xl font-bold text-primary">
+                    {searchData.paymentplansheading.value}
+                  </h2>
+                </div>
+
+                <div className="grid lg:grid-cols-3">
+                  {searchData.paymentplanitems.value.map(
+                    (m: any, index: number) => {
+                      const item: Paymentplanitem = m;
+                      return (
+                        <div
+                          className="flex flex-col items-center justify-center"
+                          key={index}
+                        >
+                          <div className="p-5 ">
+                            <h4 className="lg:text-6xl text-3xl text-center font-semibold text-black mb-2">
+                              {item.percentage.value}
+                            </h4>
+
+                            <p className="font-normal text-sm text-center text-tertiary">
+                              {item.name.value}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
               </div>
             </div>
           </div>
