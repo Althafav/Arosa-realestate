@@ -220,7 +220,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                   </h5>
 
                   <div className="flex gap-10 flex-wrap">
-                    {searchData.facilitiesitems.value.map(
+                    {/* {searchData.facilitiesitems.value.map(
                       (m: any, index: number) => {
                         const item: Facilitiesitem = m;
                         return (
@@ -239,7 +239,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                           </div>
                         );
                       }
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
