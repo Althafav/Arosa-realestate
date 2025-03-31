@@ -35,7 +35,7 @@ export default function Home() {
         <meta
           name="description"
           content="Arosa Real Estate is a leading international real estate firm in Dubai, offering expert guidance on residential, commercial, and industrial properties for investors and developers worldwide."
-        />{" "}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="UTF-8" />
       </Head>

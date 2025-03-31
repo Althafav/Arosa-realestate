@@ -59,8 +59,8 @@ Business Bay, Dubai, UAE`;
           </p>
         </div>
 
-        <div className="flex items-center gap-5">
-          <button className="flex gap-2 items-center rounded border-2 font-semibold text-primary border-primary p-3 bg-white">
+        <div className="flex items-center gap-5 lg:flex-row flex-col">
+          <button className="flex  gap-2 items-center rounded border-2 font-semibold text-primary border-primary p-3 bg-white">
             <span>Contact Us</span>
             <GoArrowUpRight className="text-primary" size={20} />
           </button>

@@ -48,7 +48,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
 
         <div className="container mx-auto flex items-center h-[650px]">
           <div>
-            <h1 className="text-7xl font-extrabold  text-white">
+            <h1 className="lg:text-7xl text-4xl font-extrabold  text-white">
               {searchData.name.value}
             </h1>
             <p className="text-2xl text-white font-light mb-7">

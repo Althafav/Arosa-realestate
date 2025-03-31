@@ -15,6 +15,19 @@ import { FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
 import { LuImageUpscale } from "react-icons/lu";
 import Head from "next/head";
+import MinMaxSlider from "@/components/UI/Slider/MinMaxSlider";
+
+const priceRanges = [
+  { label: "Any Price", min: 0, max: 0 },
+  { label: "100,000 - 500,000", min: 100000, max: 500000 },
+  { label: "500,000 - 1,000,000", min: 500000, max: 1000000 },
+  { label: "1,000,000 - 2,000,000", min: 1000000, max: 2000000 },
+  { label: "2,000,000 - 3,000,000", min: 2000000, max: 3000000 },
+  { label: "3,000,000 - 5,000,000", min: 3000000, max: 5000000 },
+  { label: "5,000,000 - 7,000,000", min: 5000000, max: 7000000 },
+  { label: "7,000,000 - 10,000,000", min: 7000000, max: 10000000 },
+  { label: "Over 10,000,000", min: 10000000, max: Infinity },
+];
 
 export default function Projects() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,10 +36,13 @@ export default function Projects() {
   const [locations, setLocations] = useState<string[]>([]);
 
   const [propertyTypes, setPropertyTypes] = useState<string[]>([]);
+  const [propertySizes, setPropertySizes] = useState<string[]>([]);
 
   const [filters, setFilters] = useState({
     location: "",
     propertyType: "",
+    priceRange: 0,
+    searchQuery: "",
   });
 
   useEffect(() => {
@@ -68,20 +84,68 @@ export default function Projects() {
     }));
   };
 
+  const parsePrice = (priceString: string): number => {
+    if (!priceString) return 0;
+    // Remove currency symbols, commas, etc. and parse to number
+    const numericValue = priceString.replace(/[^\d.]/g, "");
+    return parseFloat(numericValue) || 0;
+  };
+
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
-      return (
-        (!filters.location ||
-          project.location.value[0].name === filters.location) &&
-        (!filters.propertyType ||
-          project.propertytype.value[0].name === filters.propertyType)
-      );
+      const price = parsePrice(project.price.value);
+      const selectedRange = priceRanges[filters.priceRange];
+
+      const locationMatch =
+        !filters.location ||
+        project.location.value[0].name === filters.location;
+      const typeMatch =
+        !filters.propertyType ||
+        project.propertytype.value[0].name === filters.propertyType;
+      const priceMatch =
+        (selectedRange.min === 0 && selectedRange.max === 0) ||
+        (price >= selectedRange.min && price <= selectedRange.max);
+
+      const searchMatch =
+        !filters.searchQuery ||
+        project.name.value
+          .toLowerCase()
+          .includes(filters.searchQuery.toLowerCase()) ||
+        (project.description.value &&
+          project.description.value
+            .toLowerCase()
+            .includes(filters.searchQuery.toLowerCase())) ||
+        (project.location.value[0].name &&
+          project.location.value[0].name
+            .toLowerCase()
+            .includes(filters.searchQuery.toLowerCase()));
+
+      return locationMatch && typeMatch && priceMatch && searchMatch;
     });
   }, [filters, projects]);
 
   if (!pageData) {
     return <SpinnerComponent />;
   }
+
+  const handlePriceRangeChange = (index: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      priceRange: index,
+    }));
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilters((prev) => ({
+      ...prev,
+      searchQuery: e.target.value,
+    }));
+  };
+
+  const handleSearchClick = () => {
+    // Trigger filtering by updating state
+    setFilters((prev) => ({ ...prev }));
+  };
 
   return (
     <>
@@ -112,23 +176,29 @@ export default function Projects() {
 
             <div className="filter-section-wrapper mt-10  container mx-auto  lg:absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2">
               <div className="flex lg:flex-row flex-col-reverse items-center lg:gap-10 gap-5 lg:mx-20 bg-white p-5 rounded-t-2xl">
-                <div className="lg:w-10/12 w-full">
+                <div className="w-full">
                   <input
                     className="w-full text-gray-600 p-5 bg-white border-gray-300 border-2 rounded-xl focus:outline-none"
                     type="text"
                     placeholder="Search For A Property"
+                    value={filters.searchQuery}
+                    onChange={handleSearchChange}
+                    onKeyPress={(e) => e.key === "Enter" && handleSearchClick()}
                   />
                 </div>
-                <div className="lg:w-2/12 w-full">
-                  <button className="flex gap-2 items-center rounded border-2 font-semibold text-white border-primary p-3 bg-primary">
+                {/* <div className="lg:w-2/12 w-full">
+                  <button
+                    onClick={handleSearchClick}
+                    className="flex gap-2 cursor-pointer items-center rounded border-2 font-semibold text-white border-primary p-3 bg-primary"
+                  >
                     <IoSearchOutline className="text-white" size={20} />
                     <span>Find Property</span>
                   </button>
-                </div>
+                </div> */}
               </div>
 
-              <div className="dropDown-items bg-white p-5 rounded-b-2xl lg:rounded-2xl flex flex-1 flex-wrap justify-between gap-5">
-                <button className="relative dropDown-item text-white p-3 rounded-xl bg-primary flex flex-1 items-center">
+              <div className="dropDown-items bg-white p-5 rounded-b-2xl lg:rounded-2xl flex lg:flex-row flex-col flex-1 flex-wrap justify-between gap-5">
+                <button className="relative dropDown-item text-white px-3 py-2 rounded-xl bg-primary flex  flex-1 items-center justify-between">
                   <HiMapPin />
                   <select
                     className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1 "
@@ -153,47 +223,56 @@ export default function Projects() {
                   </select>
                 </button>
 
-                <button className="dropDown-item text-white p-3 rounded-xl bg-primary flex flex-1  items-center justify-between">
-                  <div className="flex gap-2 items-center">
-                    <FaHouseChimneyWindow />
-                    <select
-                      className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1 "
-                      value={filters.propertyType}
-                      onChange={(e) =>
-                        handleFilterChange("propertyType", e.target.value)
-                      }
-                      style={{
-                        backgroundImage: `url('/assets/icons/dropdown-icon-arosa.svg')`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "right 10px center",
-                        backgroundSize: "24px",
-                        paddingRight: "60px",
-                      }}
-                    >
-                      <option value="">Property Types</option>
-                      {propertyTypes.map((location: any, index: number) => (
-                        <option key={index} value={location}>
-                          {location}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <button className="dropDown-item text-white px-3 py-2 rounded-xl bg-primary flex flex-1  items-center justify-between">
+                  <FaHouseChimneyWindow />
+                  <select
+                    className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1 "
+                    value={filters.propertyType}
+                    onChange={(e) =>
+                      handleFilterChange("propertyType", e.target.value)
+                    }
+                    style={{
+                      backgroundImage: `url('/assets/icons/dropdown-icon-arosa.svg')`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 10px center",
+                      backgroundSize: "24px",
+                      paddingRight: "60px",
+                    }}
+                  >
+                    <option value="">Property Types</option>
+                    {propertyTypes.map((location: any, index: number) => (
+                      <option key={index} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </select>
                 </button>
 
-                <button className="dropDown-item text-white p-3 rounded-xl bg-primary flex flex-1  items-center justify-between">
-                  <div className="flex gap-2 items-center">
-                    <IoIosCash />
-                    <span className="border-l px-2  border-white">
-                      Price Range
-                    </span>
-                  </div>
-
-                  <div>
-                    <IoIosArrowDropdownCircle size={24} />
-                  </div>
+                <button className="dropDown-item text-white px-3 py-2 rounded-xl bg-primary flex flex-1 items-center justify-between">
+                  <IoIosCash />
+                  <select
+                    className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1"
+                    value={filters.priceRange}
+                    onChange={(e) =>
+                      handlePriceRangeChange(Number(e.target.value))
+                    }
+                    style={{
+                      backgroundImage: `url('/assets/icons/dropdown-icon-arosa.svg')`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 10px center",
+                      backgroundSize: "24px",
+                      paddingRight: "60px",
+                    }}
+                  >
+                    {priceRanges.map((range, index) => (
+                      <option key={index} value={index}>
+                        {range.label}
+                      </option>
+                    ))}
+                  </select>
                 </button>
 
-                <button className="dropDown-item text-white p-3 rounded-xl bg-primary flex flex-1  items-center justify-between">
+                <button className="dropDown-item text-white px-3 py-2 rounded-xl bg-primary flex flex-1  items-center justify-between">
                   <div className="flex gap-2 items-center">
                     <IoIosCube />
                     <span className="border-l px-2  border-white">
@@ -206,7 +285,7 @@ export default function Projects() {
                   </div>
                 </button>
 
-                <button className="dropDown-item text-white p-3 rounded-xl bg-primary flex flex-1  items-center justify-between">
+                <button className="dropDown-item text-white px-3 py-2 rounded-xl bg-primary flex flex-1  items-center justify-between">
                   <div className="flex gap-2 items-center">
                     <FaRegCalendar />
                     <span className="border-l px-2  border-white">
@@ -222,6 +301,7 @@ export default function Projects() {
             </div>
           </div>
         </div>
+
         <div className="projects-container-wrapper py-10">
           <div className="container mx-auto">
             <h2 className="lg:text-4xl text-3xl font-medium text-primary">
@@ -293,7 +373,7 @@ export default function Projects() {
                             <div className="">
                               <p>Starting Price</p>
                               <p className="text-primary text-xl font-bold">
-                                {item.price.value}
+                                ${item.price.value}
                               </p>
                             </div>
 
