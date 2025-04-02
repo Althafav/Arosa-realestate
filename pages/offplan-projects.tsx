@@ -19,7 +19,6 @@ import MinMaxSlider from "@/components/UI/Slider/MinMaxSlider";
 
 const priceRanges = [
   { label: "Any Price", min: 0, max: 0 },
-  { label: "100,000 - 500,000", min: 100000, max: 500000 },
   { label: "500,000 - 1,000,000", min: 500000, max: 1000000 },
   { label: "1,000,000 - 2,000,000", min: 1000000, max: 2000000 },
   { label: "2,000,000 - 3,000,000", min: 2000000, max: 3000000 },
@@ -142,10 +141,7 @@ export default function Projects() {
     }));
   };
 
-  const handleSearchClick = () => {
-    // Trigger filtering by updating state
-    setFilters((prev) => ({ ...prev }));
-  };
+
 
   return (
     <>
@@ -183,7 +179,7 @@ export default function Projects() {
                     placeholder="Search For A Property"
                     value={filters.searchQuery}
                     onChange={handleSearchChange}
-                    onKeyPress={(e) => e.key === "Enter" && handleSearchClick()}
+                  
                   />
                 </div>
                 {/* <div className="lg:w-2/12 w-full">
