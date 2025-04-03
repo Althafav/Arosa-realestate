@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import {
   FaFacebook,
@@ -12,7 +13,7 @@ import { HiOutlinePhone } from "react-icons/hi2";
 export default function FooterComponent() {
   const address = `Office 703, Sobha Ivory 1 Building
 Business Bay, Dubai, UAE`;
-  const phone1 = `+971 4 328 2000
+  const phone1 = `+971 56 991 6229 
 `;
   const phone2 = `+971 58 589 3086
 `;
@@ -60,14 +61,14 @@ Business Bay, Dubai, UAE`;
         </div>
 
         <div className="flex items-center gap-5 lg:flex-row flex-col">
-          <button className="flex  gap-2 items-center rounded border-2 font-semibold text-primary border-primary p-3 bg-white">
+          <Link href="/contact" className="flex  gap-2 items-center rounded border-2 font-semibold text-primary border-primary p-3 bg-white">
             <span>Contact Us</span>
             <GoArrowUpRight className="text-primary" size={20} />
-          </button>
+          </Link>
 
           <button className="flex gap-2 items-center rounded border-2 font-semibold text-white border-primary p-3 bg-primary">
             <HiOutlinePhone className="text-white" size={20} />
-            <span>920 851 8585</span>
+            <span>+971 56 991 6229</span>
           </button>
         </div>
       </div>

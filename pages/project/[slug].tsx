@@ -6,18 +6,17 @@ import Helper from "@/modules/Helper";
 import { useRouter } from "next/router";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { MdLocationPin } from "react-icons/md";
-import { FaBath, FaRegCalendar } from "react-icons/fa";
+import { FaBath, FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import ImageSwiper from "@/components/UI/Swipers/ProjectDetailImageSwiper";
-import { IoBed } from "react-icons/io5";
-import { PiExcludeSquareThin } from "react-icons/pi";
+
 import { HiLightningBolt } from "react-icons/hi";
 import { Landmarkitem } from "@/models/landmarkitem";
-import { Facilitiesitem } from "@/models/facilitiesitem";
-import { Cardblock } from "@/models/cardblock";
 
 import Image from "next/image";
 import { Paymentplanitem } from "@/models/paymentplanitem";
 import { Floorplanitem } from "@/models/floorplanitem";
+import { IoCall } from "react-icons/io5";
+import Link from "next/link";
 
 interface SlugModel {
   slug: string;
@@ -34,6 +33,19 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
   if (!searchData) {
     return <SpinnerComponent />;
   }
+
+  const preferredLanguage = [
+    "English",
+    "Arabic",
+    "Russian",
+    "Chinese",
+    "French",
+    "Spanish",
+    "German",
+    "Italian",
+    "Portuguese",
+    "Hindi",
+  ];
 
   return (
     <div className="project-detail-wrapper">
@@ -296,8 +308,14 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                         const item: Floorplanitem = m;
                         return (
                           <tr className="" key={`tr-${index}`}>
-                            <td >
-                              <Image width={100} height={100} className="w-[100px] h-[100px] object-contain" src={item.planimage.value[0]?.url} alt={item.unittype.value} />
+                            <td>
+                              <Image
+                                width={100}
+                                height={100}
+                                className="w-[100px] h-[100px] object-contain"
+                                src={item.planimage.value[0]?.url}
+                                alt={item.unittype.value}
+                              />
                             </td>
                             <td data-label="Category">{item.category.value}</td>
                             <td data-label="Unit Type">
@@ -324,7 +342,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                   </h2>
                 </div>
 
-                <div className="grid lg:grid-cols-3">
+                <div className="grid lg:grid-cols-4">
                   {searchData.paymentplanitems.value.map(
                     (m: any, index: number) => {
                       const item: Paymentplanitem = m;
@@ -346,6 +364,156 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                       );
                     }
                   )}
+                </div>
+              </div>
+
+              {/* Form Section */}
+
+              <div className="form-section-wrapper mb-5 bg-white px-5 py-10 rounded-xl">
+                <div className="flex gap-10 lg:flex-row flex-col">
+                  <div className="lg:w-4/12 w-full">
+                    <h2 className="text-3xl text-primary font-semibold mb-5">
+                      Inquire About {searchData.name.value}
+                    </h2>
+
+                    <span
+                      className="text-tertiary font-light mb-5"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          "Interested in this property? Fill out the form below, and our real estate experts will get back to you with more details, including scheduling a viewing and answering any questions you may have.",
+                      }}
+                    />
+
+                    <div className="flex gap-2 flex-col mt-5">
+                      <Link
+                        href={`https://wa.me/+971569916229`}
+                        target="_blank"
+                      >
+                        <div className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1">
+                          <FaWhatsapp className="text-white" size={20} />
+                          <p className="text-white text-sm">Chat With Us Now</p>
+                        </div>
+                      </Link>
+
+                      <Link href={`tel:+971569916229`} target="_blank">
+                        <div className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1">
+                          <IoCall className="text-white" size={20} />
+                          <p className="text-white text-sm">Call Us</p>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div className="lg:w-7/12 w-full">
+                    <form
+                      action=""
+                      className="bg-white p-6 md:p-10 rounded-lg shadow-md"
+                    >
+                      <div className="grid grid-cols-1  gap-6">
+                        <div className="flex flex-col gap-2">
+                          <label htmlFor="firstName" className="font-semibold">
+                            Full Name <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            className={`bg-gray-50 p-3 w-full rounded border border-gray-200`}
+                            type="text"
+                            placeholder="Enter First Name"
+                            name="firstName"
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          <label htmlFor="email" className="font-semibold">
+                            Email <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            className={`bg-gray-50 p-3 w-full rounded border border-gray-200`}
+                            type="email"
+                            placeholder="Enter Your Email"
+                            name="email"
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          <label htmlFor="phone" className="font-semibold">
+                            Phone <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            className={`bg-gray-50 p-3 w-full rounded border border-gray-200`}
+                            type="tel"
+                            placeholder="Enter Phone Number"
+                            name="phone"
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          <label
+                            htmlFor="inquiryType"
+                            className="font-semibold"
+                          >
+                            Preferred Language
+                          </label>
+                          <select
+                            className="bg-gray-50 p-3 w-full rounded border border-gray-200"
+                            name="preferredLanguage"
+                          >
+                            <option value="">Select Preferred Language</option>
+                            {preferredLanguage.map((type, index) => (
+                              <option key={index} value={type}>
+                                {type}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="md:col-span-2 flex flex-col gap-2">
+                          <label htmlFor="message" className="font-semibold">
+                            Message <span className="text-red-500">*</span>
+                          </label>
+                          <textarea
+                            rows={5}
+                            className={`bg-gray-50 p-3 w-full rounded border border-gray-200`}
+                            placeholder="Enter your Message here.."
+                            name="message"
+                          />
+                        </div>
+
+                        <div className="md:col-span-2 flex flex-col gap-2">
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              id="agreeTerms"
+                              name="agreeTerms"
+                              className="mr-2"
+                            />
+                            <label htmlFor="agreeTerms">
+                              I agree with{" "}
+                              <a
+                                href="/terms"
+                                className="underline cursor-pointer mx-1 text-primary hover:text-primary-dark"
+                              >
+                                Terms of Use
+                              </a>{" "}
+                              and{" "}
+                              <a
+                                href="/privacy"
+                                className="underline cursor-pointer mx-1 text-primary hover:text-primary-dark"
+                              >
+                                Privacy Policy
+                              </a>
+                              <span className="text-red-500">*</span>
+                            </label>
+                          </div>
+                          <button
+                            className={`bg-primary mt-5 hover:bg-primary-dark rounded text-white px-6 py-3 font-medium transition-colors min-w-[200px] `}
+                            type="submit"
+                          >
+                            Register Your Interest
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -390,7 +558,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const datasourceStr: string = await Globals.KontentClient.items()
       .type("projectitem")
-      .withParameter("depth", "4")
+      .withParameter("depth", "2")
       .toObservable()
       .toPromise()
       .then((r: any) => {

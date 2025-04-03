@@ -11,7 +11,7 @@ import Helper from "@/modules/Helper";
 import { IoCall, IoMail, IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDropdownCircle, IoIosCash, IoIosCube } from "react-icons/io";
 import { FaHouseChimneyWindow, FaScaleBalanced } from "react-icons/fa6";
-import { FaRegCalendar, FaWhatsapp } from "react-icons/fa";
+import { FaBed, FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
 import { LuImageUpscale } from "react-icons/lu";
 import Head from "next/head";
@@ -35,13 +35,15 @@ export default function Projects() {
   const [locations, setLocations] = useState<string[]>([]);
 
   const [propertyTypes, setPropertyTypes] = useState<string[]>([]);
-  const [propertySizes, setPropertySizes] = useState<string[]>([]);
-
+  const [bedroom, setBedroom] = useState<string[]>([]);
+  const [handover, setHandover] = useState<string[]>([]);
   const [filters, setFilters] = useState({
+    searchQuery: "",
     location: "",
     propertyType: "",
     priceRange: 0,
-    searchQuery: "",
+    bedroom: "",
+    handOver: "",
   });
 
   useEffect(() => {
@@ -64,6 +66,18 @@ export default function Projects() {
           );
 
           setPropertyTypes(allTypes);
+
+          const allBedroom = allProjects.flatMap(
+            (item: any) => item.bedroom.value[0].name
+          );
+
+          setBedroom(allBedroom);
+
+          const allHandover = allProjects.flatMap(
+            (item: any) => item.handoveryr.value[0].name
+          );
+
+          setHandover(allHandover);
         },
         error: (error: any) => {
           console.error("Error fetching project page data:", error);
@@ -101,9 +115,17 @@ export default function Projects() {
       const typeMatch =
         !filters.propertyType ||
         project.propertytype.value[0].name === filters.propertyType;
+
       const priceMatch =
         (selectedRange.min === 0 && selectedRange.max === 0) ||
         (price >= selectedRange.min && price <= selectedRange.max);
+
+      const bedroomMatch =
+        !filters.bedroom || project.bedroom.value[0].name === filters.bedroom;
+
+      const handoverMatch =
+        !filters.handOver ||
+        project.handoveryr.value[0].name === filters.handOver;
 
       const searchMatch =
         !filters.searchQuery ||
@@ -119,7 +141,14 @@ export default function Projects() {
             .toLowerCase()
             .includes(filters.searchQuery.toLowerCase()));
 
-      return locationMatch && typeMatch && priceMatch && searchMatch;
+      return (
+        locationMatch &&
+        typeMatch &&
+        priceMatch &&
+        searchMatch &&
+        bedroomMatch &&
+        handoverMatch
+      );
     });
   }, [filters, projects]);
 
@@ -140,8 +169,6 @@ export default function Projects() {
       searchQuery: e.target.value,
     }));
   };
-
-
 
   return (
     <>
@@ -179,7 +206,6 @@ export default function Projects() {
                     placeholder="Search For A Property"
                     value={filters.searchQuery}
                     onChange={handleSearchChange}
-                  
                   />
                 </div>
                 {/* <div className="lg:w-2/12 w-full">
@@ -269,29 +295,53 @@ export default function Projects() {
                 </button>
 
                 <button className="dropDown-item text-white px-3 py-2 rounded-xl bg-primary flex flex-1  items-center justify-between">
-                  <div className="flex gap-2 items-center">
-                    <IoIosCube />
-                    <span className="border-l px-2  border-white">
-                      Property Size
-                    </span>
-                  </div>
-
-                  <div>
-                    <IoIosArrowDropdownCircle size={24} />
-                  </div>
+                  <FaBed />
+                  <select
+                    className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1 "
+                    value={filters.bedroom}
+                    onChange={(e) =>
+                      handleFilterChange("bedroom", e.target.value)
+                    }
+                    style={{
+                      backgroundImage: `url('/assets/icons/dropdown-icon-arosa.svg')`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 10px center",
+                      backgroundSize: "24px",
+                      paddingRight: "60px",
+                    }}
+                  >
+                    <option value="">Bedroom</option>
+                    {bedroom.map((b: any, index: number) => (
+                      <option key={index} value={b}>
+                        {b}
+                      </option>
+                    ))}
+                  </select>
                 </button>
 
                 <button className="dropDown-item text-white px-3 py-2 rounded-xl bg-primary flex flex-1  items-center justify-between">
-                  <div className="flex gap-2 items-center">
-                    <FaRegCalendar />
-                    <span className="border-l px-2  border-white">
-                      Build Year
-                    </span>
-                  </div>
-
-                  <div>
-                    <IoIosArrowDropdownCircle size={24} />
-                  </div>
+                  <FaRegCalendar />
+                  <select
+                    className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1 "
+                    value={filters.handOver}
+                    onChange={(e) =>
+                      handleFilterChange("handOver", e.target.value)
+                    }
+                    style={{
+                      backgroundImage: `url('/assets/icons/dropdown-icon-arosa.svg')`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 10px center",
+                      backgroundSize: "24px",
+                      paddingRight: "60px",
+                    }}
+                  >
+                    <option value="">Handover</option>
+                    {handover.map((h: any, index: number) => (
+                      <option key={index} value={h}>
+                        {h}
+                      </option>
+                    ))}
+                  </select>
                 </button>
               </div>
             </div>
@@ -334,6 +384,8 @@ export default function Projects() {
                               <h4 className="text-primary font-bold text-xl max-w-[250px]">
                                 {item.name.value}
                               </h4>
+
+                              {item.system.id}
                               <div className="flex items-center gap-2">
                                 <MdLocationPin color="gray" />{" "}
                                 <span className="font-light text-tertiary">
@@ -353,7 +405,7 @@ export default function Projects() {
                                 className="text-primary"
                                 size={20}
                               />{" "}
-                              <span>{item.bedroomcount.value}</span>
+                              <span>{item.bedroom.value[0].name}</span>
                             </div>
 
                             <div className="flex items-center gap-2">
@@ -378,26 +430,44 @@ export default function Projects() {
                             <div className=" ">
                               <p>Completion</p>
                               <p className="text-primary text-xl font-bold">
-                                {item.completion.value}
+                                <span className="mx-2">
+                                  {item.handoverqr.value[0].name}
+                                </span>
+                                {item.handoveryr.value[0].name}
                               </p>
                             </div>
                           </div>
 
                           <div className="flex gap-2 mt-5 flex-wrap">
-                            <div className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1">
+                            <Link
+                              onClick={(e) => e.stopPropagation()}
+                              href={`https://wa.me/+971569916229`}
+                              target="_blank"
+                              className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1"
+                            >
                               <FaWhatsapp className="text-white" size={20} />
                               <p className="text-white text-sm">Whatsapp</p>
-                            </div>
+                            </Link>
 
-                            <div className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1">
+                            <Link
+                              onClick={(e) => e.stopPropagation()}
+                              href={`tel:+971569916229`}
+                              target="_blank"
+                              className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1"
+                            >
                               <IoCall className="text-white" size={20} />
                               <p className="text-white text-sm">Call</p>
-                            </div>
+                            </Link>
 
-                            <div className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1">
+                            <Link
+                              href={`/contact?referrer=${item.name.value}/#form`}
+                              scroll={false}
+                              onClick={(e) => e.stopPropagation()}
+                              className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1"
+                            >
                               <IoMail className="text-white" size={20} />
                               <p className="text-white text-sm">Email</p>
-                            </div>
+                            </Link>
                           </div>
                         </div>
                       </div>
