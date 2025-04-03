@@ -16,6 +16,7 @@ import { Paymentplanitem } from "@/models/paymentplanitem";
 import { Floorplanitem } from "@/models/floorplanitem";
 import { IoCall } from "react-icons/io5";
 import Link from "next/link";
+import InquiryForm from "@/components/Form/InquiryForm";
 
 interface SlugModel {
   slug: string;
@@ -26,18 +27,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
     return <SpinnerComponent />;
   }
 
-  const preferredLanguage = [
-    "English",
-    "Arabic",
-    "Russian",
-    "Chinese",
-    "French",
-    "Spanish",
-    "German",
-    "Italian",
-    "Portuguese",
-    "Hindi",
-  ];
+  
 
   return (
     <div className="project-detail-wrapper">
@@ -399,114 +389,8 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                   </div>
 
                   <div className="lg:w-7/12 w-full">
-                    <form
-                      action=""
-                      className="bg-white p-6 md:p-10 rounded-lg shadow-md"
-                    >
-                      <div className="grid grid-cols-1  gap-6">
-                        <div className="flex flex-col gap-2">
-                          <label htmlFor="firstName" className="font-semibold">
-                            Full Name <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            className={`bg-gray-50 p-3 w-full rounded border border-gray-200`}
-                            type="text"
-                            placeholder="Enter First Name"
-                            name="firstName"
-                          />
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                          <label htmlFor="email" className="font-semibold">
-                            Email <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            className={`bg-gray-50 p-3 w-full rounded border border-gray-200`}
-                            type="email"
-                            placeholder="Enter Your Email"
-                            name="email"
-                          />
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                          <label htmlFor="phone" className="font-semibold">
-                            Phone <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            className={`bg-gray-50 p-3 w-full rounded border border-gray-200`}
-                            type="tel"
-                            placeholder="Enter Phone Number"
-                            name="phone"
-                          />
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                          <label
-                            htmlFor="inquiryType"
-                            className="font-semibold"
-                          >
-                            Preferred Language
-                          </label>
-                          <select
-                            className="bg-gray-50 p-3 w-full rounded border border-gray-200"
-                            name="preferredLanguage"
-                          >
-                            <option value="">Select Preferred Language</option>
-                            {preferredLanguage.map((type, index) => (
-                              <option key={index} value={type}>
-                                {type}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div className="md:col-span-2 flex flex-col gap-2">
-                          <label htmlFor="message" className="font-semibold">
-                            Message <span className="text-red-500">*</span>
-                          </label>
-                          <textarea
-                            rows={5}
-                            className={`bg-gray-50 p-3 w-full rounded border border-gray-200`}
-                            placeholder="Enter your Message here.."
-                            name="message"
-                          />
-                        </div>
-
-                        <div className="md:col-span-2 flex flex-col gap-2">
-                          <div className="flex items-center">
-                            <input
-                              type="checkbox"
-                              id="agreeTerms"
-                              name="agreeTerms"
-                              className="mr-2"
-                            />
-                            <label htmlFor="agreeTerms">
-                              I agree with{" "}
-                              <a
-                                href="/terms"
-                                className="underline cursor-pointer mx-1 text-primary hover:text-primary-dark"
-                              >
-                                Terms of Use
-                              </a>{" "}
-                              and{" "}
-                              <a
-                                href="/privacy"
-                                className="underline cursor-pointer mx-1 text-primary hover:text-primary-dark"
-                              >
-                                Privacy Policy
-                              </a>
-                              <span className="text-red-500">*</span>
-                            </label>
-                          </div>
-                          <button
-                            className={`bg-primary mt-5 hover:bg-primary-dark rounded text-white px-6 py-3 font-medium transition-colors min-w-[200px] `}
-                            type="submit"
-                          >
-                            Register Your Interest
-                          </button>
-                        </div>
-                      </div>
-                    </form>
+                    {/* form here */}
+                    <InquiryForm projectName={projectItem?.name.value}/>
                   </div>
                 </div>
               </div>

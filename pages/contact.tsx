@@ -128,7 +128,7 @@ export default function ContactUs() {
       <body>
         <div class="email-container">
           <div class="header">
-            <h2>New Contact Form Submission</h2>
+            <h3>New Contact Form Submission</h3>
             <p>Arosa RealEstate</p>
           </div>
           
@@ -284,7 +284,7 @@ export default function ContactUs() {
     },
     {
       icon: <FaPhone size={22} />,
-      text: "+ 971 - 55 - 000 - 0000",
+      text: "+971 56 991 6229",
       type: "phone",
     },
     {
@@ -573,6 +573,35 @@ export default function ContactUs() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      </div>
+
+      {/* map section */}
+
+      <div className="map-section py-10">
+        <div className="container mx-auto">
+          <h2 className="text-primary mb-5 text-2xl  lg:text-3xl font-semibold">
+            {pageData.locationheading.value}
+          </h2>
+          <span
+            className="text-tertiary "
+            dangerouslySetInnerHTML={{
+              __html: pageData.locationcontent.value,
+            }}
+          />
+
+          <div className="w-full h-[400px] my-5">
+            <iframe
+              title="Project Location Map"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              src={pageData.locationembedlink.value}
+            ></iframe>
           </div>
         </div>
       </div>
