@@ -385,7 +385,7 @@ export default function Projects() {
                                 {item.name.value}
                               </h4>
 
-                              {item.system.id}
+                              
                               <div className="flex items-center gap-2">
                                 <MdLocationPin color="gray" />{" "}
                                 <span className="font-light text-tertiary">
