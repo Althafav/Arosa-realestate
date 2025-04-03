@@ -107,7 +107,7 @@ export default function ContactUs() {
 
     try {
       const sender_email = "notification@arosarealestate.com";
-      const email_to = "althaf.umer@strategic.ae";
+      const email_to = "camilla@arosarealestate.com";
       const subject = "New Contact Form Submission";
       const body = `
       <!DOCTYPE html>
