@@ -3,10 +3,9 @@ import { Projectitem } from "@/models/projectitem";
 import Globals from "@/modules/Globals";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Helper from "@/modules/Helper";
-import { useRouter } from "next/router";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { MdLocationPin } from "react-icons/md";
-import { FaBath, FaRegCalendar, FaWhatsapp } from "react-icons/fa";
+import {FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import ImageSwiper from "@/components/UI/Swipers/ProjectDetailImageSwiper";
 
 import { HiLightningBolt } from "react-icons/hi";
@@ -22,15 +21,8 @@ interface SlugModel {
   slug: string;
 }
 
-function DetailPage({ data }: { data: Array<Projectitem> }) {
-  const router = useRouter();
-
-  const { slug } = router.query;
-  const searchData = data.find(
-    (f: Projectitem) => Helper.formatUrlParameter(f.name.value) === slug
-  );
-
-  if (!searchData) {
+function DetailPage({ projectItem }: { projectItem: Projectitem }) {
+  if (!projectItem) {
     return <SpinnerComponent />;
   }
 
@@ -54,30 +46,30 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
           height={650}
           width={1200}
           className="inset-0 absolute -z-10 w-full h-[650px] object-cover"
-          src={searchData.image.value[0]?.url}
-          alt={searchData.name.value}
+          src={projectItem.image.value[0]?.url}
+          alt={projectItem.name.value}
         />
 
         <div className="container mx-auto flex items-center h-[650px]">
           <div>
             <h1 className="lg:text-7xl text-4xl font-extrabold  text-white">
-              {searchData.name.value}
+              {projectItem.name.value}
             </h1>
             <p className="text-2xl text-white font-light mb-7">
-              {searchData.developername.value}
+              {projectItem.developername.value}
             </p>
             <div className="flex items-center gap-4">
               <div className="border border-white flex items-center gap-1 p-2 rounded-md">
                 <MdLocationPin color="white" className="font-bold" />{" "}
                 <span className="text-white font-light">
-                  {searchData.location.value[0].name}
+                  {projectItem.location.value[0].name}
                 </span>
               </div>
 
               <div className="border border-white flex items-center gap-1 p-2 rounded-md">
                 <FaRegCalendar color="white" className="font-bold" />{" "}
                 <span className="text-white font-light">
-                  {searchData.completion.value}
+                  {projectItem.completion.value}
                 </span>
               </div>
             </div>
@@ -92,14 +84,16 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
             <div className="flex justify-between lg:flex-row flex-col gap-3">
               <div className="">
                 <h4 className="font-semibold text-primary text-2xl">
-                  {searchData.name.value}
+                  {projectItem.name.value}
                 </h4>
                 <div className="flex items-center gap-4 rounded-md">
-                  <p className="font-light">{searchData.developername.value}</p>
+                  <p className="font-light">
+                    {projectItem.developername.value}
+                  </p>
                   <div className="flex items-center gap-1">
                     <MdLocationPin className="font-bold text-black" />
                     <span className="text-black font-light">
-                      {searchData.location.value[0].name}
+                      {projectItem.location.value[0].name}
                     </span>
                   </div>
                 </div>
@@ -108,7 +102,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
               <div className="">
                 <p className="text-tertiary font-medium text-sm">Price</p>
                 <p className="text-primary font-semibold text-xl">
-                  {searchData.price.value}
+                  {projectItem.price.value}
                 </p>
               </div>
             </div>
@@ -117,12 +111,12 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
               <div>
                 <div className="flex justify-between">
                   <p>Property Type</p>
-                  <p>{searchData.propertytype.value[0].name}</p>
+                  <p>{projectItem.propertytype.value[0].name}</p>
                 </div>
                 <hr className="my-3 border-tertiary" />
                 <div className="flex justify-between">
                   <p>Down Payment</p>
-                  <p>{searchData.downpayment.value}</p>
+                  <p>{projectItem.downpayment.value}</p>
                 </div>
 
                 <hr className="my-3 border-tertiary" />
@@ -130,13 +124,13 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
               <div>
                 <div className="flex justify-between">
                   <p>Unit Type</p>
-                  <p>{searchData.unittype.value}</p>
+                  <p>{projectItem.unittype.value}</p>
                 </div>
 
                 <hr className="my-3 border-tertiary" />
                 <div className="flex justify-between">
                   <p>Payment Plan</p>
-                  <p>{searchData.paymentplantype.value}</p>
+                  <p>{projectItem.paymentplantype.value}</p>
                 </div>
 
                 <hr className="my-3 border-tertiary" />
@@ -145,13 +139,13 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
               <div>
                 <div className="flex justify-between">
                   <p>Size</p>
-                  <p>{searchData.propertysize.value}</p>
+                  <p>{projectItem.propertysize.value}</p>
                 </div>
 
                 <hr className="my-3 border-tertiary" />
                 <div className="flex justify-between">
                   <p>Handover</p>
-                  <p>{searchData.completion.value}</p>
+                  <p>{projectItem.completion.value}</p>
                 </div>
                 <hr className="my-3 border-tertiary" />
               </div>
@@ -159,7 +153,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
           </div>
           {/* Product Images */}
           <div className="image-section-container bg-primary p-5 rounded-xl">
-            <ImageSwiper images={searchData.image.value} />
+            <ImageSwiper images={projectItem.image.value} />
           </div>
 
           {/* Project Body */}
@@ -174,7 +168,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
 
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: searchData.description.value,
+                      __html: projectItem.description.value,
                     }}
                   />
 
@@ -184,10 +178,10 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                 {/* Features */}
                 <div className="bg-white p-5  rounded-xl mb-4">
                   <h5 className="text-xl font-semibold text-primary mb-10">
-                    {searchData.featuresheading.value}
+                    {projectItem.featuresheading.value}
                   </h5>
 
-                  {searchData.featureitems.value
+                  {projectItem.featureitems.value
                     .split("|")
                     .map((item: any, index: number) => {
                       return (
@@ -207,11 +201,11 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                 {/* Facilities */}
                 <div className="bg-white p-5  rounded-xl mb-4">
                   <h5 className="text-xl font-semibold text-primary mb-10">
-                    {searchData.facilitiesheading.value}
+                    {projectItem.facilitiesheading.value}
                   </h5>
 
                   <div className="grid lg:grid-cols-4 gap-5">
-                    {searchData.facilitiesitems.value
+                    {projectItem.facilitiesitems.value
                       .split("|")
                       .map((m: any, index: number, array: any[]) => {
                         const isLastInRow =
@@ -237,7 +231,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
               <div className="bg-white p-5 mb-5 rounded-xl">
                 <h5 className="text-xl font-semibold text-primary mb-10 flex items-center gap-2">
                   <MdLocationPin className="text-primary" />{" "}
-                  {searchData.location.value[0].name}
+                  {projectItem.location.value[0].name}
                 </h5>
                 <div className="flex lg:flex-row flex-col">
                   <div className="lg:w-1/2 h-[400px] mb-5 rounded-xl overflow-hidden">
@@ -249,12 +243,12 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                       loading="lazy"
                       allowFullScreen
                       referrerPolicy="no-referrer-when-downgrade"
-                      src={searchData.locationembedlink.value}
+                      src={projectItem.locationembedlink.value}
                     ></iframe>
                   </div>
 
                   <div className="lg:px-10 px-5 w-full  lg:w-1/2">
-                    {searchData.nearestlandmark.value.map(
+                    {projectItem.nearestlandmark.value.map(
                       (m: any, index: number) => {
                         const item: Landmarkitem = m;
                         return (
@@ -280,7 +274,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
               <div className="floor-plans-wrapper mb-5 bg-white px-5 py-10 rounded-xl">
                 <div className="flex justify-between mb-5">
                   <h2 className="text-xl font-semibold text-primary mb-10">
-                    {searchData.floorplanheading.value}
+                    {projectItem.floorplanheading.value}
                   </h2>
 
                   <div>
@@ -303,7 +297,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                   </thead>
 
                   <tbody>
-                    {searchData.floorplanitems.value.map(
+                    {projectItem.floorplanitems.value.map(
                       (m: any, index: number) => {
                         const item: Floorplanitem = m;
                         return (
@@ -338,12 +332,12 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
               <div className="floor-plans-wrapper mb-5 bg-white px-5 py-10 rounded-xl">
                 <div className="flex justify-between mb-5">
                   <h2 className="lg:text-3xl text-2xl font-bold text-primary">
-                    {searchData.paymentplansheading.value}
+                    {projectItem.paymentplansheading.value}
                   </h2>
                 </div>
 
                 <div className="grid lg:grid-cols-4">
-                  {searchData.paymentplanitems.value.map(
+                  {projectItem.paymentplanitems.value.map(
                     (m: any, index: number) => {
                       const item: Paymentplanitem = m;
                       return (
@@ -373,7 +367,7 @@ function DetailPage({ data }: { data: Array<Projectitem> }) {
                 <div className="flex gap-10 lg:flex-row flex-col">
                   <div className="lg:w-4/12 w-full">
                     <h2 className="text-3xl text-primary font-semibold mb-5">
-                      Inquire About {searchData.name.value}
+                      Inquire About {projectItem.name.value}
                     </h2>
 
                     <span
@@ -567,11 +561,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const data: Array<Projectitem> = JSON.parse(datasourceStr);
     const { slug } = params as { slug: string };
+    const projectItem = data.find(
+      (item: Projectitem) => Helper.formatUrlParameter(item.name.value) === slug
+    );
 
     return {
       props: {
-        data,
         slug,
+        projectItem: projectItem || null,
       },
       revalidate: 60,
     };
