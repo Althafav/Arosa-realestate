@@ -268,9 +268,9 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                   </h2>
 
                   <div>
-                    <button className="border-primary border rounded-lg text-primary px-3 py-2">
+                    <Link href={projectItem.downloadfloorplanlink.value} className="border-primary border rounded-lg text-primary px-3 py-2" target="_blank">
                       Download Floor Plan
-                    </button>
+                    </Link>
                   </div>
                 </div>
 
