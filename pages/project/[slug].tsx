@@ -46,7 +46,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               {projectItem.name.value}
             </h1>
             <p className="text-2xl text-white font-light mb-7">
-              {projectItem.developername.value}
+              {projectItem.developer.value[0]?.name}
             </p>
             <div className="flex items-center gap-4">
               <div className="border border-white flex items-center gap-1 p-2 rounded-md">
@@ -78,7 +78,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                 </h4>
                 <div className="flex items-center gap-4 rounded-md">
                   <p className="font-light">
-                    {projectItem.developername.value}
+                    {projectItem.developer.value[0]?.name}
                   </p>
                   <div className="flex items-center gap-1">
                     <MdLocationPin className="font-bold text-black" />
@@ -113,8 +113,8 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               </div>
               <div>
                 <div className="flex justify-between">
-                  <p>Unit Type</p>
-                  <p>{projectItem.unittype.value}</p>
+                  <p>Bedrooms</p>
+                  <p>{projectItem.bedroom.value.map((bedroom: any) => bedroom.name).join(", ")}</p>
                 </div>
 
                 <hr className="my-3 border-tertiary" />
@@ -260,7 +260,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                 </div>
               </div>
 
-              {/* Floor plans Table */}
+              {/* Floor plans Table
               <div className="floor-plans-wrapper mb-5 bg-white px-5 py-10 rounded-xl">
                 <div className="flex justify-between mb-5">
                   <h2 className="text-xl font-semibold text-primary mb-10">
@@ -316,7 +316,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                     )}
                   </tbody>
                 </table>
-              </div>
+              </div> */}
 
               {/* Payment plans */}
               <div className="floor-plans-wrapper mb-5 bg-white px-5 py-10 rounded-xl">

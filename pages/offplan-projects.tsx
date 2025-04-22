@@ -15,7 +15,6 @@ import { FaBed, FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
 import { LuImageUpscale } from "react-icons/lu";
 import Head from "next/head";
-import MinMaxSlider from "@/components/UI/Slider/MinMaxSlider";
 
 const priceRanges = [
   { label: "Any Price", min: 0, max: 0 },
@@ -67,9 +66,13 @@ export default function Projects() {
 
           setPropertyTypes(allTypes);
 
-          const allBedroom = allProjects.flatMap(
-            (item: any) => item.bedroom.value[0].name
-          );
+          const allBedroom = Array.from(
+            new Set(
+              allProjects.flatMap((item: any) =>
+                item.bedroom?.value?.map((choice: any) => choice.name) || []
+              )
+            )
+          ).sort();
 
           setBedroom(allBedroom);
 
@@ -121,7 +124,10 @@ export default function Projects() {
         (price >= selectedRange.min && price <= selectedRange.max);
 
       const bedroomMatch =
-        !filters.bedroom || project.bedroom.value[0].name === filters.bedroom;
+        !filters.bedroom ||
+        project.bedroom.value.some(
+          (choice: any) => choice.name === filters.bedroom
+        );
 
       const handoverMatch =
         !filters.handOver ||
@@ -385,7 +391,6 @@ export default function Projects() {
                                 {item.name.value}
                               </h4>
 
-                              
                               <div className="flex items-center gap-2">
                                 <MdLocationPin color="gray" />{" "}
                                 <span className="font-light text-tertiary">
@@ -395,7 +400,7 @@ export default function Projects() {
                             </div>
 
                             <p className="font-light text-tertiary text-sm max-w-[100px]">
-                              {item.developername.value}
+                              {item.developer.value[0].name}
                             </p>
                           </div>
 
@@ -405,7 +410,11 @@ export default function Projects() {
                                 className="text-primary"
                                 size={20}
                               />{" "}
-                              <span>{item.bedroom.value[0].name}</span>
+                              <span>
+                                {item.bedroom.value
+                                  .map((bed: any) => bed.name)
+                                  .join(", ")}
+                              </span>
                             </div>
 
                             <div className="flex items-center gap-2">
@@ -421,7 +430,7 @@ export default function Projects() {
                             <div className="">
                               <p>Starting Price</p>
                               <p className="text-primary text-xl font-bold">
-                                ${item.price.value}
+                              AED{item.price.value}
                               </p>
                             </div>
 
