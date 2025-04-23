@@ -106,7 +106,7 @@ export default function MenuComponent() {
             </div>
           )}
         </div>
-        <div className="hidden lg:flex justify-between   items-center bg-mid border-b-2 border-gray-300 pb-5">
+        <div className="hidden lg:flex justify-between   items-center bg-mid  ">
           <Link href="/">
             <Image
               width={150}
@@ -139,13 +139,14 @@ export default function MenuComponent() {
             </div>
           </div>
         </div>
-        <ul className="menu-items lg:flex hidden gap-10 py-2">
+        <hr className="border-t-2 border-gray-300 my-4"/>
+        <ul className="menu-items lg:flex hidden gap-10">
           {pageData.menuitems.value.map((m: any, index: number) => {
             const item: Menuitem = m;
             return (
               <li key={`menuitem-${index}`}>
                 <Link href={item.link.value}>
-                  <span className="font-medium text-tertiary">
+                  <span className="font-medium text-black">
                     {" "}
                     {item.name.value}
                   </span>
