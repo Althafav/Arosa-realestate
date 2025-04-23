@@ -8,7 +8,7 @@ export default class Globals {
   static SECURE_API_KEY: string =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYmVmMTEwZDkwODM0MmM5YjUzOTc5MzQ4MDE5NmRkNCIsImlhdCI6MTc0MTkzMjcxOSwibmJmIjoxNzQxOTMyNzE5LCJleHAiOjE3NzM0Njg1NDAsInZlciI6IjIuMC4wIiwic2NvcGVfaWQiOiI0NmQ4NmI2YzA4ZDY0Y2IzOTIzMjAyMTBjNDNjYzM4ZCIsInByb2plY3RfY29udGFpbmVyX2lkIjoiZTY4ZjEyYzYwNjI3MDA2OTAyMzM1MjYwNTgzNGJlNDAiLCJhdWQiOiJkZWxpdmVyLmtvbnRlbnQuYWkifQ.gBOa4Ov3hkHAT1O9jQD_KmJzRbvEuoUnMTLa9tIQGIE";
   
-
+ 
 
   static KontentClient: any = new KontentDelivery.DeliveryClient({
     projectId: Globals.PROJECT_ID,

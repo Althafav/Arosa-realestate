@@ -3,41 +3,62 @@ import { Cardblock } from "@/models/cardblock";
 import { Homepage } from "@/models/homepage";
 import { Partneritem } from "@/models/partneritem";
 import Globals from "@/modules/Globals";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
 
-export default function Home() {
-  const [pageData, setPageData] = useState<Homepage | null>(null);
+type HomeProps = {
+  pageData: Homepage | null;
+};
 
-  useEffect(() => {
-    Globals.KontentClient.item("home_page_2025")
-      .withParameter("depth", "4")
-      .toObservable()
-      .subscribe((response: any) => {
-        setPageData(response.item);
-      });
-  }, []);
-
+export default function Home({ pageData }: HomeProps) {
   if (!pageData) {
     return <SpinnerComponent />;
   }
+
   return (
     <>
       <Head>
-        <title>OFF Plans | Arosa</title>
-        <meta
-          name="title"
-          content="Leading Real Estate Firm in Dubai | Arosa Real Estate"
-        />
+        <title>{pageData.metadataPagetitle.value}</title>
+        <meta name="title" content={pageData.metadataMetatitle.value} />
         <meta
           name="description"
-          content="Arosa Real Estate is a leading international real estate firm in Dubai, offering expert guidance on residential, commercial, and industrial properties for investors and developers worldwide."
+          content={pageData.metadataMetadescription.value}
         />
+        <link rel="canonical" href="https://arosarealestate.com/" />
+
+        <meta property="og:title" content={pageData.metadataPagetitle.value} />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:description"
+          content={pageData.metadataMetadescription.value}
+        />
+        <meta property="og:url" content="https://arosarealestate.com/" />
+        <meta property="og:site_name" content={Globals.SITE_NAME} />
+        <meta
+          property="og:image"
+          content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageData.metadataPagetitle.value} />
+        <meta
+          name="twitter:description"
+          content={pageData.metadataMetadescription.value}
+        />
+        <meta
+          name="twitter:image"
+          content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
+        />
+        <meta name="twitter:image:alt" content={pageData.metadataPagetitle.value} />
+
+       
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charSet="UTF-8" />
       </Head>
       <div className="home-page-wrapper ">
         {/* banner */}
@@ -248,3 +269,26 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const response: any = await Globals.KontentClient.item("home_page_2025")
+      .withParameter("depth", "4")
+      .toPromise();
+
+    const pageData = JSON.parse(JSON.stringify(response.item));
+
+    return {
+      props: {
+        pageData,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching homepage content:", error);
+    return {
+      props: {
+        pageData: null,
+      },
+    };
+  }
+};
