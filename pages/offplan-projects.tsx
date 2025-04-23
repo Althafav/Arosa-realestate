@@ -68,8 +68,9 @@ export default function Projects() {
 
           const allBedroom = Array.from(
             new Set(
-              allProjects.flatMap((item: any) =>
-                item.bedroom?.value?.map((choice: any) => choice.name) || []
+              allProjects.flatMap(
+                (item: any) =>
+                  item.bedroom?.value?.map((choice: any) => choice.name) || []
               )
             )
           ).sort();
@@ -374,79 +375,83 @@ export default function Projects() {
                       )}`}
                     >
                       <div
-                        className="project-card bg-white p-5 rounded-2xl h-full"
+                        className="project-card bg-white p-5 rounded-2xl h-full flex flex-col justify-between"
                         style={{ background: "white" }}
                       >
-                        <Image
-                          width={300}
-                          height={256}
-                          className="object-cover w-full h-[256px] rounded-2xl"
-                          src={item.image.value[0]?.url}
-                          alt={item.name.value}
-                        />
-                        <div className="p-3">
-                          <div className="flex justify-between mb-5">
-                            <div>
-                              <h4 className="text-primary font-bold text-xl max-w-[250px]">
-                                {item.name.value}
-                              </h4>
+                        <div>
+                          <Image
+                            width={300}
+                            height={256}
+                            className="object-cover w-full h-[256px] rounded-2xl"
+                            src={item.image.value[0]?.url}
+                            alt={item.name.value}
+                          />
+                          <div className="p-3">
+                            <div className="flex justify-between mb-5">
+                              <div>
+                                <h4 className="text-primary font-bold text-xl max-w-[250px]">
+                                  {item.name.value}
+                                </h4>
+
+                                <div className="flex items-center gap-2">
+                                  <MdLocationPin color="gray" />{" "}
+                                  <span className="font-light text-tertiary">
+                                    {item.location.value[0].name}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <p className="font-light text-tertiary text-sm max-w-[100px]">
+                                {item.developer.value[0].name}
+                              </p>
+                            </div>
+
+                            <div className="flex gap-10 mb-5">
+                              <div className="flex items-center gap-2">
+                                <MdOutlineKingBed
+                                  className="text-primary"
+                                  size={20}
+                                />{" "}
+                                <span>
+                                  {item.bedroom.value
+                                    .map((bed: any) => bed.name)
+                                    .join(", ")}
+                                </span>
+                              </div>
 
                               <div className="flex items-center gap-2">
-                                <MdLocationPin color="gray" />{" "}
-                                <span className="font-light text-tertiary">
-                                  {item.location.value[0].name}
-                                </span>
+                                <LuImageUpscale
+                                  className="text-primary"
+                                  size={20}
+                                />
+                                <span>{item.propertysize.value}</span>
                               </div>
                             </div>
 
-                            <p className="font-light text-tertiary text-sm max-w-[100px]">
-                              {item.developer.value[0].name}
-                            </p>
-                          </div>
+                            <div className="flex justify-between">
+                              <div className="">
+                                <p>Starting Price</p>
+                                <p className="text-primary text-xl font-bold">
+                                  AED{item.price.value}
+                                </p>
+                              </div>
 
-                          <div className="flex gap-10 mb-5">
-                            <div className="flex items-center gap-2">
-                              <MdOutlineKingBed
-                                className="text-primary"
-                                size={20}
-                              />{" "}
-                              <span>
-                                {item.bedroom.value
-                                  .map((bed: any) => bed.name)
-                                  .join(", ")}
-                              </span>
-                            </div>
+                              <hr className="h-14 w-[1px] bg-gray-400" />
 
-                            <div className="flex items-center gap-2">
-                              <LuImageUpscale
-                                className="text-primary"
-                                size={20}
-                              />
-                              <span>{item.propertysize.value}</span>
+                              <div className=" ">
+                                <p>Completion</p>
+                                <p className="text-primary text-xl font-bold">
+                                  <span className="mx-2">
+                                    {item.handoverqr.value[0].name}
+                                  </span>
+                                  {item.handoveryr.value[0].name}
+                                </p>
+                              </div>
                             </div>
                           </div>
+                        </div>
 
-                          <div className="flex justify-between">
-                            <div className="">
-                              <p>Starting Price</p>
-                              <p className="text-primary text-xl font-bold">
-                              AED{item.price.value}
-                              </p>
-                            </div>
-
-                            <hr className="h-14 w-[1px] bg-gray-400" />
-
-                            <div className=" ">
-                              <p>Completion</p>
-                              <p className="text-primary text-xl font-bold">
-                                <span className="mx-2">
-                                  {item.handoverqr.value[0].name}
-                                </span>
-                                {item.handoveryr.value[0].name}
-                              </p>
-                            </div>
-                          </div>
-
+                        <div className="p-3">
                           <div className="flex gap-2 mt-5 flex-wrap">
                             <Link
                               onClick={(e) => e.stopPropagation()}
