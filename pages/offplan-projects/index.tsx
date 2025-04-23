@@ -180,17 +180,45 @@ export default function Projects() {
   return (
     <>
       <Head>
-        <title>OFF Plans | Arosa</title>
-        <meta
-          name="title"
-          content="Explore Exclusive Off-Plan Projects in Dubai | Arosa Real Estate"
-        />
+        <title>{pageData.metadataPagetitle.value}</title>
+        <meta name="title" content={pageData.metadataMetatitle.value} />
         <meta
           name="description"
-          content="Discover premium off-plan projects in Dubai with Arosa Real Estate. Invest in upcoming residential and commercial properties with expert guidance and exclusive deals."
-        />{" "}
+          content={pageData.metadataMetadescription.value}
+        />
+        <link rel="canonical" href="https://arosarealestate.com/offplan-projects" />
+
+        <meta property="og:title" content={pageData.metadataPagetitle.value} />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:description"
+          content={pageData.metadataMetadescription.value}
+        />
+        <meta property="og:url" content="https://arosarealestate.com/offplan-projects/" />
+        <meta property="og:site_name" content={Globals.SITE_NAME} />
+        <meta
+          property="og:image"
+          content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageData.metadataPagetitle.value} />
+        <meta
+          name="twitter:description"
+          content={pageData.metadataMetadescription.value}
+        />
+        <meta
+          name="twitter:image"
+          content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
+        />
+        <meta
+          name="twitter:image:alt"
+          content={pageData.metadataPagetitle.value}
+        />
+
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charSet="UTF-8" />
       </Head>
 
       <div className="project-page-wrapper">
@@ -367,10 +395,10 @@ export default function Projects() {
                 return (
                   <div
                     className="lg:col-span-4 col-span-12 sm:col-span-6"
-                    key={`project-${index}`}
+                    key={`offplan-projects-${index}`}
                   >
                     <Link
-                      href={`/project/${Helper.formatUrlParameter(
+                      href={`/offplan-projects/${Helper.formatUrlParameter(
                         item.name.value
                       )}`}
                     >

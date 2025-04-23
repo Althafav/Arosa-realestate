@@ -5,7 +5,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Helper from "@/modules/Helper";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { MdLocationPin } from "react-icons/md";
-import {FaRegCalendar, FaWhatsapp } from "react-icons/fa";
+import { FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import ImageSwiper from "@/components/UI/Swipers/ProjectDetailImageSwiper";
 
 import { HiLightningBolt } from "react-icons/hi";
@@ -26,8 +26,6 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
   if (!projectItem) {
     return <SpinnerComponent />;
   }
-
-  
 
   return (
     <div className="project-detail-wrapper">
@@ -114,7 +112,11 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div>
                 <div className="flex justify-between">
                   <p>Bedrooms</p>
-                  <p>{projectItem.bedroom.value.map((bedroom: any) => bedroom.name).join(", ")}</p>
+                  <p>
+                    {projectItem.bedroom.value
+                      .map((bedroom: any) => bedroom.name)
+                      .join(", ")}
+                  </p>
                 </div>
 
                 <hr className="my-3 border-tertiary" />
@@ -318,6 +320,34 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                 </table>
               </div> */}
 
+              {/* Download Section */}
+              {projectItem.downloadbrochurelink?.value &&
+                projectItem.downloadfloorplanlink?.value && (
+                  <div className="download-section mb-5 bg-white px-5 py-10 rounded-xl">
+                    <div>
+                      <h2 className="lg:text-3xl text-2xl font-bold text-primary">
+                        Download
+                      </h2>
+
+                      <div className="flex lg:flex-row flex-col gap-5 py-10">
+                        <Link
+                          className="px-4 py-2 bg-primary text-white rounded-full"
+                          href={projectItem.downloadbrochurelink.value}
+                        >
+                          <span>Download Brochure</span>
+                        </Link>
+
+                        <Link
+                          className="px-4 py-2 bg-primary text-white rounded-full"
+                          href={projectItem.downloadfloorplanlink.value}
+                        >
+                          <span>Download Floor Plan</span>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
               {/* Payment plans */}
               <div className="floor-plans-wrapper mb-5 bg-white px-5 py-10 rounded-xl">
                 <div className="flex justify-between mb-5">
@@ -386,11 +416,23 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                         </div>
                       </Link>
                     </div>
+
+                    <div className="py-10 flex flex-col items-center gap-3">
+                      <p className="font-medium text-center ">
+                        DLD Permit Number
+                      </p>
+                      <img
+                        className="w-[150px] object-contain"
+                        src={projectItem.dldpermitqrimage.value[0]?.url}
+                        alt={`DLD Permit Number ${projectItem.name.value}`}
+                      />
+                      <p>{projectItem.dldpermitnumber.value}</p>
+                    </div>
                   </div>
 
                   <div className="lg:w-7/12 w-full">
                     {/* form here */}
-                    <InquiryForm projectName={projectItem?.name.value}/>
+                    <InquiryForm projectName={projectItem?.name.value} />
                   </div>
                 </div>
               </div>

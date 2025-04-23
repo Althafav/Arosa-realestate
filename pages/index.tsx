@@ -1,3 +1,4 @@
+import FeaturedProjects from "@/components/FeaturedProjects";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Cardblock } from "@/models/cardblock";
 import { Homepage } from "@/models/homepage";
@@ -104,6 +105,7 @@ export default function Home({ pageData }: HomeProps) {
             </div>
           </div>
         </div>
+
 
         {/* about section */}
         <div className="about-section-wrapper py-10">
@@ -265,6 +267,10 @@ export default function Home({ pageData }: HomeProps) {
             </div>
           </div>
         </div>
+
+        <FeaturedProjects/>
+
+
       </div>
     </>
   );
