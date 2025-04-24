@@ -51,7 +51,9 @@ const SearchResultsPage = () => {
     // Apply search term filter
     if (searchTerm) {
       results = results.filter(project =>
-        project.name.value.toLowerCase().includes(searchTerm.toString().toLowerCase())
+        project.name.value.toLowerCase().includes(searchTerm.toString().toLowerCase()) || 
+        project.metadataKeywords.value.toLowerCase().includes(searchTerm.toString().toLowerCase()) ||
+        project.location.value.some(loc => loc.name.toString().toLowerCase() === searchTerm.toString().toLowerCase())
       );
     }
 
@@ -103,7 +105,7 @@ const SearchResultsPage = () => {
     // }
 
     setFilteredProjects(results);
-  }, [projects, router.query]);
+  }, [projects, searchTerm, location, propertyType, developer, bedroom, handoverYear]);
 
   if (error) {
     return (

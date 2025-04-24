@@ -109,7 +109,7 @@ Business Bay, Dubai, UAE`;
           </div>
 
           <div className="lg:w-2/3">
-            <div className="subscribe-form ">
+            {/* <div className="subscribe-form ">
               <p className="font-semibold mb-3 text-white">
                 Keep Yourself Up to Date
               </p>
@@ -128,7 +128,7 @@ Business Bay, Dubai, UAE`;
                   </div>
                 </div>
               </form>
-            </div>
+            </div> */}
             <div className=" grid grid-cols-1 md:grid-cols-3 gap-8 text-left py-10">
               {footerLinks.map((section, index) => (
                 <div key={index}>
