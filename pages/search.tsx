@@ -20,8 +20,8 @@ const SearchResultsPage = () => {
     developer = '',
     bedroom = '',
     handover: handoverYear = '',
-    minPrice = '',
-    maxPrice = ''
+    // minPrice = '',
+    // maxPrice = ''
   } = router.query;
 
   // Fetch all projects on component mount
@@ -90,17 +90,17 @@ const SearchResultsPage = () => {
       );
     }
 
-    // Apply price range filter
-    if (minPrice || maxPrice) {
-      results = results.filter(project => {
-        const priceStr = project.price.value.replace(/[^\d.]/g, '');
-        const price = parseFloat(priceStr);
-        const min = minPrice ? parseFloat(minPrice.toString().replace(/[^\d.]/g, '')) : 0;
-        const max = maxPrice ? parseFloat(maxPrice.toString().replace(/[^\d.]/g, '')) : Infinity;
+    // // Apply price range filter
+    // if (minPrice || maxPrice) {
+    //   results = results.filter(project => {
+    //     const priceStr = project.price.value.replace(/[^\d.]/g, '');
+    //     const price = parseFloat(priceStr);
+    //     const min = minPrice ? parseFloat(minPrice.toString().replace(/[^\d.]/g, '')) : 0;
+    //     const max = maxPrice ? parseFloat(maxPrice.toString().replace(/[^\d.]/g, '')) : Infinity;
 
-        return price >= min && price <= max;
-      });
-    }
+    //     return price >= min && price <= max;
+    //   });
+    // }
 
     setFilteredProjects(results);
   }, [projects, router.query]);
@@ -162,11 +162,11 @@ const SearchResultsPage = () => {
               Handover: {handoverYear}
             </span>
           )}
-          {(minPrice || maxPrice) && (
+          {/* {(minPrice || maxPrice) && (
             <span className="bg-gray-100 px-3 py-1 rounded-full">
               Price: {minPrice || '0'} - {maxPrice || '∞'}
             </span>
-          )}
+          )} */}
         </div>
       </div>
 

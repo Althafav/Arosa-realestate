@@ -150,6 +150,12 @@ const SelfContainedSearchFilter = () => {
     );
   }
 
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-xl p-6 relative">
      
@@ -162,6 +168,7 @@ const SelfContainedSearchFilter = () => {
             placeholder="Search Project"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={searchTerm}
+            onKeyUp={handleKeyPress}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
