@@ -51,11 +51,12 @@ export default function FeaturedProjects() {
             .map((m: any, index: number) => {
               const item: Projectitem = m;
               return (
-                <div className="lg:col-span-3 col-span-12" key={`featured-project${index}`}>
+                <div
+                  className="lg:col-span-3 col-span-12"
+                  key={`featured-project${index}`}
+                >
                   <Link
-                    href={`/offplan-projects/${Helper.formatUrlParameter(
-                      item.name.value
-                    )}`}
+                    href={`/offplan-projects/${item.name.value}`}
                     className=""
                   >
                     <div className="featured-project-item bg-white rounded-xl overflow-hidden">
