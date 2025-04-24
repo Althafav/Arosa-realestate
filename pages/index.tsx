@@ -1,4 +1,5 @@
 import FeaturedProjects from "@/components/FeaturedProjects";
+import PartnersComponent from "@/components/PartnersComponent";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Cardblock } from "@/models/cardblock";
 import { Homepage } from "@/models/homepage";
@@ -7,6 +8,7 @@ import Globals from "@/modules/Globals";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
@@ -56,9 +58,11 @@ export default function Home({ pageData }: HomeProps) {
           name="twitter:image"
           content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
         />
-        <meta name="twitter:image:alt" content={pageData.metadataPagetitle.value} />
+        <meta
+          name="twitter:image:alt"
+          content={pageData.metadataPagetitle.value}
+        />
 
-       
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="home-page-wrapper ">
@@ -84,28 +88,9 @@ export default function Home({ pageData }: HomeProps) {
         </div>
 
         {/* partners */}
-        <div className="partners-wrapper py-10">
-          <div className="container mx-auto">
-            <div className="grid grid-cols-12  lg:gap-10 gap-5">
-              {pageData.partneritems.value.map((m: any, index: number) => {
-                const item: Partneritem = m;
-                return (
-                  <div
-                    className="lg:col-span-3 col-span-6 "
-                    key={item.system.id}
-                  >
-                    <img
-                      src={item.image.value[0]?.url}
-                      alt={item.name.value}
-                      className="w-[120px] h-[120px] object-contain"
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
+        <PartnersComponent
+          pageData={pageData.partneritems.value as Partneritem[]}
+        />
 
         {/* about section */}
         <div className="about-section-wrapper py-10">
@@ -142,10 +127,12 @@ export default function Home({ pageData }: HomeProps) {
                 </ul>
 
                 <div>
-                  <button className="flex items-center bg-primary text-white py-2 px-4 rounded-xl">
-                    <span>Learn More</span>
-                    <GoArrowUpRight color="white" />
-                  </button>
+                  <Link href="/about" >
+                    <button className="flex items-center bg-primary text-white py-2 px-4 rounded-xl">
+                      <span>Learn More</span>
+                      <GoArrowUpRight color="white" />
+                    </button>
+                  </Link>
                 </div>
               </div>
 
@@ -268,9 +255,10 @@ export default function Home({ pageData }: HomeProps) {
           </div>
         </div>
 
-        <FeaturedProjects/>
-
-
+        <FeaturedProjects />
+        <PartnersComponent
+          pageData={pageData.developeritems.value as Partneritem[]}
+        />
       </div>
     </>
   );

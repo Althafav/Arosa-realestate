@@ -5,12 +5,12 @@ import Globals from "@/modules/Globals";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 
-import { HiMapPin, HiOutlineSquare2Stack } from "react-icons/hi2";
+import { HiMapPin } from "react-icons/hi2";
 import { MdLocationPin, MdOutlineKingBed } from "react-icons/md";
 import Helper from "@/modules/Helper";
-import { IoCall, IoMail, IoSearchOutline } from "react-icons/io5";
-import { IoIosArrowDropdownCircle, IoIosCash, IoIosCube } from "react-icons/io";
-import { FaHouseChimneyWindow, FaScaleBalanced } from "react-icons/fa6";
+import { IoCall, IoMail } from "react-icons/io5";
+import { IoIosCash } from "react-icons/io";
+import { FaHouseChimneyWindow } from "react-icons/fa6";
 import { FaBed, FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
 import { LuImageUpscale } from "react-icons/lu";
@@ -186,7 +186,10 @@ export default function Projects() {
           name="description"
           content={pageData.metadataMetadescription.value}
         />
-        <link rel="canonical" href="https://arosarealestate.com/offplan-projects" />
+        <link
+          rel="canonical"
+          href="https://arosarealestate.com/offplan-projects"
+        />
 
         <meta property="og:title" content={pageData.metadataPagetitle.value} />
         <meta property="og:type" content="website" />
@@ -194,7 +197,7 @@ export default function Projects() {
           property="og:description"
           content={pageData.metadataMetadescription.value}
         />
-        <meta property="og:url" content="https://arosarealestate.com/offplan-projects/" />
+        <meta property="og:url" content="https://arosarealestate.com/" />
         <meta property="og:site_name" content={Globals.SITE_NAME} />
         <meta
           property="og:image"
@@ -397,11 +400,7 @@ export default function Projects() {
                     className="lg:col-span-4 col-span-12 sm:col-span-6"
                     key={`offplan-projects-${index}`}
                   >
-                    <Link
-                      href={`/offplan-projects/${Helper.formatUrlParameter(
-                        item.name.value
-                      )}`}
-                    >
+                    <Link href={`/offplan-projects/${item.name.value}`}>
                       <div
                         className="project-card bg-white p-5 rounded-2xl h-full flex flex-col justify-between"
                         style={{ background: "white" }}

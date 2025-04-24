@@ -1,6 +1,7 @@
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Contactpage } from "@/models/contactpage";
 import Globals from "@/modules/Globals";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { FaPhone, FaCheck } from "react-icons/fa";
@@ -312,6 +313,53 @@ export default function ContactUs() {
 
   return (
     <div className="contact-page-wrapper">
+      <Head>
+        <title>{pageData.metadataPagetitle.value}</title>
+        <meta name="title" content={pageData.metadataMetatitle.value} />
+        <meta
+          name="description"
+          content={pageData.metadataMetadescription.value}
+        />
+        <link
+          rel="canonical"
+          href="https://arosarealestate.com/contact"
+        />
+
+        <meta property="og:title" content={pageData.metadataPagetitle.value} />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:description"
+          content={pageData.metadataMetadescription.value}
+        />
+        <meta
+          property="og:url"
+          content="https://arosarealestate.com/"
+        />
+        <meta property="og:site_name" content={Globals.SITE_NAME} />
+        <meta
+          property="og:image"
+          content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageData.metadataPagetitle.value} />
+        <meta
+          name="twitter:description"
+          content={pageData.metadataMetadescription.value}
+        />
+        <meta
+          name="twitter:image"
+          content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
+        />
+        <meta
+          name="twitter:image:alt"
+          content={pageData.metadataPagetitle.value}
+        />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       {/* Banner Section */}
       <div className="banner-wrapper py-20 lg:pt-20 lg:pb-30 lg:mb-24 bg-primary relative">
         <div className="container mx-auto px-4">

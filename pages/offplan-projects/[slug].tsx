@@ -17,18 +17,69 @@ import { Floorplanitem } from "@/models/floorplanitem";
 import { IoCall } from "react-icons/io5";
 import Link from "next/link";
 import InquiryForm from "@/components/Form/InquiryForm";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 interface SlugModel {
   slug: string;
 }
 
 function DetailPage({ projectItem }: { projectItem: Projectitem }) {
+  const router = useRouter();
+  const UrlPath = `https://arosarealestate.com${router.asPath.split("?")[0]}`;
   if (!projectItem) {
     return <SpinnerComponent />;
   }
 
   return (
     <div className="project-detail-wrapper">
+      <Head>
+        <title>{projectItem.metadataPagetitle.value}</title>
+        <meta name="title" content={projectItem.metadataMetatitle.value} />
+        <meta
+          name="description"
+          content={projectItem.metadataMetadescription.value}
+        />
+        <link rel="canonical" href={UrlPath} />
+
+        <meta
+          property="og:title"
+          content={projectItem.metadataPagetitle.value}
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:description"
+          content={projectItem.metadataMetadescription.value}
+        />
+        <meta property="og:url" content={UrlPath} />
+        <meta property="og:site_name" content={Globals.SITE_NAME} />
+        <meta
+          property="og:image"
+          content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content={projectItem.metadataPagetitle.value}
+        />
+        <meta
+          name="twitter:description"
+          content={projectItem.metadataMetadescription.value}
+        />
+        <meta
+          name="twitter:image"
+          content="https://arosarealestate.com/assets/logos/ArosaLogo.png"
+        />
+        <meta
+          name="twitter:image:alt"
+          content={projectItem.metadataPagetitle.value}
+        />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <div className=" banner-wrapper h-[650px] relative gradient-1">
         <Image
           height={650}
@@ -416,18 +467,21 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                         </div>
                       </Link>
                     </div>
-
-                    <div className="py-10 flex flex-col items-center gap-3">
-                      <p className="font-medium text-center ">
-                        DLD Permit Number
-                      </p>
-                      <img
-                        className="w-[150px] object-contain"
-                        src={projectItem.dldpermitqrimage.value[0]?.url}
-                        alt={`DLD Permit Number ${projectItem.name.value}`}
-                      />
-                      <p>{projectItem.dldpermitnumber.value}</p>
-                    </div>
+                    {projectItem.dldpermitqrimage.value.length > 0 && (
+                      <div className="py-10 flex flex-col items-center gap-3">
+                        <p className="font-medium text-center ">
+                          DLD Permit Number
+                        </p>
+                        <Image
+                          width={150}
+                          height={150}
+                          className="w-[150px] object-contain"
+                          src={projectItem.dldpermitqrimage.value[0]?.url}
+                          alt={`DLD Permit Number ${projectItem.name.value}`}
+                        />
+                        <p>{projectItem.dldpermitnumber.value}</p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="lg:w-7/12 w-full">
@@ -455,9 +509,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       });
 
     const data: Array<Projectitem> = JSON.parse(datasourceStr);
-    const ids: string[] = data.map((item: Projectitem) =>
-      Helper.formatUrlParameter(item.name.value)
-    );
+    const ids: string[] = data.map((item: Projectitem) => item.name.value);
 
     const paths = ids.map((slug) => ({ params: { slug } }));
 
@@ -476,37 +528,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
-    const datasourceStr: string = await Globals.KontentClient.items()
-      .type("projectitem")
-      .withParameter("depth", "2")
-      .toObservable()
-      .toPromise()
-      .then((r: any) => {
-        return JSON.stringify(r.items);
-      });
-
-    const data: Array<Projectitem> = JSON.parse(datasourceStr);
     const { slug } = params as { slug: string };
-    const projectItem = data.find(
-      (item: Projectitem) => Helper.formatUrlParameter(item.name.value) === slug
-    );
+
+    const response = await Globals.KontentClient.items()
+      .type("projectitem")
+      .equalsFilter("system.name", slug)
+      .withParameter("depth", "2")
+      .toPromise();
+
+    if (!response.items.length) {
+      return { notFound: true };
+    }
 
     return {
       props: {
-        slug,
-        projectItem: projectItem || null,
+        projectItem: JSON.parse(JSON.stringify(response.items[0])),
       },
       revalidate: 60,
     };
   } catch (error) {
     console.error("Error fetching project data:", error);
-    return {
-      props: {
-        data: [],
-        slug: params?.slug || "",
-      },
-      revalidate: 60,
-    };
+    return { notFound: true };
   }
 };
 

@@ -4,6 +4,9 @@ import Globals from "@/modules/Globals";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { IoBedOutline } from "react-icons/io5";
+import { TbRulerMeasure } from "react-icons/tb";
+import Helper from "@/modules/Helper";
 
 export default function FeaturedProjects() {
   const [pageData, setPageData] = useState<Projectpage | null>(null);
@@ -33,7 +36,10 @@ export default function FeaturedProjects() {
           </h2>
 
           <div>
-            <Link className="bg-primary px-4 py-2 text-white" href="/offplan-projects">
+            <Link
+              className="bg-primary px-4 py-2 text-white rounded"
+              href="/offplan-projects"
+            >
               <span>Discover More</span>
             </Link>
           </div>
@@ -45,21 +51,46 @@ export default function FeaturedProjects() {
             .map((m: any, index: number) => {
               const item: Projectitem = m;
               return (
-                <div className=" lg:col-span-3 col-span-12">
-                  <div className="featured-project-item bg-white rounded-xl overflow-hidden">
-                    <Image
-                      width={270}
-                      height={175}
-                      className="object-cover w-full h-[175px] "
-                      src={item.image.value[0]?.url}
-                      alt={item.name.value}
-                    />
+                <div className="lg:col-span-3 col-span-12" key={`featured-project${index}`}>
+                  <Link
+                    href={`/offplan-projects/${Helper.formatUrlParameter(
+                      item.name.value
+                    )}`}
+                    className=""
+                  >
+                    <div className="featured-project-item bg-white rounded-xl overflow-hidden">
+                      <Image
+                        width={270}
+                        height={175}
+                        className="object-cover w-full h-[175px] "
+                        src={item.image.value[0]?.url}
+                        alt={item.name.value}
+                      />
 
-                    <div className="p-2">
-                      <h4 className="mb-3 font-medium">{item.name.value}</h4>
-                      <p>AED {item.price.value}</p>
+                      <div className="p-2">
+                        <h4 className="mb-2 font-medium">{item.name.value}</h4>
+
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="font-medium">
+                              AED {item.price.value}
+                            </p>
+                            <div className="flex gap-2 items-center text-sm text-tertiary">
+                              <TbRulerMeasure />
+                              {item.propertysize.value}
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 items-center">
+                            <IoBedOutline />
+                            {item.bedroom.value
+                              .map((bedroom: any) => bedroom.name)
+                              .join(", ")}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               );
             })}
