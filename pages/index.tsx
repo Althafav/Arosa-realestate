@@ -1,4 +1,6 @@
 import FeaturedProjects from "@/components/FeaturedProjects";
+import SelfContainedSearchFilter from "@/components/Filter/SelfContainedSearchFilter";
+import SearchFilter from "@/components/Filter/SelfContainedSearchFilter";
 import PartnersComponent from "@/components/PartnersComponent";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Cardblock } from "@/models/cardblock";
@@ -67,16 +69,16 @@ export default function Home({ pageData }: HomeProps) {
       </Head>
       <div className="home-page-wrapper ">
         {/* banner */}
-        <div className="banner-wrapper h-screen relative ">
+        <div className="banner-wrapper py-20  relative ">
           <Image
             width={800}
             height={600}
             src={pageData.bannerimage.value[0]?.url}
             alt=""
-            className="h-full w-full absolute -z-10"
+            className="inset-0 w-full h-full absolute -z-10"
           />
-          <div className="container mx-auto flex items-center justify-center h-full">
-            <div className="pb-20">
+          <div className="container mx-auto flex items-center justify-center h-full flex-col">
+            <div className="pb-10">
               <h1 className="lg:text-6xl text-3xl text-white font-bold text-center mb-3">
                 {pageData.bannerheading.value}
               </h1>
@@ -84,6 +86,7 @@ export default function Home({ pageData }: HomeProps) {
                 {pageData.bannersubheading.value}
               </h3>
             </div>
+            <SelfContainedSearchFilter />
           </div>
         </div>
 
@@ -127,7 +130,7 @@ export default function Home({ pageData }: HomeProps) {
                 </ul>
 
                 <div>
-                  <Link href="/about" >
+                  <Link href="/about">
                     <button className="flex items-center bg-primary text-white py-2 px-4 rounded-xl">
                       <span>Learn More</span>
                       <GoArrowUpRight color="white" />
