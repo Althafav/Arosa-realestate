@@ -260,25 +260,26 @@ export default function AboutPage() {
             }}
           />
 
-          <div className="process-items grid grid-cols-12 gap-5 py-10">
+          <div className="process-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-12">
             {pageData.processitems.value.map((m: any, index: number) => {
               const item: Cardblock = m;
               return (
-                <div className="lg:col-span-4 col-span-6" key={item.system.id}>
-                  <div className="h-full">
-                    <p className="text-lg font-semibold text-primary p-5">
-                      Step 0{index + 1}
-                    </p>
-                    <div className="p-5 bg-white rounded-xl ">
-                      <h4 className="text-xl text-primary mb-3 font-semibold">
+                <div key={item.system.id} className="h-full">
+                  <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
+                    <div className="px-6 pt-6 pb-2">
+                      <p className="text-sm uppercase text-primary font-bold tracking-wide mb-2">
+                        Step {index + 1 < 10 ? `0${index + 1}` : index + 1}
+                      </p>
+                      <h4 className="text-xl text-primary font-semibold mb-3">
                         {item.name.value}
                       </h4>
-                      <span
-                        className="text-tertiary"
-                        dangerouslySetInnerHTML={{
-                          __html: item.content.value,
-                        }}
+                      <div
+                        className="text-tertiary text-sm leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: item.content.value }}
                       />
+                    </div>
+                    <div className="mt-auto px-6 pb-6 pt-4">
+                      <div className="h-1 w-12 bg-primary rounded-full" />
                     </div>
                   </div>
                 </div>
