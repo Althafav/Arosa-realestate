@@ -257,7 +257,7 @@ export default function InquiryForm({ projectName }: { projectName: string }) {
     <div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 md:p-10 rounded-lg shadow-md"
+        className="bg-white p-6 md:p-10 rounded-lg lg:shadow-md"
       >
         <input type="hidden" name="projectName" value={`${projectName}`} />
         <div className="grid grid-cols-1  gap-6">

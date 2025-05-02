@@ -235,7 +235,7 @@ export default function Projects() {
               dangerouslySetInnerHTML={{ __html: pageData.bannercontent.value }}
             />
 
-            <div className="filter-section-wrapper mt-10  container mx-auto  lg:absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2">
+            <div className="filter-section-wrapper mt-10  lg:container mx-auto  lg:absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2">
               <div className="flex lg:flex-row flex-col-reverse items-center lg:gap-10 gap-5 lg:mx-20 bg-white p-5 rounded-t-2xl">
                 <div className="w-full">
                   <input

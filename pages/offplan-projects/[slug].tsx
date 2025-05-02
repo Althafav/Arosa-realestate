@@ -201,7 +201,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
 
           {/* Project Body */}
           <div className="project-body-wrapper py-10">
-            <div className="container mx-auto">
+            <div className="lg:container mx-auto">
               <div className=" ">
                 {/* Description */}
                 <div className="bg-white p-5 rounded-xl   mb-4 description-section">
