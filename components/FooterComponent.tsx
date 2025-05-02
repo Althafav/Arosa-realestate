@@ -27,8 +27,8 @@ export default function FooterComponent() {
   }
 
   return (
-    <div className="bg-primary py-10 footer-component-wrapper relative mt-40">
-      <div className="floating-card rounded-xl bg-white flex lg:flex-row flex-col gap-5 justify-between items-center p-10 w-full max-w-[1400px]   absolute lg:-top-20 -top-30 left-1/2 -translate-x-1/2 ">
+    <>
+      <div className="floating-card  bg-white flex lg:flex-row flex-col gap-5 justify-between items-center p-10 w-full   ">
         <div>
           <h4 className="lg:text-3xl text-2xl font-semibold text-primary mb-3">
             Need help? Talk to our expert.
@@ -54,57 +54,58 @@ export default function FooterComponent() {
           </button>
         </div>
       </div>
-      <div className="container mx-auto lg:px-20 mt-20">
-        <div className="flex lg:gap-20 gap-10 lg:flex-row flex-col">
-          <div className="lg:w-1/3 flex justify-between flex-col">
-            <div className="mb-5">
-              <Image
-                width={120}
-                height={120}
-                className="mb-5 object-contain"
-                src="/assets/logos/arosa-logo-white.png"
-                alt="Arosa Logo"
-              />
+      <div className="bg-primary py-10 footer-component-wrapper relative">
+        <div className="container mx-auto lg:px-20 mt-20">
+          <div className="flex lg:gap-20 gap-10 lg:flex-row flex-col">
+            <div className="lg:w-1/3 flex justify-between flex-col">
+              <div className="mb-5">
+                <Image
+                  width={120}
+                  height={120}
+                  className="mb-5 object-contain"
+                  src="/assets/logos/arosa-logo-white.png"
+                  alt="Arosa Logo"
+                />
+                <div>
+                  <p className="max-w-[250px] text-white font-light mb-1">
+                    {pageData.address.value}
+                  </p>
+                  <p className="text-white font-light mb-1">
+                    {pageData.phone1.value}
+                  </p>
+                  <p className="text-white font-light mb-1">
+                    {pageData.phone2.value}
+                  </p>
+                  <p className="text-white font-light mb-1">
+                    {pageData.email.value}
+                  </p>
+                </div>
+              </div>
+
               <div>
-                <p className="max-w-[250px] text-white font-light mb-1">
-                  {pageData.address.value}
+                <p className="font-semibold mb-3 text-white">
+                  Follow us on Social Media
                 </p>
-                <p className="text-white font-light mb-1">
-                  {pageData.phone1.value}
-                </p>
-                <p className="text-white font-light mb-1">
-                  {pageData.phone2.value}
-                </p>
-                <p className="text-white font-light mb-1">
-                  {pageData.email.value}
-                </p>
+
+                <div className="flex gap-5 items-center">
+                  <Link href={pageData.facebooklink.value} target="_blank">
+                    <FaFacebook className="text-white" size={20} />
+                  </Link>
+                  <Link href={pageData.xlink.value} target="_blank">
+                    <FaXTwitter className="text-white" size={20} />
+                  </Link>
+                  <Link href={pageData.instagramlink.value} target="_blank">
+                    <FaInstagram className="text-white" size={20} />
+                  </Link>
+                  <Link href={pageData.linkedinlink.value} target="_blank">
+                    <FaLinkedinIn className="text-white" size={20} />
+                  </Link>
+                </div>
               </div>
             </div>
 
-            <div>
-              <p className="font-semibold mb-3 text-white">
-                Follow us on Social Media
-              </p>
-
-              <div className="flex gap-5 items-center">
-                <Link href={pageData.facebooklink.value} target="_blank">
-                  <FaFacebook className="text-white" size={20} />
-                </Link>
-                <Link href={pageData.xlink.value} target="_blank">
-                  <FaXTwitter className="text-white" size={20} />
-                </Link>
-                <Link href={pageData.instagramlink.value} target="_blank">
-                  <FaInstagram className="text-white" size={20} />
-                </Link>
-                <Link href={pageData.linkedinlink.value} target="_blank">
-                  <FaLinkedinIn className="text-white" size={20} />
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:w-2/3">
-            {/* <div className="subscribe-form ">
+            <div className="lg:w-2/3">
+              {/* <div className="subscribe-form ">
               <p className="font-semibold mb-3 text-white">
                 Keep Yourself Up to Date
               </p>
@@ -124,8 +125,8 @@ export default function FooterComponent() {
                 </div>
               </form>
             </div> */}
-            <div className=" grid grid-cols-1 md:grid-cols-3 gap-8 text-left py-10">
-              {/* {footerLinks.map((section, index) => (
+              <div className=" grid grid-cols-1 md:grid-cols-3 gap-8 text-left py-10">
+                {/* {footerLinks.map((section, index) => (
                 <div key={index}>
                   <h3 className="font-semibold mb-3 text-white">
                     {section.title}
@@ -142,100 +143,95 @@ export default function FooterComponent() {
                   </ul>
                 </div>
               ))} */}
-              <div>
-                <h3 className="font-semibold mb-3 text-white">
-                  Popular Search
-                </h3>
                 <div>
-                  <ul className="space-y-2">
-                    {pageData.popularsearchitems.value.map(
-                      (m: any, index: number) => {
-                        const item: Menuitem = m;
-                        return (
-                          <li
-                            key={index}
-                            className="text-white font-light hover:underline cursor-pointer"
-                          >
-                            <Link href={item.link.value}>
-                              {item.name.value}
-                            </Link>
-                          </li>
-                        );
-                      }
-                    )}
-                  </ul>
+                  <h3 className="font-semibold mb-3 text-white">
+                    Popular Search
+                  </h3>
+                  <div>
+                    <ul className="space-y-2">
+                      {pageData.popularsearchitems.value.map(
+                        (m: any, index: number) => {
+                          const item: Menuitem = m;
+                          return (
+                            <li
+                              key={index}
+                              className="text-white font-light hover:underline cursor-pointer"
+                            >
+                              <Link href={item.link.value}>
+                                {item.name.value}
+                              </Link>
+                            </li>
+                          );
+                        }
+                      )}
+                    </ul>
+                  </div>
                 </div>
-              </div>
 
-
-              <div>
-                <h3 className="font-semibold mb-3 text-white">
-                  Quick Links
-                </h3>
                 <div>
-                  <ul className="space-y-2">
-                    {pageData.quicklinksitems.value.map(
-                      (m: any, index: number) => {
-                        const item: Menuitem = m;
-                        return (
-                          <li
-                            key={index}
-                            className="text-white font-light hover:underline cursor-pointer"
-                          >
-                            <Link href={item.link.value}>
-                              {item.name.value}
-                            </Link>
-                          </li>
-                        );
-                      }
-                    )}
-                  </ul>
+                  <h3 className="font-semibold mb-3 text-white">Quick Links</h3>
+                  <div>
+                    <ul className="space-y-2">
+                      {pageData.quicklinksitems.value.map(
+                        (m: any, index: number) => {
+                          const item: Menuitem = m;
+                          return (
+                            <li
+                              key={index}
+                              className="text-white font-light hover:underline cursor-pointer"
+                            >
+                              <Link href={item.link.value}>
+                                {item.name.value}
+                              </Link>
+                            </li>
+                          );
+                        }
+                      )}
+                    </ul>
+                  </div>
                 </div>
-              </div>
 
-
-              <div>
-                <h3 className="font-semibold mb-3 text-white">
-                  Discovery
-                </h3>
                 <div>
-                  <ul className="space-y-2">
-                    {pageData.discoveryitems.value.map(
-                      (m: any, index: number) => {
-                        const item: Menuitem = m;
-                        return (
-                          <li
-                            key={index}
-                            className="text-white font-light hover:underline cursor-pointer"
-                          >
-                            <Link href={item.link.value}>
-                              {item.name.value}
-                            </Link>
-                          </li>
-                        );
-                      }
-                    )}
-                  </ul>
+                  <h3 className="font-semibold mb-3 text-white">Discovery</h3>
+                  <div>
+                    <ul className="space-y-2">
+                      {pageData.discoveryitems.value.map(
+                        (m: any, index: number) => {
+                          const item: Menuitem = m;
+                          return (
+                            <li
+                              key={index}
+                              className="text-white font-light hover:underline cursor-pointer"
+                            >
+                              <Link href={item.link.value}>
+                                {item.name.value}
+                              </Link>
+                            </li>
+                          );
+                        }
+                      )}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="container mx-auto mt-20">
-        <hr className="border-white mb-5" />
-        <div className="flex lg:flex-row flex-col justify-between gap-3">
-          <p className="text-white">
-            © Arosa real estate – All rights reserved
-          </p>
+        <div className="container mx-auto mt-20">
+          <hr className="border-white mb-5" />
+          <div className="flex lg:flex-row flex-col justify-between gap-3">
+            <p className="text-white">
+              © Arosa real estate – All rights reserved
+            </p>
 
-          <div className="flex items-center gap-5 text-white">
-            <p>Privacy</p>
-            <p>Terms</p>
-            <p>Sitemap</p>
+            <div className="flex items-center gap-5 text-white">
+              <p>Privacy</p>
+              <p>Terms</p>
+              <p>Sitemap</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
