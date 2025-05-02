@@ -260,27 +260,30 @@ export default function AboutPage() {
             }}
           />
 
-          <div className="process-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-12">
+          <div className="process-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
             {pageData.processitems.value.map((m: any, index: number) => {
               const item: Cardblock = m;
               return (
                 <div key={item.system.id} className="h-full">
-                  <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
-                    <div className="px-6 pt-6 pb-2">
-                      <p className="text-sm uppercase text-primary font-bold tracking-wide mb-2">
-                        Step {index + 1 < 10 ? `0${index + 1}` : index + 1}
-                      </p>
-                      <h4 className="text-xl text-primary font-semibold mb-3">
+                  <div className="group relative bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 h-full ">
+                    {/* Step badge */}
+                    <div className="absolute -top-5 left-6 bg-gradient-to-r from-primary to-secondary text-white text-sm font-bold px-4 py-1 rounded-full shadow-md">
+                      Step {index + 1 < 10 ? `0${index + 1}` : index + 1}
+                    </div>
+
+                    {/* Card content */}
+                    <div className="pt-6">
+                      <h4 className="text-xl font-semibold text-primary mb-4 group-hover:text-secondary transition-colors duration-300">
                         {item.name.value}
                       </h4>
                       <div
-                        className="text-tertiary text-sm leading-relaxed"
+                        className="text-gray-600 text-sm leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: item.content.value }}
                       />
                     </div>
-                    <div className="mt-auto px-6 pb-6 pt-4">
-                      <div className="h-1 w-12 bg-primary rounded-full" />
-                    </div>
+
+                    {/* Decorative bar or accent */}
+                    <div className="mt-6 h-1 w-16 bg-gradient-to-r from-primary to-secondary rounded-full" />
                   </div>
                 </div>
               );
