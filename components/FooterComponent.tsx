@@ -7,6 +7,7 @@ import {
   FaLinkedinIn,
   FaTwitter,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { GoArrowUpRight } from "react-icons/go";
 import { HiOutlinePhone } from "react-icons/hi2";
 
@@ -101,7 +102,7 @@ Business Bay, Dubai, UAE`;
 
               <div className="flex gap-5 items-center">
                 <FaFacebook className="text-white" size={20} />
-                <FaTwitter className="text-white" size={20} />
+                <FaXTwitter  className="text-white" size={20} />
                 <FaInstagram className="text-white" size={20} />
                 <FaLinkedinIn className="text-white" size={20} />
               </div>

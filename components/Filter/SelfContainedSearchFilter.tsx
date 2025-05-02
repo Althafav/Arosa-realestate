@@ -139,16 +139,7 @@ const SelfContainedSearchFilter = () => {
     );
   }
 
-  if (isLoading) {
-    return (
-      <div className="bg-white p-6 rounded-lg shadow-md text-center">
-        <div className="animate-pulse flex flex-col space-y-4">
-          <div className="h-12 bg-gray-200 rounded"></div>
-          <div className="h-10 bg-gray-200 rounded"></div>
-        </div>
-      </div>
-    );
-  }
+  
 
   const handleKeyPress = (e: any) => {
     if (e.key === 'Enter') {
