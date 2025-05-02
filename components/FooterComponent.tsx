@@ -1,52 +1,30 @@
+import { Footer } from "@/models/footer";
+import Globals from "@/modules/Globals";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedinIn,
-  FaTwitter,
-} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaFacebook, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { GoArrowUpRight } from "react-icons/go";
 import { HiOutlinePhone } from "react-icons/hi2";
+import SpinnerComponent from "./UI/SpinnerComponent";
+import { Menuitem } from "@/models/menuitem";
 
 export default function FooterComponent() {
-  const address = `Office 703, Sobha Ivory 1 Building
-Business Bay, Dubai, UAE`;
-  const phone1 = `+971 56 991 6229 
-`;
-  const phone2 = `+971 58 589 3086
-`;
-  const email = `info@arosarealestate.com`;
+  const [pageData, setPageData] = useState<Footer | null>(null);
 
-  const footerLinks = [
-    {
-      title: "Popular Search",
-      links: [
-        "Apartment for Sale",
-        "Apartment for Rent",
-        "Offices for Sale",
-        "Offices for Rent",
-      ],
-    },
-    {
-      title: "Quick Links",
-      links: [
-        "Terms of Use",
-        "Privacy Policy",
-        "Pricing Plans",
-        "Our Services",
-        "Contact",
-        "Careers",
-        "FAQs",
-      ],
-    },
-    {
-      title: "Discovery",
-      links: ["Chicago", "Los Angeles", "New Jersey", "New York", "California"],
-    },
-  ];
+  useEffect(() => {
+    Globals.KontentClient.item("footer")
+      .withParameter("depth", "3")
+      .toObservable()
+      .subscribe((response: any) => {
+        setPageData(response.item);
+      });
+  }, []);
+
+  if (!pageData) {
+    return <></>;
+  }
 
   return (
     <div className="bg-primary py-10 footer-component-wrapper relative mt-40">
@@ -62,7 +40,10 @@ Business Bay, Dubai, UAE`;
         </div>
 
         <div className="flex items-center gap-5 lg:flex-row flex-col">
-          <Link href="/contact" className="flex  gap-2 items-center rounded border-2 font-semibold text-primary border-primary p-3 bg-white">
+          <Link
+            href="/contact"
+            className="flex  gap-2 items-center rounded border-2 font-semibold text-primary border-primary p-3 bg-white"
+          >
             <span>Contact Us</span>
             <GoArrowUpRight className="text-primary" size={20} />
           </Link>
@@ -80,18 +61,23 @@ Business Bay, Dubai, UAE`;
               <Image
                 width={120}
                 height={120}
-                
                 className="mb-5 object-contain"
                 src="/assets/logos/arosa-logo-white.png"
                 alt="Arosa Logo"
               />
               <div>
                 <p className="max-w-[250px] text-white font-light mb-1">
-                  {address}
+                  {pageData.address.value}
                 </p>
-                <p className="text-white font-light mb-1">{phone1}</p>
-                <p className="text-white font-light mb-1">{phone2}</p>
-                <p className="text-white font-light mb-1">{email}</p>
+                <p className="text-white font-light mb-1">
+                  {pageData.phone1.value}
+                </p>
+                <p className="text-white font-light mb-1">
+                  {pageData.phone2.value}
+                </p>
+                <p className="text-white font-light mb-1">
+                  {pageData.email.value}
+                </p>
               </div>
             </div>
 
@@ -101,10 +87,18 @@ Business Bay, Dubai, UAE`;
               </p>
 
               <div className="flex gap-5 items-center">
-                <FaFacebook className="text-white" size={20} />
-                <FaXTwitter  className="text-white" size={20} />
-                <FaInstagram className="text-white" size={20} />
-                <FaLinkedinIn className="text-white" size={20} />
+                <Link href={pageData.facebooklink.value} target="_blank">
+                  <FaFacebook className="text-white" size={20} />
+                </Link>
+                <Link href={pageData.xlink.value} target="_blank">
+                  <FaXTwitter className="text-white" size={20} />
+                </Link>
+                <Link href={pageData.instagramlink.value} target="_blank">
+                  <FaInstagram className="text-white" size={20} />
+                </Link>
+                <Link href={pageData.linkedinlink.value} target="_blank">
+                  <FaLinkedinIn className="text-white" size={20} />
+                </Link>
               </div>
             </div>
           </div>
@@ -131,7 +125,7 @@ Business Bay, Dubai, UAE`;
               </form>
             </div> */}
             <div className=" grid grid-cols-1 md:grid-cols-3 gap-8 text-left py-10">
-              {footerLinks.map((section, index) => (
+              {/* {footerLinks.map((section, index) => (
                 <div key={index}>
                   <h3 className="font-semibold mb-3 text-white">
                     {section.title}
@@ -147,7 +141,83 @@ Business Bay, Dubai, UAE`;
                     ))}
                   </ul>
                 </div>
-              ))}
+              ))} */}
+              <div>
+                <h3 className="font-semibold mb-3 text-white">
+                  Popular Search
+                </h3>
+                <div>
+                  <ul className="space-y-2">
+                    {pageData.popularsearchitems.value.map(
+                      (m: any, index: number) => {
+                        const item: Menuitem = m;
+                        return (
+                          <li
+                            key={index}
+                            className="text-white font-light hover:underline cursor-pointer"
+                          >
+                            <Link href={item.link.value}>
+                              {item.name.value}
+                            </Link>
+                          </li>
+                        );
+                      }
+                    )}
+                  </ul>
+                </div>
+              </div>
+
+
+              <div>
+                <h3 className="font-semibold mb-3 text-white">
+                  Quick Links
+                </h3>
+                <div>
+                  <ul className="space-y-2">
+                    {pageData.quicklinksitems.value.map(
+                      (m: any, index: number) => {
+                        const item: Menuitem = m;
+                        return (
+                          <li
+                            key={index}
+                            className="text-white font-light hover:underline cursor-pointer"
+                          >
+                            <Link href={item.link.value}>
+                              {item.name.value}
+                            </Link>
+                          </li>
+                        );
+                      }
+                    )}
+                  </ul>
+                </div>
+              </div>
+
+
+              <div>
+                <h3 className="font-semibold mb-3 text-white">
+                  Discovery
+                </h3>
+                <div>
+                  <ul className="space-y-2">
+                    {pageData.discoveryitems.value.map(
+                      (m: any, index: number) => {
+                        const item: Menuitem = m;
+                        return (
+                          <li
+                            key={index}
+                            className="text-white font-light hover:underline cursor-pointer"
+                          >
+                            <Link href={item.link.value}>
+                              {item.name.value}
+                            </Link>
+                          </li>
+                        );
+                      }
+                    )}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
