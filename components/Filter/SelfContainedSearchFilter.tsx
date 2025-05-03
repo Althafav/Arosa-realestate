@@ -63,7 +63,7 @@ const SelfContainedSearchFilter = () => {
         // Extract unique handover years
         const uniqueHandoverYears = Array.from(new Set(
           allProjects.flatMap((item) => item.handoveryr?.value?.map(year => year.name) || [])
-        ));
+        )).sort();
         setHandoverYears(uniqueHandoverYears);
 
         // Extract unique developers

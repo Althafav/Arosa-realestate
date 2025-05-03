@@ -55,16 +55,16 @@ export default function Projects() {
           const allProjects: Projectitem[] = response.item.projectitems.value;
           setProjects(allProjects);
 
-          const allLocations = allProjects.flatMap(
-            (item: any) => item.location.value[0].name
-          );
-          setLocations(allLocations);
+          const uniqueLocations = Array.from(new Set(
+            allProjects.flatMap((item) => item.location?.value?.map(loc => loc.name) || [])
+          ));
+          setLocations(uniqueLocations);
 
-          const allTypes = allProjects.flatMap(
-            (item: any) => item.propertytype.value[0].name
-          );
+          const uniquePropertyTypes = Array.from(new Set(
+            allProjects.flatMap((item) => item.propertytype?.value?.map(type => type.name) || [])
+          ));
 
-          setPropertyTypes(allTypes);
+          setPropertyTypes(uniquePropertyTypes);
 
           const allBedroom = Array.from(
             new Set(
@@ -77,11 +77,11 @@ export default function Projects() {
 
           setBedroom(allBedroom);
 
-          const allHandover = allProjects.flatMap(
-            (item: any) => item.handoveryr.value[0].name
-          );
+          const uniqueHandoverYears = Array.from(new Set(
+            allProjects.flatMap((item) => item.handoveryr?.value?.map(year => year.name) || [])
+          )).sort();
 
-          setHandover(allHandover);
+          setHandover(uniqueHandoverYears);
         },
         error: (error: any) => {
           console.error("Error fetching project page data:", error);
