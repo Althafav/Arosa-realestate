@@ -130,7 +130,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                     {projectItem.developer.value[0]?.name}
                   </p>
                   <div className="flex items-center gap-1">
-                    <MdLocationPin className="font-bold text-black" />
+                    <MdLocationPin className="font-bold text-primary" />
                     <span className="text-black font-light">
                       {projectItem.location.value[0].name}
                     </span>
@@ -141,7 +141,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div className="">
                 <p className="text-tertiary font-medium text-sm">Price</p>
                 <p className="text-primary font-semibold text-xl">
-                  {projectItem.price.value}
+                 AED {projectItem.price.value}
                 </p>
               </div>
             </div>
@@ -291,24 +291,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                   </div>
 
                   <div className="lg:px-10 px-5 w-full  lg:w-1/2">
-                    {projectItem.nearestlandmark.value.map(
-                      (m: any, index: number) => {
-                        const item: Landmarkitem = m;
-                        return (
-                          <div key={index} className="mb-5 last:mb-0 ">
-                            <div className="flex justify-between gap-2">
-                              <div className="flex items-center gap-2">
-                                <MdLocationPin className="text-primary" />
-                                <span className="max-w-[200px] lg:max-w-[400px]">
-                                  {item.name.value}
-                                </span>
-                              </div>
-                              <p>{item.distance.value}</p>
-                            </div>
-                          </div>
-                        );
-                      }
-                    )}
+                    <span className="content-wrapper" dangerouslySetInnerHTML={{__html: projectItem.nearestlandmark.value}}/>
                   </div>
                 </div>
               </div>
@@ -509,7 +492,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       });
 
     const data: Array<Projectitem> = JSON.parse(datasourceStr);
-    const ids: string[] = data.map((item: Projectitem) => item.name.value);
+    const ids: string[] = data.map((item: Projectitem) => item.slug.value);
 
     const paths = ids.map((slug) => ({ params: { slug } }));
 
@@ -530,10 +513,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const { slug } = params as { slug: string };
 
+    console.log(slug, "slug");
+
     const response = await Globals.KontentClient.items()
       .type("projectitem")
-      .equalsFilter("system.name", slug)
-      .withParameter("depth", "2")
+      .equalsFilter("elements.slug", slug)
+      .withParameter("depth", "4")
       .toPromise();
 
     if (!response.items.length) {

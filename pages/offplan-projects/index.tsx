@@ -400,7 +400,7 @@ export default function Projects() {
                     className="lg:col-span-4 col-span-12 sm:col-span-6"
                     key={`offplan-projects-${index}`}
                   >
-                    <Link href={`/offplan-projects/${item.name.value}`}>
+                    <Link href={`/offplan-projects/${item.slug.value}`}>
                       <div
                         className="project-card bg-white p-5 rounded-2xl h-full flex flex-col justify-between"
                         style={{ background: "white" }}
