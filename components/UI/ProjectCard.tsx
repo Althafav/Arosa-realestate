@@ -15,7 +15,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const handoverYear = project.handoveryr.value[0]?.name || "N/A";
 
   return (
-    <Link href={`offplan-projects/${project.name.value}`}>
+    <Link href={`offplan-projects/${project.slug.value}`}>
       <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
         <div className="relative h-48">
           <Image
