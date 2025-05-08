@@ -56,7 +56,7 @@ export default function FeaturedProjects() {
                   key={`featured-project${index}`}
                 >
                   <Link
-                    href={`/offplan-projects/${item.name.value}`}
+                    href={`/offplan-projects/${item.slug.value}`}
                     className=""
                   >
                     <div className="featured-project-item bg-white rounded-xl overflow-hidden">

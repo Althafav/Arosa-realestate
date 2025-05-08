@@ -423,13 +423,13 @@ export default function Projects() {
                                 <div className="flex items-center gap-2">
                                   <MdLocationPin color="gray" />{" "}
                                   <span className="font-light text-tertiary">
-                                    {item.location.value[0].name}
+                                    {item.location.value[0]?.name}
                                   </span>
                                 </div>
                               </div>
 
                               <p className="font-light text-tertiary text-sm max-w-[100px]">
-                                {item.developer.value[0].name}
+                                {item.developer.value[0]?.name}
                               </p>
                             </div>
 
@@ -469,9 +469,9 @@ export default function Projects() {
                                 <p>Completion</p>
                                 <p className="text-primary text-xl font-bold">
                                   <span className="mx-2">
-                                    {item.handoverqr.value[0].name}
+                                    {item.handoverqr.value[0]?.name}
                                   </span>
-                                  {item.handoveryr.value[0].name}
+                                  {item.handoveryr.value[0]?.name}
                                 </p>
                               </div>
                             </div>
