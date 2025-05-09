@@ -131,7 +131,7 @@ export default function Projects() {
         project.location.value[0]?.name === filters.location;
       const typeMatch =
         !filters.propertyType ||
-        project.propertytype.value[0].name === filters.propertyType;
+        project.propertytype.value[0]?.name === filters.propertyType;
 
       const priceMatch =
         (selectedRange.min === 0 && selectedRange.max === 0) ||
@@ -145,7 +145,7 @@ export default function Projects() {
 
       const handoverMatch =
         !filters.handOver ||
-        project.handoveryr.value[0].name === filters.handOver;
+        project.handoveryr.value[0]?.name === filters.handOver;
 
       const searchMatch =
         !filters.searchQuery ||
