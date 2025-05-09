@@ -128,7 +128,7 @@ export default function Projects() {
 
       const locationMatch =
         !filters.location ||
-        project.location.value[0].name === filters.location;
+        project.location.value[0]?.name === filters.location;
       const typeMatch =
         !filters.propertyType ||
         project.propertytype.value[0].name === filters.propertyType;
@@ -156,8 +156,8 @@ export default function Projects() {
           project.description.value
             .toLowerCase()
             .includes(filters.searchQuery.toLowerCase())) ||
-        (project.location.value[0].name &&
-          project.location.value[0].name
+        (project.location.value[0]?.name &&
+          project.location.value[0]?.name
             .toLowerCase()
             .includes(filters.searchQuery.toLowerCase()));
 
