@@ -101,7 +101,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div className="border border-white flex items-center gap-1 p-2 rounded-md">
                 <MdLocationPin color="white" className="font-bold" />{" "}
                 <span className="text-white font-light">
-                  {projectItem.location.value[0].name}
+                  {projectItem.location.value[0]?.name}
                 </span>
               </div>
 
@@ -132,7 +132,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                   <div className="flex items-center gap-1">
                     <MdLocationPin className="font-bold text-primary" />
                     <span className="text-black font-light">
-                      {projectItem.location.value[0].name}
+                      {projectItem.location.value[0]?.name}
                     </span>
                   </div>
                 </div>
@@ -150,7 +150,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div>
                 <div className="flex justify-between">
                   <p>Property Type</p>
-                  <p>{projectItem.propertytype.value[0].name}</p>
+                  <p>{projectItem.propertytype.value[0]?.name}</p>
                 </div>
                 <hr className="my-3 border-tertiary" />
                 <div className="flex justify-between">
@@ -274,7 +274,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div className="bg-white p-5 mb-5 rounded-xl">
                 <h5 className="text-xl font-semibold text-primary mb-10 flex items-center gap-2">
                   <MdLocationPin className="text-primary" />{" "}
-                  {projectItem.location.value[0].name}
+                  {projectItem.location.value[0]?.name}
                 </h5>
                 <div className="flex lg:flex-row flex-col">
                   <div className="lg:w-1/2 h-[400px] mb-5 rounded-xl overflow-hidden">
