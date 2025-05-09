@@ -55,14 +55,23 @@ export default function Projects() {
           const allProjects: Projectitem[] = response.item.projectitems.value;
           setProjects(allProjects);
 
-          const uniqueLocations = Array.from(new Set(
-            allProjects.flatMap((item) => item.location?.value?.map(loc => loc.name) || [])
-          ));
+          const uniqueLocations = Array.from(
+            new Set(
+              allProjects.flatMap(
+                (item) => item.location?.value?.map((loc) => loc.name) || []
+              )
+            )
+          );
           setLocations(uniqueLocations);
 
-          const uniquePropertyTypes = Array.from(new Set(
-            allProjects.flatMap((item) => item.propertytype?.value?.map(type => type.name) || [])
-          ));
+          const uniquePropertyTypes = Array.from(
+            new Set(
+              allProjects.flatMap(
+                (item) =>
+                  item.propertytype?.value?.map((type) => type.name) || []
+              )
+            )
+          );
 
           setPropertyTypes(uniquePropertyTypes);
 
@@ -77,9 +86,13 @@ export default function Projects() {
 
           setBedroom(allBedroom);
 
-          const uniqueHandoverYears = Array.from(new Set(
-            allProjects.flatMap((item) => item.handoveryr?.value?.map(year => year.name) || [])
-          )).sort();
+          const uniqueHandoverYears = Array.from(
+            new Set(
+              allProjects.flatMap(
+                (item) => item.handoveryr?.value?.map((year) => year.name) || []
+              )
+            )
+          ).sort();
 
           setHandover(uniqueHandoverYears);
         },
@@ -458,9 +471,12 @@ export default function Projects() {
                             <div className="flex justify-between">
                               <div className="">
                                 <p>Starting Price</p>
-                                <p className="text-primary text-xl font-bold">
-                                  AED{item.price.value}
-                                </p>
+                                <div className="flex items-center gap-2">
+                                  <span>AED</span>
+                                  <p className="text-primary text-xl font-bold">
+                                    {item.price.value}
+                                  </p>
+                                </div>
                               </div>
 
                               <hr className="h-14 w-[1px] bg-gray-400" />
