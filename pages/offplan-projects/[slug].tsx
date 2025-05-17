@@ -19,6 +19,7 @@ import Link from "next/link";
 import InquiryForm from "@/components/Form/InquiryForm";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { formatAEDPrice } from "@/utils/formatPrice";
 
 interface SlugModel {
   slug: string;
@@ -132,7 +133,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                   <div className="flex items-center gap-1">
                     <MdLocationPin className="font-bold text-primary" />
                     <span className="text-black font-light">
-                      {projectItem.location.value[0]?.name}
+                      {projectItem.location.value[0]?.name || "N/A"}
                     </span>
                   </div>
                 </div>
@@ -141,7 +142,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div className="">
                 <p className="text-tertiary font-medium text-sm">Price</p>
                 <p className="text-primary font-semibold text-xl">
-                 AED {projectItem.price.value}
+                  AED {formatAEDPrice(projectItem.price.value)}
                 </p>
               </div>
             </div>
@@ -150,12 +151,12 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div>
                 <div className="flex justify-between">
                   <p>Property Type</p>
-                  <p>{projectItem.propertytype.value[0]?.name}</p>
+                  <p>{projectItem.propertytype.value[0]?.name || "N/A"}</p>
                 </div>
                 <hr className="my-3 border-tertiary" />
                 <div className="flex justify-between">
                   <p>Down Payment</p>
-                  <p>{projectItem.downpayment.value}</p>
+                  <p>{projectItem.downpayment.value || "N/A"}</p>
                 </div>
 
                 <hr className="my-3 border-tertiary" />
@@ -173,7 +174,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                 <hr className="my-3 border-tertiary" />
                 <div className="flex justify-between">
                   <p>Payment Plan</p>
-                  <p>{projectItem.paymentplantype.value}</p>
+                  <p>{projectItem.paymentplantype.value || "N/A"}</p>
                 </div>
 
                 <hr className="my-3 border-tertiary" />
@@ -218,37 +219,14 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                   <hr className="border-tertiary border-b-2 mt-5 mb-5" />
                 </div>
 
-                {/* Features */}
+                {/* Facilities replacing to features */}
                 <div className="bg-white p-5  rounded-xl mb-4">
                   <h5 className="text-xl font-semibold text-primary mb-10">
                     {projectItem.featuresheading.value}
                   </h5>
 
-                  {projectItem.featureitems.value
-                    .split("|")
-                    .map((item: any, index: number) => {
-                      return (
-                        <div
-                          key={index}
-                          className="bg-primary rounded-xl text-white mb-1 p-5"
-                        >
-                          <div className="flex gap-2 items-center">
-                            <HiLightningBolt />
-                            <span>{item}</span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div>
-
-                {/* Facilities */}
-                <div className="bg-white p-5  rounded-xl mb-4">
-                  <h5 className="text-xl font-semibold text-primary mb-10">
-                    {projectItem.facilitiesheading.value}
-                  </h5>
-
                   <div className="grid lg:grid-cols-4 gap-5">
-                    {projectItem.facilitiesitems.value
+                    {projectItem.featureitems.value
                       .split("|")
                       .map((m: any, index: number, array: any[]) => {
                         const isLastInRow =
@@ -272,26 +250,18 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
 
               {/* Location & Map */}
               <div className="bg-white p-5 mb-5 rounded-xl">
-                <h5 className="text-xl font-semibold text-primary mb-10 flex items-center gap-2">
+                <h5 className="text-xl font-semibold text-primary mb-5 flex items-center gap-2">
                   <MdLocationPin className="text-primary" />{" "}
                   {projectItem.location.value[0]?.name}
                 </h5>
-                <div className="flex lg:flex-row flex-col">
-                  <div className="lg:w-1/2 h-[400px] mb-5 rounded-xl overflow-hidden">
-                    <iframe
-                      title="Project Location Map"
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      loading="lazy"
-                      allowFullScreen
-                      referrerPolicy="no-referrer-when-downgrade"
-                      src={projectItem.locationembedlink.value}
-                    ></iframe>
-                  </div>
-
-                  <div className="lg:px-10 px-5 w-full  lg:w-1/2">
-                    <span className="content-wrapper" dangerouslySetInnerHTML={{__html: projectItem.nearestlandmark.value}}/>
+                <div className="flex lg:flex-row flex-col lg:max-w-5xl">
+                  <div className=" w-full">
+                    <span
+                      className="content-wrapper"
+                      dangerouslySetInnerHTML={{
+                        __html: projectItem.nearestlandmark.value,
+                      }}
+                    />
                   </div>
                 </div>
               </div>

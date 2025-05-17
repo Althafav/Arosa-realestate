@@ -15,6 +15,7 @@ import { FaBed, FaRegCalendar, FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
 import { LuImageUpscale } from "react-icons/lu";
 import Head from "next/head";
+import { formatAEDPrice } from "@/utils/formatPrice";
 
 const priceRanges = [
   { label: "Any Price", min: 0, max: 0 },
@@ -32,13 +33,14 @@ export default function Projects() {
   const [pageData, setPageData] = useState<Projectpage | null>(null);
   const [projects, setProjects] = useState<Projectitem[]>([]);
   const [locations, setLocations] = useState<string[]>([]);
-
+  const [developers, setDevelopers] = useState<string[]>([]);
   const [propertyTypes, setPropertyTypes] = useState<string[]>([]);
   const [bedroom, setBedroom] = useState<string[]>([]);
   const [handover, setHandover] = useState<string[]>([]);
   const [filters, setFilters] = useState({
     searchQuery: "",
     location: "",
+    developers: "",
     propertyType: "",
     priceRange: 0,
     bedroom: "",
@@ -63,6 +65,16 @@ export default function Projects() {
             )
           );
           setLocations(uniqueLocations);
+
+          const uniqueDevelopers = Array.from(
+            new Set(
+              allProjects.flatMap(
+                (item) => item.developer?.value?.map((type) => type.name) || []
+              )
+            )
+          );
+
+          setDevelopers(uniqueDevelopers);
 
           const uniquePropertyTypes = Array.from(
             new Set(
@@ -129,6 +141,12 @@ export default function Projects() {
       const locationMatch =
         !filters.location ||
         project.location.value[0]?.name === filters.location;
+
+      const developerMatch =
+        !filters.developers ||
+        project.developer.value[0]?.name === filters.developers;
+
+
       const typeMatch =
         !filters.propertyType ||
         project.propertytype.value[0]?.name === filters.propertyType;
@@ -163,6 +181,7 @@ export default function Projects() {
 
       return (
         locationMatch &&
+        developerMatch && 
         typeMatch &&
         priceMatch &&
         searchMatch &&
@@ -289,6 +308,31 @@ export default function Projects() {
                   >
                     <option value="">All Location</option>
                     {locations.map((location: any, index: number) => (
+                      <option key={index} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </select>
+                </button>
+
+                <button className="dropDown-item text-white px-3 py-2 rounded-xl bg-primary flex flex-1  items-center justify-between">
+                  <FaHouseChimneyWindow />
+                  <select
+                    className="dropDown-item w-full cursor-pointer appearance-none focus:ring-0 focus:outline-none text-white p-3 rounded-xl bg-primary flex-1 "
+                    value={filters.developers}
+                    onChange={(e) =>
+                      handleFilterChange("developers", e.target.value)
+                    }
+                    style={{
+                      backgroundImage: `url('/assets/icons/dropdown-icon-arosa.svg')`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 10px center",
+                      backgroundSize: "24px",
+                      paddingRight: "60px",
+                    }}
+                  >
+                    <option value="">Developers</option>
+                    {developers.map((location: any, index: number) => (
                       <option key={index} value={location}>
                         {location}
                       </option>
@@ -472,9 +516,8 @@ export default function Projects() {
                               <div className="">
                                 <p>Starting Price</p>
                                 <div className="flex items-center gap-2">
-                                  <span>AED</span>
                                   <p className="text-primary text-xl font-bold">
-                                    {item.price.value}
+                                    {formatAEDPrice(item.price.value)}
                                   </p>
                                 </div>
                               </div>

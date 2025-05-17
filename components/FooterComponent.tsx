@@ -28,34 +28,38 @@ export default function FooterComponent() {
 
   return (
     <>
-      <div className="floating-card  bg-white flex lg:flex-row flex-col gap-5 justify-between items-center p-10 w-full   ">
-        <div>
-          <h4 className="lg:text-3xl text-2xl font-semibold text-primary mb-3">
-            Need help? Talk to our expert.
-          </h4>
+      <div className="floating-card  bg-white    ">
+        <div className="container mx-auto">
+          <div className="flex lg:flex-row flex-col gap-5 justify-between items-center py-10 w-full">
+            <div>
+              <h4 className="lg:text-3xl text-2xl font-semibold text-primary mb-3">
+                Need help? Talk to our expert.
+              </h4>
 
-          <p className="font-semibold text-primary text-sm">
-            Talk to our experts or Browse through more properties.
-          </p>
-        </div>
+              <p className="font-semibold text-primary text-sm">
+                Talk to our experts or Browse through more properties.
+              </p>
+            </div>
 
-        <div className="flex items-center gap-5 lg:flex-row flex-col">
-          <Link
-            href="/contact"
-            className="flex  gap-2 items-center rounded border-2 font-semibold text-primary border-primary p-3 bg-white"
-          >
-            <span>Contact Us</span>
-            <GoArrowUpRight className="text-primary" size={20} />
-          </Link>
+            <div className="flex items-center gap-5 lg:flex-row flex-col">
+              <Link
+                href="/contact"
+                className="flex  gap-2 items-center rounded border-2 font-semibold text-primary border-primary p-3 bg-white"
+              >
+                <span>Contact Us</span>
+                <GoArrowUpRight className="text-primary" size={20} />
+              </Link>
 
-          <button className="flex gap-2 items-center rounded border-2 font-semibold text-white border-primary p-3 bg-primary">
-            <HiOutlinePhone className="text-white" size={20} />
-            <span>+971 56 991 6229</span>
-          </button>
+              <button className="flex gap-2 items-center rounded border-2 font-semibold text-white border-primary p-3 bg-primary">
+                <HiOutlinePhone className="text-white" size={20} />
+                <span>+971 56 991 6229</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div className="bg-primary py-10 footer-component-wrapper relative">
-        <div className="container mx-auto lg:px-20 mt-20">
+        <div className="container mx-auto lg:px-20 ">
           <div className="flex lg:gap-20 gap-10 lg:flex-row flex-col">
             <div className="lg:w-1/3 flex justify-between flex-col">
               <div className="mb-5">

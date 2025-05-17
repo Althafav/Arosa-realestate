@@ -1,4 +1,5 @@
 import { Projectitem } from "@/models/projectitem";
+import { formatAEDPrice } from "@/utils/formatPrice";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,12 +8,15 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const primaryImage = project.image.value[0]?.url || "/assets/imgs/default-property.png";
+  const primaryImage =
+    project.image.value[0]?.url || "/assets/imgs/default-property.png";
   const location = project.location.value[0]?.name || "Location not specified";
   const price = project.price.value || "Price upon request";
   const bedrooms =
     project.bedroom?.value?.map((b) => b.name).join(", ") || "N/A";
   const handoverYear = project.handoveryr.value[0]?.name || "N/A";
+
+  const displayPrice = formatAEDPrice(project.price.value);
 
   return (
     <Link href={`offplan-projects/${project.slug.value}`}>
@@ -45,7 +49,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             {location}
           </p>
           <div className="flex justify-between items-center mt-3">
-            <span className="text-primary font-bold">AED {price}</span>
+            <span className="text-primary font-bold">
+              {" "}
+              {displayPrice}
+            </span>
             <span className="text-sm text-gray-500">{handoverYear}</span>
           </div>
           <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between">

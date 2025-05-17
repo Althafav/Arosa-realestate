@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { IoBedOutline } from "react-icons/io5";
 import { TbRulerMeasure } from "react-icons/tb";
 import Helper from "@/modules/Helper";
+import { formatAEDPrice } from "@/utils/formatPrice";
 
 export default function FeaturedProjects() {
   const [pageData, setPageData] = useState<Projectpage | null>(null);
@@ -74,7 +75,7 @@ export default function FeaturedProjects() {
                         <div className="flex justify-between items-start">
                           <div>
                             <p className="font-medium">
-                              AED {item.price.value}
+                              {formatAEDPrice(item.price.value)}
                             </p>
                             <div className="flex gap-2 items-center text-sm text-tertiary">
                               <TbRulerMeasure />
