@@ -15,11 +15,11 @@ import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
 
-type HomeProps = {
+type PageProps = {
   pageData: Homepage | null;
 };
 
-export default function Home({ pageData }: HomeProps) {
+export default function Page({ pageData }: PageProps) {
   if (!pageData) {
     return <SpinnerComponent />;
   }

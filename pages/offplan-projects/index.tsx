@@ -16,6 +16,7 @@ import Image from "next/image";
 import { LuImageUpscale } from "react-icons/lu";
 import Head from "next/head";
 import { formatAEDPrice } from "@/utils/formatPrice";
+import Pagination from "@/components/UI/Pagination";
 
 const priceRanges = [
   { label: "Any Price", min: 0, max: 0 },
@@ -46,6 +47,9 @@ export default function Projects() {
     bedroom: "",
     handOver: "",
   });
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; // adjust as needed
 
   useEffect(() => {
     const pageSubscription = Globals.KontentClient.item("project_page")
@@ -146,7 +150,6 @@ export default function Projects() {
         !filters.developers ||
         project.developer.value[0]?.name === filters.developers;
 
-
       const typeMatch =
         !filters.propertyType ||
         project.propertytype.value[0]?.name === filters.propertyType;
@@ -181,7 +184,7 @@ export default function Projects() {
 
       return (
         locationMatch &&
-        developerMatch && 
+        developerMatch &&
         typeMatch &&
         priceMatch &&
         searchMatch &&
@@ -191,9 +194,13 @@ export default function Projects() {
     });
   }, [filters, projects]);
 
-  if (!pageData) {
-    return <SpinnerComponent />;
-  }
+  // reset to first page if filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredProjects]);
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const currentProjects = filteredProjects.slice(start, start + itemsPerPage);
 
   const handlePriceRangeChange = (index: number) => {
     setFilters((prev) => ({
@@ -208,6 +215,10 @@ export default function Projects() {
       searchQuery: e.target.value,
     }));
   };
+
+  if (!pageData) {
+    return <SpinnerComponent />;
+  }
 
   return (
     <>
@@ -356,7 +367,7 @@ export default function Projects() {
                       paddingRight: "60px",
                     }}
                   >
-                    <option value="">Property Types</option>
+                    <option value="">Types</option>
                     {propertyTypes.map((location: any, index: number) => (
                       <option key={index} value={location}>
                         {location}
@@ -450,7 +461,7 @@ export default function Projects() {
             </h2>
 
             <div className="grid grid-cols-12 projects-card-wrapper py-10 gap-5">
-              {filteredProjects.map((m: any, index: number) => {
+              {currentProjects.map((m: any, index: number) => {
                 const item: Projectitem = m;
                 return (
                   <div
@@ -577,6 +588,13 @@ export default function Projects() {
               })}
             </div>
           </div>
+
+          <Pagination
+            totalItems={filteredProjects.length}
+            itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
         </div>
       </div>
     </>
