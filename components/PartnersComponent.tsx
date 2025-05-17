@@ -40,8 +40,8 @@ export default function PartnersComponent({ pageData }: Props) {
               <SwiperSlide className="flex justify-center" key={item.system.id}>
                 <div className="flex justify-center">
                   <Image
-                  width={150}
-                  height={150}
+                    width={150}
+                    height={150}
                     src={item.image.value[0]?.url}
                     alt={item.name.value}
                     className="w-[120px] h-[120px] object-contain "

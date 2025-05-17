@@ -1,3 +1,4 @@
+import TeamCard from "@/components/Team/TeamCard";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Aboutpage } from "@/models/aboutpage";
 import { Cardblock } from "@/models/cardblock";
@@ -353,51 +354,7 @@ export default function AboutPage() {
 
       {/* Arosa Team */}
 
-      <div className="team-members-wrapper py-10">
-        <div className="container mx-auto">
-          <h2 className="text-primary mb-5 lg:text-4xl text-3xl font-semibold">
-            {pageData.teamheading.value}
-          </h2>
-          <span
-            className="text-tertiary"
-            dangerouslySetInnerHTML={{
-              __html: pageData.teamcontent.value,
-            }}
-          />
-
-          <div className="grid grid-cols-12 py-10">
-            {pageData.teamitems.value.map((m: any, index: number) => {
-              const item: Teamitem = m;
-              return (
-                <div key={item.system.id} className="lg:col-span-3 col-span-6">
-                  <div className="bg-white h-full rounded-xl flex justify-center p-5 ">
-                    <div>
-                      <div className="relative">
-                        <Image
-                          width={350}
-                          height={250}
-                          src={item.image.value[0]?.url}
-                          alt={item.name.value}
-                          className="object-contain mb-5 h-[250px]"
-                        />
-                        <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-primary px-5 py-3 w-fit rounded-3xl ">
-                          <FaLinkedin size={28} className="text-white " />
-                        </div>
-                      </div>
-                      <p className="mb-1 text-primary text-xl">
-                        {item.name.value}
-                      </p>
-                      <p className="text-tertiary text-lg">
-                        {item.designation.value}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+     
     </div>
   );
 }
