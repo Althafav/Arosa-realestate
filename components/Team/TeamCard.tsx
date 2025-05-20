@@ -9,23 +9,23 @@ interface TeamCardProps {
 
 const TeamCard: React.FC<TeamCardProps> = ({ item }) => {
   return (
-    <div key={item.system.id} className="">
-      <div className="bg-white h-full rounded-xl flex justify-center p-5 ">
+    <div key={item.system.id} className="bg-white card p-5 h-full w-full rounded-xl">
+      <div className=" ">
         <div>
           <div className="relative">
-            <Image
-              width={350}
-              height={250}
+            <img
               src={item.image.value[0]?.url}
               alt={item.name.value}
-              className="object-contain mb-5 h-[250px]"
+              className="object-cover rounded-t-2xl object-top mb-10 h-[250px] w-full"
             />
             <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-primary px-5 py-3 w-fit rounded-3xl ">
               <FaLinkedin size={28} className="text-white " />
             </div>
           </div>
-          <p className="mb-1 text-primary text-xl">{item.name.value}</p>
-          <p className="text-tertiary text-lg">{item.designation.value}</p>
+          <div className="">
+            <p className="mb-1 text-primary text-xl">{item.name.value}</p>
+            <p className="text-tertiary text-lg">{item.designation.value}</p>
+          </div>
         </div>
       </div>
     </div>

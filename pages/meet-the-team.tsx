@@ -24,7 +24,10 @@ export default function Page({ pageData }: PageProps) {
           name="description"
           content={pageData.metadataMetadescription.value}
         />
-        <link rel="canonical" href="https://arosarealestate.com/meet-the-team" />
+        <link
+          rel="canonical"
+          href="https://arosarealestate.com/meet-the-team"
+        />
 
         <meta property="og:title" content={pageData.metadataPagetitle.value} />
         <meta property="og:type" content="website" />
@@ -32,7 +35,10 @@ export default function Page({ pageData }: PageProps) {
           property="og:description"
           content={pageData.metadataMetadescription.value}
         />
-        <meta property="og:url" content="https://arosarealestate.com/meet-the-team" />
+        <meta
+          property="og:url"
+          content="https://arosarealestate.com/meet-the-team"
+        />
         <meta property="og:site_name" content={Globals.SITE_NAME} />
         <meta
           property="og:image"
@@ -83,15 +89,10 @@ export default function Page({ pageData }: PageProps) {
                 <h2 className="text-primary mb-5 text-center lg:text-3xl text-2xl font-semibold tracking-wide">
                   Management Team
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                   {pageData.managementteamitems.value.map(
                     (m: any, i: number) => (
-                      <div
-                        key={i}
-                        className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-6 flex flex-col items-center text-center"
-                      >
-                        <TeamCard item={m} />
-                      </div>
+                      <TeamCard item={m} key={i} />
                     )
                   )}
                 </div>

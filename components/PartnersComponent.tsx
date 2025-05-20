@@ -11,12 +11,13 @@ import Image from "next/image";
 
 interface Props {
   pageData: Partneritem[];
+  type: string;
 }
 
-export default function PartnersComponent({ pageData }: Props) {
+export default function PartnersComponent({ pageData, type }: Props) {
   return (
     <div className="partners-wrapper py-10">
-      <div className="container mx-auto">
+      <div className="container mx-auto d-flex justify-center">
         <Swiper
           slidesPerView={2}
           spaceBetween={20}
@@ -30,9 +31,9 @@ export default function PartnersComponent({ pageData }: Props) {
             480: { slidesPerView: 2.5 },
             640: { slidesPerView: 3.5 },
             768: { slidesPerView: 4 },
-            1024: { slidesPerView: 4 },
+            1024: { slidesPerView: type === "partner" ? 4 : 5 },
           }}
-          className="mySwiper"
+          className="mySwiper "
         >
           {pageData.map((m: any, index: number) => {
             const item: Partneritem = m;
@@ -44,7 +45,13 @@ export default function PartnersComponent({ pageData }: Props) {
                     height={150}
                     src={item.image.value[0]?.url}
                     alt={item.name.value}
-                    className="w-[120px] h-[120px] object-contain "
+                    className={`${
+                      type === "developer"
+                        ? " bg-white p-10 rounded-xl"
+                        : type === "partner"
+                        ? ""
+                        : ""
+                    } w-[250px] h-[120px] object-contain `}
                   />
                 </div>
               </SwiperSlide>

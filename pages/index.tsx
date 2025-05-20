@@ -2,6 +2,8 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import SelfContainedSearchFilter from "@/components/Filter/SelfContainedSearchFilter";
 import SearchFilter from "@/components/Filter/SelfContainedSearchFilter";
 import PartnersComponent from "@/components/PartnersComponent";
+import ThreePillars from "@/components/ThreePillars";
+import ThreePillarsPng from "@/components/ThreePillarsPng";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Cardblock } from "@/models/cardblock";
 import { Homepage } from "@/models/homepage";
@@ -92,6 +94,7 @@ export default function Page({ pageData }: PageProps) {
 
         {/* partners */}
         <PartnersComponent
+          type="partner"
           pageData={pageData.partneritems.value as Partneritem[]}
         />
 
@@ -260,6 +263,7 @@ export default function Page({ pageData }: PageProps) {
 
         <FeaturedProjects />
         <PartnersComponent
+          type="developer"
           pageData={pageData.developeritems.value as Partneritem[]}
         />
       </div>
