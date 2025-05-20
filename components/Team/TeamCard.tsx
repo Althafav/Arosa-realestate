@@ -13,7 +13,9 @@ const TeamCard: React.FC<TeamCardProps> = ({ item }) => {
       <div className=" ">
         <div>
           <div className="relative">
-            <img
+            <Image
+            height={250}
+            width={300}
               src={item.image.value[0]?.url}
               alt={item.name.value}
               className="object-cover rounded-t-2xl object-top mb-10 h-[250px] w-full"

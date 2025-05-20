@@ -2,8 +2,7 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import SelfContainedSearchFilter from "@/components/Filter/SelfContainedSearchFilter";
 import SearchFilter from "@/components/Filter/SelfContainedSearchFilter";
 import PartnersComponent from "@/components/PartnersComponent";
-import ThreePillars from "@/components/ThreePillars";
-import ThreePillarsPng from "@/components/ThreePillarsPng";
+
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Cardblock } from "@/models/cardblock";
 import { Homepage } from "@/models/homepage";

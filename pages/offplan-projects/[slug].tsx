@@ -462,19 +462,28 @@ export const getStaticPaths: GetStaticPaths = async () => {
       });
 
     const data: Array<Projectitem> = JSON.parse(datasourceStr);
-    const ids: string[] = data.map((item: Projectitem) => item.slug.value);
+    const allSlugs = data.map((item) => item.slug.value?.trim());
 
-    const paths = ids.map((slug) => ({ params: { slug } }));
+    // 2. remove empty or undefined slugs
+    const validSlugs = allSlugs.filter((s): s is string => s.length > 0);
 
+    // 3. dedupe in case your CMS has duplicates
+    const uniqueSlugs = Array.from(new Set(validSlugs));
+
+    // 4. build your paths
+    const paths = uniqueSlugs.map((slug) => ({
+      params: { slug },
+    }));
+    
     return {
       paths,
-      fallback: "blocking",
+      fallback: false,
     };
   } catch (error) {
     console.error("Error generating paths:", error);
     return {
       paths: [],
-      fallback: "blocking",
+      fallback: false,
     };
   }
 };
