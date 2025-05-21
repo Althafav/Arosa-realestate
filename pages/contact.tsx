@@ -290,7 +290,7 @@ export default function ContactUs() {
     },
     {
       icon: <HiMapPin size={22} />,
-      text: "Dubai, UAE",
+      text: "Office 703, Sobha Ivory 1 Building Business Bay, Dubai, UAE",
       type: "address",
     },
   ];
