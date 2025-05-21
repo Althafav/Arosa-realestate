@@ -1,5 +1,6 @@
 import { Teamitem } from "@/models/teamitem";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { FaLinkedin } from "react-icons/fa";
 
@@ -9,25 +10,27 @@ interface TeamCardProps {
 
 const TeamCard: React.FC<TeamCardProps> = ({ item }) => {
   return (
-    <div key={item.system.id} className="bg-white card p-5 h-full w-full rounded-xl">
-      <div className=" ">
-        <div>
-          <div className="relative">
-            <Image
-            height={250}
-            width={300}
-              src={item.image.value[0]?.url}
-              alt={item.name.value}
-              className="object-cover rounded-t-2xl object-top mb-10 h-[250px] w-full"
-            />
-            <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-primary px-5 py-3 w-fit rounded-3xl ">
+    <div  className="w-1/4">
+      <div className="bg-white rounded-xl  p-5 h-full">
+        <div className="relative ">
+          <img
+            src={item.image.value[0]?.url}
+            alt={item.name.value}
+            className="object-cover rounded-t-2xl object-top mb-10 h-[250px]"
+          />
+          {item.linkedin.value && (
+            <Link
+              href={item.linkedin.value}
+              target="_blank"
+              className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-primary px-5 py-3 w-fit rounded-3xl "
+            >
               <FaLinkedin size={28} className="text-white " />
-            </div>
-          </div>
-          <div className="">
-            <p className="mb-1 text-primary text-xl">{item.name.value}</p>
-            <p className="text-tertiary text-lg">{item.designation.value}</p>
-          </div>
+            </Link>
+          )}
+        </div>
+        <div className="">
+          <p className="mb-1 text-primary text-xl">{item.name.value}</p>
+          <p className="text-tertiary text-lg">{item.designation.value}</p>
         </div>
       </div>
     </div>

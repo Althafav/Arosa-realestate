@@ -1,10 +1,14 @@
 import TeamCard from "@/components/Team/TeamCard";
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Meettheteampage } from "@/models/meettheteampage";
+import { Teamitem } from "@/models/teamitem";
 import Globals from "@/modules/Globals";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { FaLinkedin } from "react-icons/fa";
 
 type PageProps = {
   pageData: Meettheteampage | null;
@@ -82,18 +86,20 @@ export default function Page({ pageData }: PageProps) {
 
       <div className="team-section py-10">
         <div className="container mx-auto">
-          <div className="">
+          <div className="grid gap-20">
             {/* Management Team */}
             {pageData.managementteamitems.value.length > 0 && (
-              <div className="">
-                <h2 className="text-primary mb-5 text-center lg:text-3xl text-2xl font-semibold tracking-wide">
+              <div className="space-y-6">
+                <h2 className="text-primary mb text-center mb-5 lg:text-3xl text-2xl font-semibold tracking-wide">
                   Management Team
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                <div className="flex justify-center gap-5">
                   {pageData.managementteamitems.value.map(
-                    (m: any, i: number) => (
-                      <TeamCard item={m} key={i} />
-                    )
+                    (m: any, i: number) => {
+                      const item: Teamitem = m;
+                      return <TeamCard key={item.system.id} item={item} />;
+                    }
                   )}
                 </div>
               </div>
@@ -101,21 +107,20 @@ export default function Page({ pageData }: PageProps) {
 
             {/* Sales Team */}
             {pageData.salesteamitems.value.length > 0 && (
-              <section className="space-y-6 bg-gray-50 rounded-2xl p-8">
-                <h2 className="text-primary text-center lg:text-3xl text-2xl font-semibold tracking-wide">
+              <div className="space-y-6">
+                <h2 className="text-primary text-center lg:text-3xl text-2xl font-semibold tracking-wide ">
                   Sales Team
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {pageData.salesteamitems.value.map((m: any, i: number) => (
-                    <div
-                      key={i}
-                      className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-6 flex flex-col items-center text-center"
-                    >
-                      <TeamCard item={m} />
-                    </div>
-                  ))}
+
+                <div className="">
+                  <div className=" flex justify-center gap-5">
+                    {pageData.salesteamitems.value.map((m: any, i: number) => {
+                      const item: Teamitem = m;
+                      return <TeamCard key={item.system.id} item={item} />;
+                    })}
+                  </div>
                 </div>
-              </section>
+              </div>
             )}
 
             {/* Operations Team */}
@@ -124,16 +129,12 @@ export default function Page({ pageData }: PageProps) {
                 <h2 className="text-primary text-center lg:text-3xl text-2xl font-semibold tracking-wide">
                   Operations Team
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="flex justify-center gap-5">
                   {pageData.operationalteamitems.value.map(
-                    (m: any, i: number) => (
-                      <div
-                        key={i}
-                        className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-6 flex flex-col items-center text-center"
-                      >
-                        <TeamCard item={m} />
-                      </div>
-                    )
+                    (m: any, i: number) => {
+                      const item: Teamitem = m;
+                      return <TeamCard key={item.system.id} item={item} />;
+                    }
                   )}
                 </div>
               </section>

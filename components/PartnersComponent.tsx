@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   pageData: Partneritem[];
@@ -39,7 +40,7 @@ export default function PartnersComponent({ pageData, type }: Props) {
             const item: Partneritem = m;
             return (
               <SwiperSlide className="flex justify-center" key={item.system.id}>
-                <div className="flex justify-center">
+                <Link href={item.link.value} target="_blank" className="flex justify-center">
                   <Image
                     width={150}
                     height={150}
@@ -53,7 +54,7 @@ export default function PartnersComponent({ pageData, type }: Props) {
                         : ""
                     } w-[250px] h-[120px] object-contain `}
                   />
-                </div>
+                </Link>
               </SwiperSlide>
             );
           })}
