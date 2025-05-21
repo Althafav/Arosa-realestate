@@ -10,13 +10,13 @@ interface TeamCardProps {
 
 const TeamCard: React.FC<TeamCardProps> = ({ item }) => {
   return (
-    <div  className="w-1/4">
+    <div className="">
       <div className="bg-white rounded-xl  p-5 h-full">
         <div className="relative ">
           <img
             src={item.image.value[0]?.url}
             alt={item.name.value}
-            className="object-cover rounded-t-2xl object-top mb-10 h-[250px]"
+            className="object-cover rounded-t-2xl object-top mb-10 h-[250px] w-full"
           />
           {item.linkedin.value && (
             <Link

@@ -90,11 +90,11 @@ export default function Page({ pageData }: PageProps) {
             {/* Management Team */}
             {pageData.managementteamitems.value.length > 0 && (
               <div className="space-y-6">
-                <h2 className="text-primary mb text-center mb-5 lg:text-3xl text-2xl font-semibold tracking-wide">
+                <h2 className="text-primary mb text-start mb-5 lg:text-3xl text-2xl font-semibold tracking-wide">
                   Management Team
                 </h2>
 
-                <div className="flex justify-center gap-5">
+                <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
                   {pageData.managementteamitems.value.map(
                     (m: any, i: number) => {
                       const item: Teamitem = m;
@@ -108,12 +108,12 @@ export default function Page({ pageData }: PageProps) {
             {/* Sales Team */}
             {pageData.salesteamitems.value.length > 0 && (
               <div className="space-y-6">
-                <h2 className="text-primary text-center lg:text-3xl text-2xl font-semibold tracking-wide ">
+                <h2 className="text-primary text-start lg:text-3xl text-2xl font-semibold tracking-wide ">
                   Sales Team
                 </h2>
 
                 <div className="">
-                  <div className=" flex justify-center gap-5">
+                  <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
                     {pageData.salesteamitems.value.map((m: any, i: number) => {
                       const item: Teamitem = m;
                       return <TeamCard key={item.system.id} item={item} />;
@@ -129,7 +129,7 @@ export default function Page({ pageData }: PageProps) {
                 <h2 className="text-primary text-center lg:text-3xl text-2xl font-semibold tracking-wide">
                   Operations Team
                 </h2>
-                <div className="flex justify-center gap-5">
+                <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
                   {pageData.operationalteamitems.value.map(
                     (m: any, i: number) => {
                       const item: Teamitem = m;
