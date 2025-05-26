@@ -64,7 +64,7 @@ export default function FeaturedProjects() {
                       <Image
                         width={270}
                         height={175}
-                        className="object-cover w-full h-[175px] "
+                        className="object-cover w-full h-[250px] "
                         src={item.image.value[0]?.url}
                         alt={item.name.value}
                       />

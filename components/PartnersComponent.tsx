@@ -40,7 +40,11 @@ export default function PartnersComponent({ pageData, type }: Props) {
             const item: Partneritem = m;
             return (
               <SwiperSlide className="flex justify-center" key={item.system.id}>
-                <Link href={item.link.value} target="_blank" className="flex justify-center">
+                <Link
+                  href={item.link.value}
+                  target="_blank"
+                  className="flex justify-center"
+                >
                   <Image
                     width={150}
                     height={150}
@@ -48,11 +52,11 @@ export default function PartnersComponent({ pageData, type }: Props) {
                     alt={item.name.value}
                     className={`${
                       type === "developer"
-                        ? " bg-white p-10 rounded-xl"
+                        ? "w-[250px] h-[120px] bg-white p-10 rounded-xl"
                         : type === "partner"
-                        ? ""
+                        ? "w-[185px] h-[185px]"
                         : ""
-                    } w-[250px] h-[120px] object-contain `}
+                    }  object-contain `}
                   />
                 </Link>
               </SwiperSlide>
