@@ -1,9 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { Projectitem } from '../models/projectitem';
-import ProjectCard from '@/components/UI/ProjectCard';
-import Globals from '@/modules/Globals';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { Projectitem } from "../models/projectitem";
+import ProjectCard from "@/components/UI/ProjectCard";
+import Globals from "@/modules/Globals";
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-");
+}
 
 const SearchResultsPage = () => {
   const router = useRouter();
@@ -14,12 +22,12 @@ const SearchResultsPage = () => {
 
   // Extract filters from URL query parameters
   const {
-    q: searchTerm = '',
-    location = '',
-    type: propertyType = '',
-    developer = '',
-    bedroom = '',
-    handover: handoverYear = '',
+    q: searchTerm = "",
+    location = "",
+    type: propertyType = "",
+    developer = "",
+    bedroom = "",
+    handover: handoverYear = "",
     // minPrice = '',
     // maxPrice = ''
   } = router.query;
@@ -28,7 +36,9 @@ const SearchResultsPage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await Globals.KontentClient.item("project_page").toPromise();
+        const response = await Globals.KontentClient.item(
+          "project_page"
+        ).toPromise();
         const allProjects: Projectitem[] = response.item.projectitems.value;
         setProjects(allProjects);
         setIsLoading(false);
@@ -50,45 +60,54 @@ const SearchResultsPage = () => {
 
     // Apply search term filter
     if (searchTerm) {
-      results = results.filter(project =>
-        project.name.value.toLowerCase().includes(searchTerm.toString().toLowerCase()) || 
-        project.metadataKeywords.value.toLowerCase().includes(searchTerm.toString().toLowerCase()) ||
-        project.location.value.some(loc => loc.name.toString().toLowerCase() === searchTerm.toString().toLowerCase())
+      results = results.filter(
+        (project) =>
+          project.name.value
+            .toLowerCase()
+            .includes(searchTerm.toString().toLowerCase()) ||
+          project.metadataKeywords.value
+            .toLowerCase()
+            .includes(searchTerm.toString().toLowerCase()) ||
+          project.location.value.some(
+            (loc) =>
+              loc.name.toString().toLowerCase() ===
+              searchTerm.toString().toLowerCase()
+          )
       );
     }
 
     // Apply location filter
     if (location) {
-      results = results.filter(project =>
-        project.location.value.some(loc => loc.name === location)
+      results = results.filter((project) =>
+        project.location.value.some((loc) => loc.name === location)
       );
     }
 
     // Apply property type filter
     if (propertyType) {
-      results = results.filter(project =>
-        project.propertytype.value.some(type => type.name === propertyType)
+      results = results.filter((project) =>
+        project.propertytype.value.some((type) => type.name === propertyType)
       );
     }
 
     // Apply developer filter
     if (developer) {
-      results = results.filter(project =>
-        project.developer.value.some(dev => dev.name === developer)
+      results = results.filter((project) =>
+        project.developer.value.some((dev) => dev.name === developer)
       );
     }
 
     // Apply bedroom filter
     if (bedroom) {
-      results = results.filter(project =>
-        project.bedroom?.value?.some(bed => bed.name === bedroom)
+      results = results.filter((project) =>
+        project.bedroom?.value?.some((bed) => bed.name === bedroom)
       );
     }
 
     // Apply handover year filter
     if (handoverYear) {
-      results = results.filter(project =>
-        project.handoveryr.value.some(year => year.name === handoverYear)
+      results = results.filter((project) =>
+        project.handoveryr.value.some((year) => year.name === handoverYear)
       );
     }
 
@@ -105,7 +124,15 @@ const SearchResultsPage = () => {
     // }
 
     setFilteredProjects(results);
-  }, [projects, searchTerm, location, propertyType, developer, bedroom, handoverYear]);
+  }, [
+    projects,
+    searchTerm,
+    location,
+    propertyType,
+    developer,
+    bedroom,
+    handoverYear,
+  ]);
 
   if (error) {
     return (
@@ -120,7 +147,10 @@ const SearchResultsPage = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="animate-pulse bg-gray-200 rounded-lg h-96"></div>
+            <div
+              key={i}
+              className="animate-pulse bg-gray-200 rounded-lg h-96"
+            ></div>
           ))}
         </div>
       </div>
@@ -178,7 +208,7 @@ const SearchResultsPage = () => {
             No properties match your search criteria
           </h2>
           <button
-            onClick={() => router.push('/')}
+            onClick={() => router.push("/")}
             className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primarydark"
           >
             Back to Home
@@ -186,7 +216,7 @@ const SearchResultsPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map(project => (
+          {filteredProjects.map((project) => (
             <ProjectCard key={project.system.id} project={project} />
           ))}
         </div>

@@ -13,6 +13,7 @@
     "@kentico/kontent-management": "^2.9.2",
     "@vercel/analytics": "^1.5.0",
     "axios": "^1.8.4",
+    "framer-motion": "^12.12.1",
     "next": "15.2.2",
     "nodemailer": "^6.10.0",
     "nprogress": "^0.2.0",

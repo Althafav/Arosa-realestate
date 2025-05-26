@@ -2,6 +2,10 @@ import { Projectitem } from "@/models/projectitem";
 import { formatAEDPrice } from "@/utils/formatPrice";
 import Image from "next/image";
 import Link from "next/link";
+import { FaWhatsapp } from "react-icons/fa";
+import { IoCall, IoMail } from "react-icons/io5";
+import { LuImageUpscale } from "react-icons/lu";
+import { MdLocationPin, MdOutlineKingBed } from "react-icons/md";
 
 interface ProjectCardProps {
   project: Projectitem;
@@ -19,49 +23,109 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const displayPrice = formatAEDPrice(project.price.value);
 
   return (
-    <Link href={`offplan-projects/${project.slug.value}`}>
-      <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-        <div className="relative h-48">
+    <Link href={`/offplan-projects/${project.slug.value}`}>
+      <div
+        className="project-card bg-white p-5 rounded-2xl h-full flex flex-col justify-between"
+        style={{ background: "white" }}
+      >
+        <div>
           <Image
-            src={primaryImage}
+            width={300}
+            height={256}
+            className="object-cover w-full h-[256px] rounded-2xl"
+            src={project.image.value[0]?.url}
             alt={project.name.value}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        </div>
-        <div className="p-4">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">
-            {project.name.value}
-          </h3>
-          <p className="text-gray-600 mb-1 flex items-center">
-            <svg
-              className="w-4 h-4 mr-1"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                clipRule="evenodd"
-              />
-            </svg>
-            {location}
-          </p>
-          <div className="flex justify-between items-center mt-3">
-            <span className="text-primary font-bold">
-              {" "}
-              {displayPrice}
-            </span>
-            <span className="text-sm text-gray-500">{handoverYear}</span>
+          <div className="p-3">
+            <div className="flex justify-between mb-5">
+              <div>
+                <h4 className="text-primary font-bold text-xl max-w-[250px]">
+                  {project.name.value}
+                </h4>
+
+                <div className="flex items-center gap-2">
+                  <MdLocationPin color="gray" />{" "}
+                  <span className="font-light text-tertiary">
+                    {project.location.value[0]?.name}
+                  </span>
+                </div>
+              </div>
+
+              <p className="font-light text-tertiary text-sm max-w-[100px]">
+                {project.developer.value[0]?.name}
+              </p>
+            </div>
+
+            <div className="flex gap-10 mb-5">
+              <div className="flex items-center gap-2">
+                <MdOutlineKingBed className="text-primary" size={20} />{" "}
+                <span>
+                  {project.bedroom.value.map((bed: any) => bed.name).join(", ")}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <LuImageUpscale className="text-primary" size={20} />
+                <span>{project.propertysize.value}</span>
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <div className="">
+                <p>Starting Price</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-primary text-xl font-bold">
+                    {formatAEDPrice(project.price.value)}
+                  </p>
+                </div>
+              </div>
+
+              <hr className="h-14 w-[1px] bg-gray-400" />
+
+              <div className=" ">
+                <p>Completion</p>
+                <p className="text-primary text-xl font-bold">
+                  <span className="mx-2">
+                    {project.handoverqr.value[0]?.name}
+                  </span>
+                  {project.handoveryr.value[0]?.name}
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between">
-            <span className="text-sm text-gray-600">
-              <span className="font-medium">Bedrooms:</span> {bedrooms}
-            </span>
-            <button className="text-sm text-primary hover:text-primarydark font-medium">
-              View Details
-            </button>
+        </div>
+
+        <div className="p-3">
+          <div className="flex gap-2 mt-5 flex-wrap">
+            <Link
+              onClick={(e) => e.stopPropagation()}
+              href={`https://wa.me/+971569916229`}
+              target="_blank"
+              className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1"
+            >
+              <FaWhatsapp className="text-white" size={20} />
+              <p className="text-white text-sm">Whatsapp</p>
+            </Link>
+
+            <Link
+              onClick={(e) => e.stopPropagation()}
+              href={`tel:+971569916229`}
+              target="_blank"
+              className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1"
+            >
+              <IoCall className="text-white" size={20} />
+              <p className="text-white text-sm">Call</p>
+            </Link>
+
+            <Link
+              href={`/contact?referrer=${project.name.value}/#form`}
+              scroll={false}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-primary p-2 rounded-lg flex-1 flex items-center justify-center gap-1"
+            >
+              <IoMail className="text-white" size={20} />
+              <p className="text-white text-sm">Email</p>
+            </Link>
           </div>
         </div>
       </div>
