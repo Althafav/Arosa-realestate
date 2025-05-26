@@ -1,19 +1,15 @@
 import TeamCard from "@/components/Team/TeamCard";
-import RadialPillar from "@/components/UI/AIM/RadialPillar";
-import RadialPillar2 from "@/components/UI/AIM/PillarAnimatedPresence";
+
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Meettheteampage } from "@/models/meettheteampage";
 import { Teamitem } from "@/models/teamitem";
 import Globals from "@/modules/Globals";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { FaLinkedin } from "react-icons/fa";
-import FlipCardPillars from "@/components/UI/AIM/FlipCardPillars";
-import PillarsTracksTabs from "@/components/UI/AIM/PillarsTracksTabs";
-import PillarsInteractivePattern from "@/components/UI/AIM/PillarsInteractivePattern";
+
+import React from "react";
+
+
 
 type PageProps = {
   pageData: Meettheteampage | null;

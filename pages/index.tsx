@@ -1,12 +1,7 @@
 import FeaturedProjects from "@/components/FeaturedProjects";
 import SelfContainedSearchFilter from "@/components/Filter/SelfContainedSearchFilter";
-import SearchFilter from "@/components/Filter/SelfContainedSearchFilter";
+
 import PartnersComponent from "@/components/PartnersComponent";
-import FlipCardPillars from "@/components/UI/AIM/FlipCardPillars";
-import PillarAnimatedPresence from "@/components/UI/AIM/PillarAnimatedPresence";
-import PillarsInteractivePattern from "@/components/UI/AIM/PillarsInteractivePattern";
-import PillarsTracksTabs from "@/components/UI/AIM/PillarsTracksTabs";
-import RadialPillarsApp from "@/components/UI/AIM/RadialPillar";
 
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Cardblock } from "@/models/cardblock";
@@ -264,11 +259,7 @@ export default function Page({ pageData }: PageProps) {
             </div>
           </div>
         </div>
-        <FlipCardPillars/>
-        <PillarAnimatedPresence/>
-        <RadialPillarsApp/>
-        <PillarsInteractivePattern/>
-        <PillarsTracksTabs/>
+     
         <FeaturedProjects />
 
         <PartnersComponent
