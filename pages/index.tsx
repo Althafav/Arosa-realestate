@@ -102,7 +102,7 @@ export default function Page({ pageData }: PageProps) {
           <div className="container mx-auto">
             <div className="flex lg:flex-row flex-col items-center gap-5">
               <div className="lg:w-1/2 w-full">
-                <h2 className="text-primary text-2xl lg:text-3xl font-semibold mb-8 max-w-[300px]">
+                <h2 className="text-primary text-2xl lg:text-3xl font-semibold mb-8 ">
                   {pageData.aboutheading.value}
                 </h2>
                 <div className="mb-8 max-w-[340px]">
