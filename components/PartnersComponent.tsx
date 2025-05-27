@@ -54,7 +54,7 @@ export default function PartnersComponent({ pageData, type }: Props) {
                       type === "developer"
                         ? "w-[250px] h-[120px] bg-white p-10 rounded-xl"
                         : type === "partner"
-                        ? "w-[185px] h-[185px]"
+                        ? "w-[185px] h-[140px]"
                         : ""
                     }  object-contain `}
                   />

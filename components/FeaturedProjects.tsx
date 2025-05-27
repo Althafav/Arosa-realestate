@@ -69,7 +69,7 @@ export default function FeaturedProjects() {
                         alt={item.name.value}
                       />
 
-                      <div className="p-2">
+                      <div className="p-4">
                         <h4 className="mb-2 font-medium">{item.name.value}</h4>
 
                         <div className="flex justify-between items-start">
