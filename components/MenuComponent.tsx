@@ -154,9 +154,16 @@ export default function MenuComponent() {
           </Link>
 
           <div className="flex items-center gap-2 ">
-            <FaLinkedinIn size={34} className="bg-white p-[8px] rounded" />
-            <FaFacebook size={34} className="bg-white p-[8px] rounded" />
-            <FaInstagram size={34} className="bg-white p-[8px] rounded" />
+            <Link href={pageData.linkedin.value} target="_blank">
+              <FaLinkedinIn size={34} className="bg-white p-[8px] rounded" />
+            </Link>
+            <Link href={pageData.facebook.value} target="_blank">
+              <FaFacebook size={34} className="bg-white p-[8px] rounded" />
+            </Link>
+
+            <Link href={pageData.instagram.value} target="_blank">
+              <FaInstagram size={34} className="bg-white p-[8px] rounded" />
+            </Link>
           </div>
 
           <div className="flex items-center gap-10  ">
