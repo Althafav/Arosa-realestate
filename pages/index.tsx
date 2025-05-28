@@ -236,7 +236,7 @@ export default function Page({ pageData }: PageProps) {
                             height={60}
                             src={item.image.value[0]?.url}
                             alt={item.name.value}
-                            className="object-contain"
+                            className="object-contain w-[45px] h-[45px]"
                           />
 
                           <div>
