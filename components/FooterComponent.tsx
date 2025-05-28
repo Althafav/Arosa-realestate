@@ -95,9 +95,9 @@ export default function FooterComponent() {
                   <Link href={pageData.facebooklink.value} target="_blank">
                     <FaFacebook className="text-white" size={20} />
                   </Link>
-                  <Link href={pageData.xlink.value} target="_blank">
+                  {/* <Link href={pageData.xlink.value} target="_blank">
                     <FaXTwitter className="text-white" size={20} />
-                  </Link>
+                  </Link> */}
                   <Link href={pageData.instagramlink.value} target="_blank">
                     <FaInstagram className="text-white" size={20} />
                   </Link>
