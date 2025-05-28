@@ -142,7 +142,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div className="">
                 <p className="text-tertiary font-medium text-sm">Price</p>
                 <p className="text-primary font-semibold text-xl">
-                  AED {formatAEDPrice(projectItem.price.value)}
+                   {formatAEDPrice(projectItem.price.value)}
                 </p>
               </div>
             </div>
