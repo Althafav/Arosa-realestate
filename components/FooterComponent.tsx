@@ -229,9 +229,9 @@ export default function FooterComponent() {
             </p>
 
             <div className="flex items-center gap-5 text-white">
-              <p>Privacy</p>
-              <p>Terms</p>
-              <p>Sitemap</p>
+              <Link href="terms-conditions">Terms & Conditions</Link>
+
+              <Link href="/sitemap.xml">Sitemap</Link>
             </div>
           </div>
         </div>
