@@ -1,5 +1,6 @@
 
 import { Aboutpage } from "@/models/aboutpage";
+import { Basiccontent } from "@/models/basiccontent";
 import { Contactpage } from "@/models/contactpage";
 import { Homepage } from "@/models/homepage";
 import { Meettheteampage } from "@/models/meettheteampage";
@@ -26,6 +27,8 @@ export const TypeResolver = [
   new KontentDelivery.TypeResolver("Contactpage", (rawData: any) => new Contactpage()),
   new KontentDelivery.TypeResolver("Aboutpage", (rawData: any) => new Aboutpage()),
   new KontentDelivery.TypeResolver("Meettheteampage", (rawData: any) => new Meettheteampage()),
+  new KontentDelivery.TypeResolver("Basiccontent", (rawData: any) => new Basiccontent()),
+
 
 
 ];
