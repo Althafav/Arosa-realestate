@@ -4,23 +4,17 @@ import { Aboutpage } from "@/models/aboutpage";
 import { Cardblock } from "@/models/cardblock";
 import { Teamitem } from "@/models/teamitem";
 import Globals from "@/modules/Globals";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaLinkedin } from "react-icons/fa";
 
-export default function AboutPage() {
-  const [pageData, setPageData] = useState<Aboutpage | null>(null);
+type PageProps = {
+  pageData: Aboutpage | null;
+};
 
-  useEffect(() => {
-    Globals.KontentClient.item("about_page_2025")
-      .withParameter("depth", "4")
-      .toObservable()
-      .subscribe((response: any) => {
-        setPageData(response.item);
-      });
-  }, []);
-
+export default function Page({ pageData }: PageProps) {
   if (!pageData) {
     return <SpinnerComponent />;
   }
@@ -358,3 +352,28 @@ export default function AboutPage() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const response: any = await Globals.KontentClient.item(
+      "about_page_2025"
+    )
+      .withParameter("depth", "4")
+      .toPromise();
+
+    const pageData = JSON.parse(JSON.stringify(response.item));
+
+    return {
+      props: {
+        pageData,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching page content:", error);
+    return {
+      props: {
+        pageData: null,
+      },
+    };
+  }
+};
