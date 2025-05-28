@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { Projectitem } from "../models/projectitem";
 import ProjectCard from "@/components/UI/ProjectCard";
 import Globals from "@/modules/Globals";
+import { unslugify } from "@/utils/helper";
 
 function slugify(text: string): string {
   return text
@@ -92,8 +93,9 @@ const SearchResultsPage = () => {
 
     // Apply developer filter
     if (developer) {
+      
       results = results.filter((project) =>
-        project.developer.value.some((dev) => dev.name === developer)
+        project.developer.value.some((dev) => slugify(dev.name) === developer)
       );
     }
 

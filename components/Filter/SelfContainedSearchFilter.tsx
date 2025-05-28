@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Projectitem } from '@/models/projectitem'; 
-import Globals from '@/modules/Globals';
+import { useState, useEffect } from "react";
+import { Projectitem } from "@/models/projectitem";
+import Globals from "@/modules/Globals";
+import { slugify } from "@/utils/helper";
+
 
 interface SearchFilters {
   searchTerm: string;
@@ -24,54 +26,73 @@ const SelfContainedSearchFilter = () => {
   const [error, setError] = useState<string | null>(null);
 
   // State for current filter selections
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('All Cities');
-  const [selectedType, setSelectedType] = useState('Type');
-  const [selectedDeveloper, setSelectedDeveloper] = useState('All Developers');
-  const [selectedBedroom, setSelectedBedroom] = useState('Bedrooms');
-  const [selectedHandover, setSelectedHandover] = useState('Handover');
-  const [priceRange, setPriceRange] = useState({ min: '9.72M', max: '37.85M' });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("All Cities");
+  const [selectedType, setSelectedType] = useState("Type");
+  const [selectedDeveloper, setSelectedDeveloper] = useState("All Developers");
+  const [selectedBedroom, setSelectedBedroom] = useState("Bedrooms");
+  const [selectedHandover, setSelectedHandover] = useState("Handover");
+  const [priceRange, setPriceRange] = useState({ min: "9.72M", max: "37.85M" });
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Fetch filter options from Kontent.ai
   useEffect(() => {
     const fetchFilterData = async () => {
       try {
-        const response = await Globals.KontentClient.item("project_page").toPromise();
+        const response = await Globals.KontentClient.item(
+          "project_page"
+        ).toPromise();
         const allProjects: Projectitem[] = response.item.projectitems.value;
 
         // Extract unique locations
-        const uniqueLocations = Array.from(new Set(
-          allProjects.flatMap((item) => item.location?.value?.map(loc => loc.name) || [])
-        ));
+        const uniqueLocations = Array.from(
+          new Set(
+            allProjects.flatMap(
+              (item) => item.location?.value?.map((loc) => loc.name) || []
+            )
+          )
+        );
         setLocations(uniqueLocations);
 
         // Extract unique property types
-        const uniquePropertyTypes = Array.from(new Set(
-          allProjects.flatMap((item) => item.propertytype?.value?.map(type => type.name) || [])
-        ));
+        const uniquePropertyTypes = Array.from(
+          new Set(
+            allProjects.flatMap(
+              (item) => item.propertytype?.value?.map((type) => type.name) || []
+            )
+          )
+        );
         setPropertyTypes(uniquePropertyTypes);
 
         // Extract unique bedrooms
-        const uniqueBedrooms = Array.from(new Set(
-          allProjects.flatMap(
-            (item) => item.bedroom?.value?.map((choice) => choice.name) || []
+        const uniqueBedrooms = Array.from(
+          new Set(
+            allProjects.flatMap(
+              (item) => item.bedroom?.value?.map((choice) => choice.name) || []
+            )
           )
-        )).sort();
+        ).sort();
         setBedrooms(uniqueBedrooms);
 
         // Extract unique handover years
-        const uniqueHandoverYears = Array.from(new Set(
-          allProjects.flatMap((item) => item.handoveryr?.value?.map(year => year.name) || [])
-        )).sort();
+        const uniqueHandoverYears = Array.from(
+          new Set(
+            allProjects.flatMap(
+              (item) => item.handoveryr?.value?.map((year) => year.name) || []
+            )
+          )
+        ).sort();
         setHandoverYears(uniqueHandoverYears);
 
         // Extract unique developers
-        const uniqueDevelopers = Array.from(new Set(
-          allProjects.flatMap(
-            (item) => item.developer?.value?.map((choice) => choice.name) || []
+        const uniqueDevelopers = Array.from(
+          new Set(
+            allProjects.flatMap(
+              (item) =>
+                item.developer?.value?.map((choice) => choice.name) || []
+            )
           )
-        ));
+        );
         setDevelopers(uniqueDevelopers);
 
         setIsLoading(false);
@@ -88,11 +109,12 @@ const SelfContainedSearchFilter = () => {
   const handleSearch = () => {
     const filters: SearchFilters = {
       searchTerm,
-      location: selectedLocation === 'All Cities' ? '' : selectedLocation,
-      propertyType: selectedType === 'Type' ? '' : selectedType,
-      developer: selectedDeveloper === 'All Developers' ? '' : selectedDeveloper,
-      bedroom: selectedBedroom === 'Bedrooms' ? '' : selectedBedroom,
-      handoverYear: selectedHandover === 'Handover' ? '' : selectedHandover,
+      location: selectedLocation === "All Cities" ? "" : selectedLocation,
+      propertyType: selectedType === "Type" ? "" : selectedType,
+      developer:
+        selectedDeveloper === "All Developers" ? "" : selectedDeveloper,
+      bedroom: selectedBedroom === "Bedrooms" ? "" : selectedBedroom,
+      handoverYear: selectedHandover === "Handover" ? "" : selectedHandover,
       // minPrice: priceRange.min,
       // maxPrice: priceRange.max,
     };
@@ -100,7 +122,7 @@ const SelfContainedSearchFilter = () => {
     // Here you can either:
     // 1. Redirect to search results page with filters as query params
     redirectToSearchResults(filters);
-    
+
     // OR
     // 2. Call an onSearch callback if you prefer
     // onSearch(filters);
@@ -108,13 +130,15 @@ const SelfContainedSearchFilter = () => {
 
   const redirectToSearchResults = (filters: SearchFilters) => {
     const queryParams = new URLSearchParams();
-    
-    if (filters.searchTerm) queryParams.append('q', filters.searchTerm);
-    if (filters.location) queryParams.append('location', filters.location);
-    if (filters.propertyType) queryParams.append('type', filters.propertyType);
-    if (filters.developer) queryParams.append('developer', filters.developer);
-    if (filters.bedroom) queryParams.append('bedroom', filters.bedroom);
-    if (filters.handoverYear) queryParams.append('handover', filters.handoverYear);
+
+    if (filters.searchTerm) queryParams.append("q", filters.searchTerm);
+    if (filters.location) queryParams.append("location", filters.location);
+    if (filters.propertyType) queryParams.append("type", filters.propertyType);
+    if (filters.developer)
+      queryParams.append("developer", slugify(filters.developer));
+    if (filters.bedroom) queryParams.append("bedroom", filters.bedroom);
+    if (filters.handoverYear)
+      queryParams.append("handover", filters.handoverYear);
     // if (filters.minPrice) queryParams.append('minPrice', filters.minPrice);
     // if (filters.maxPrice) queryParams.append('maxPrice', filters.maxPrice);
 
@@ -122,13 +146,13 @@ const SelfContainedSearchFilter = () => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
-    setSelectedLocation('All Cities');
-    setSelectedType('Type');
-    setSelectedDeveloper('All Developers');
-    setSelectedBedroom('Bedrooms');
-    setSelectedHandover('Handover');
-    setPriceRange({ min: '9.72M', max: '37.85M' });
+    setSearchTerm("");
+    setSelectedLocation("All Cities");
+    setSelectedType("Type");
+    setSelectedDeveloper("All Developers");
+    setSelectedBedroom("Bedrooms");
+    setSelectedHandover("Handover");
+    setPriceRange({ min: "9.72M", max: "37.85M" });
   };
 
   if (error) {
@@ -139,18 +163,14 @@ const SelfContainedSearchFilter = () => {
     );
   }
 
-  
-
   const handleKeyPress = (e: any) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   return (
     <div className="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-xl p-6 relative">
-     
-
       {/* Main search row - always visible */}
       <div className="flex flex-col md:flex-row gap-4 mb-4">
         <div className="flex-1">
@@ -177,7 +197,7 @@ const SelfContainedSearchFilter = () => {
           className="text-primary hover:text-primarydark text-sm font-medium"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? 'Hide Advanced Filters' : 'Show Advanced Filters'}
+          {isExpanded ? "Hide Advanced Filters" : "Show Advanced Filters"}
         </button>
       </div>
 
@@ -186,7 +206,9 @@ const SelfContainedSearchFilter = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           {/* Location */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              City
+            </label>
             <select
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={selectedLocation}
@@ -203,7 +225,9 @@ const SelfContainedSearchFilter = () => {
 
           {/* Property Type */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Type
+            </label>
             <select
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={selectedType}
@@ -220,7 +244,9 @@ const SelfContainedSearchFilter = () => {
 
           {/* Developer */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Developer</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Developer
+            </label>
             <select
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={selectedDeveloper}
@@ -237,7 +263,9 @@ const SelfContainedSearchFilter = () => {
 
           {/* Bedrooms */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Bedrooms</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Bedrooms
+            </label>
             <select
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={selectedBedroom}
@@ -254,7 +282,9 @@ const SelfContainedSearchFilter = () => {
 
           {/* Handover Year */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Handover Year</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Handover Year
+            </label>
             <select
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={selectedHandover}
