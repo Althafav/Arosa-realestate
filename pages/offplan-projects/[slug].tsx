@@ -83,8 +83,9 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
       </Head>
       <div className=" banner-wrapper h-[650px] relative gradient-1">
         <Image
-          height={650}
+          height={1250}
           width={1200}
+          quality={100}
           className="inset-0 absolute -z-10 w-full h-[650px] object-cover"
           src={projectItem.image.value[0]?.url}
           alt={projectItem.name.value}

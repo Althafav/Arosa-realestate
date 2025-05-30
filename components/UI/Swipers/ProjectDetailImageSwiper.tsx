@@ -41,8 +41,8 @@ const ProjectDetailImageSwiper: React.FC<ImageSwiperProps> = ({ images }) => {
           {images.map((image, index) => (
             <SwiperSlide key={index}>
               <Image
-                width={100}
-                height={100}
+                width={200}
+                height={200}
                 src={image.url}
                 alt={`Thumbnail ${index + 1}`}
                 className="h-[100px] w-full rounded-xl cursor-pointer"
@@ -72,8 +72,9 @@ const ProjectDetailImageSwiper: React.FC<ImageSwiperProps> = ({ images }) => {
         {images.map((image, index) => (
           <SwiperSlide key={index}>
             <Image
-              width={600}
-              height={500}
+              width={1300}
+              height={1300}
+              quality={100}
               src={image.url}
               alt={`Slide ${index + 1}`}
               className="h-[500px] w-full object-cover rounded-xl"
