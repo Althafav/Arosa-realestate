@@ -143,7 +143,7 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
               <div className="">
                 <p className="text-tertiary font-medium text-sm">Price</p>
                 <p className="text-primary font-semibold text-xl">
-                   {formatAEDPrice(projectItem.price.value)}
+                  {formatAEDPrice(projectItem.price.value)}
                 </p>
               </div>
             </div>
@@ -362,26 +362,60 @@ function DetailPage({ projectItem }: { projectItem: Projectitem }) {
                 </div>
 
                 <div className="grid lg:grid-cols-4">
-                  {projectItem.paymentplanitems.value.map(
-                    (m: any, index: number) => {
-                      const item: Paymentplanitem = m;
-                      return (
-                        <div
-                          className="flex flex-col items-center justify-center"
-                          key={index}
-                        >
-                          <div className="p-5 ">
-                            <h4 className="lg:text-6xl text-3xl text-center font-semibold text-black mb-2">
-                              {item.percentage.value}
-                            </h4>
+                  {projectItem.downpayment.value && (
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="p-5 ">
+                        <h4 className="lg:text-6xl text-3xl text-center font-semibold text-black mb-2">
+                          {projectItem.downpayment.value}
+                        </h4>
 
-                            <p className="font-normal text-sm text-center text-tertiary">
-                              {item.name.value}
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    }
+                        <p className="font-normal text-sm text-center text-tertiary">
+                          Down Payment
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {projectItem.duringconstruction.value && (
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="p-5 ">
+                        <h4 className="lg:text-6xl text-3xl text-center font-semibold text-black mb-2">
+                          {projectItem.duringconstruction.value}
+                        </h4>
+
+                        <p className="font-normal text-sm text-center text-tertiary">
+                          During Construction
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {projectItem.handover.value && (
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="p-5 ">
+                        <h4 className="lg:text-6xl text-3xl text-center font-semibold text-black mb-2">
+                          {projectItem.handover.value}
+                        </h4>
+
+                        <p className="font-normal text-sm text-center text-tertiary">
+                          Handover
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {projectItem.posthandover.value && (
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="p-5 ">
+                        <h4 className="lg:text-6xl text-3xl text-center font-semibold text-black mb-2">
+                          {projectItem.posthandover.value}
+                        </h4>
+
+                        <p className="font-normal text-sm text-center text-tertiary">
+                          Post-Handover
+                        </p>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -475,16 +509,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const paths = uniqueSlugs.map((slug) => ({
       params: { slug },
     }));
-    
+
     return {
       paths,
-      fallback: false,
+      fallback: "blocking",
     };
   } catch (error) {
     console.error("Error generating paths:", error);
     return {
       paths: [],
-      fallback: false,
+      fallback: "blocking",
     };
   }
 };

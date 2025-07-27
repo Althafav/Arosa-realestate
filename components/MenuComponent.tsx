@@ -5,7 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { FaFacebook, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedinIn,
+  FaTiktok,
+  FaYoutube,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { MdKeyboardArrowDown, MdOutlineMenu } from "react-icons/md";
 
 export default function MenuComponent() {
@@ -115,27 +122,30 @@ export default function MenuComponent() {
 
                 <div>
                   <div className="flex flex-col gap-5 ">
-                    <div className="">
+                    <Link href={`tel:+971569916229`} className="">
                       <p className="text-tertiary">
                         {pageData.phonelabel.value}
                       </p>
                       <p className="font-bold">{pageData.phonenumber.value}</p>
-                    </div>
+                    </Link>
 
-                    <div className="">
+                    <Link href={`mailto:info@arosarealestate.com`} className="">
                       <p className="text-tertiary">
                         {pageData.emaillabel.value}
                       </p>
                       <p className="font-bold">{pageData.email.value}</p>
-                    </div>
+                    </Link>
 
-                    <div className="">
+                    <Link
+                      href="https://maps.app.goo.gl/7f54ooKBuXztGink6"
+                      className=""
+                    >
                       <p
                         dangerouslySetInnerHTML={{
                           __html: pageData.address.value,
                         }}
                       />
-                    </div>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -164,22 +174,44 @@ export default function MenuComponent() {
             <Link href={pageData.instagram.value} target="_blank">
               <FaInstagram size={34} className="bg-white p-[8px] rounded" />
             </Link>
+
+            <Link href={pageData.tiktoklink.value} target="_blank">
+              <FaTiktok size={34} className="bg-white p-[8px] rounded" />
+            </Link>
+
+            <Link href={pageData.youtubelink.value} target="_blank">
+              <FaYoutube size={34} className="bg-white p-[8px] rounded" />
+            </Link>
+
+            <Link href={pageData.xlink.value} target="_blank">
+              <FaXTwitter size={34} className="bg-white p-[8px] rounded" />
+            </Link>
           </div>
 
           <div className="flex items-center gap-10  ">
-            <div className="border-r-2 border-gray-300 pr-5">
+            <Link
+              href="tel:+971569916229"
+              className="border-r-2 border-gray-300 pr-5"
+            >
               <p className="text-tertiary">{pageData.phonelabel.value}</p>
               <p className="font-bold">{pageData.phonenumber.value}</p>
-            </div>
+            </Link>
 
-            <div className="border-r-2 border-gray-300 pr-5">
+            <Link
+              href="mailto:info@arosarealestate.com"
+              className="border-r-2 border-gray-300 pr-5"
+            >
               <p className="text-tertiary">{pageData.emaillabel.value}</p>
               <p className="font-bold">{pageData.email.value}</p>
-            </div>
+            </Link>
 
-            <div className="">
+            <Link
+              href="https://maps.app.goo.gl/7f54ooKBuXztGink6"
+              target="_blank"
+              className=""
+            >
               <p dangerouslySetInnerHTML={{ __html: pageData.address.value }} />
-            </div>
+            </Link>
           </div>
         </div>
         <hr className="border-t-2 border-gray-300 my-4" />

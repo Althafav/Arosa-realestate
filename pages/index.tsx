@@ -1,4 +1,5 @@
 import FeaturedProjects from "@/components/FeaturedProjects";
+import KeywordRedirectForm from "@/components/Filter/KeywordRedirectForm";
 import SelfContainedSearchFilter from "@/components/Filter/SelfContainedSearchFilter";
 
 import PartnersComponent from "@/components/PartnersComponent";
@@ -79,7 +80,7 @@ export default function Page({ pageData }: PageProps) {
             className="inset-0 w-full h-full absolute -z-10"
           />
           <div className="container mx-auto flex items-center justify-center h-full flex-col">
-            <div className="pb-10">
+            <div className="">
               <h1 className="lg:text-6xl text-3xl text-white font-bold text-center mb-3">
                 {pageData.bannerheading.value}
               </h1>
@@ -87,7 +88,8 @@ export default function Page({ pageData }: PageProps) {
                 {pageData.bannersubheading.value}
               </h3>
             </div>
-            <SelfContainedSearchFilter />
+            <KeywordRedirectForm />
+            {/* <SelfContainedSearchFilter /> */}
           </div>
         </div>
 
@@ -259,8 +261,8 @@ export default function Page({ pageData }: PageProps) {
             </div>
           </div>
         </div>
-     
-        <FeaturedProjects />
+
+        {/* <FeaturedProjects /> */}
 
         <PartnersComponent
           type="developer"

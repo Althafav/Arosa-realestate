@@ -3,7 +3,7 @@ import Globals from "@/modules/Globals";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaFacebook, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedinIn, FaTiktok, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { GoArrowUpRight } from "react-icons/go";
 import { HiOutlinePhone } from "react-icons/hi2";
@@ -50,10 +50,13 @@ export default function FooterComponent() {
                 <GoArrowUpRight className="text-primary" size={20} />
               </Link>
 
-              <button className="flex gap-2 items-center rounded border-2 font-semibold text-white border-primary p-3 bg-primary">
+              <Link
+                href="tel:+971 56 991 6229"
+                className="flex gap-2 items-center rounded border-2 font-semibold text-white border-primary p-3 bg-primary"
+              >
                 <HiOutlinePhone className="text-white" size={20} />
                 <span>+971 56 991 6229</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -104,6 +107,21 @@ export default function FooterComponent() {
                   <Link href={pageData.linkedinlink.value} target="_blank">
                     <FaLinkedinIn className="text-white" size={20} />
                   </Link>
+
+                  <Link href={pageData.tiktoklink.value} target="_blank">
+                    <FaTiktok size={20} className="text-white" />
+                  </Link>
+
+                  <Link href={pageData.youtubelink.value} target="_blank">
+                    <FaYoutube size={20} className="text-white" />
+                  </Link>
+
+                  <Link href={pageData.xlink.value} target="_blank">
+                    <FaXTwitter
+                      size={20}
+                      className="text-white"
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -147,7 +165,7 @@ export default function FooterComponent() {
                   </ul>
                 </div>
               ))} */}
-                <div>
+                {/* <div>
                   <h3 className="font-semibold mb-3 text-white">
                     Popular Search
                   </h3>
@@ -170,7 +188,7 @@ export default function FooterComponent() {
                       )}
                     </ul>
                   </div>
-                </div>
+                </div> */}
 
                 <div>
                   <h3 className="font-semibold mb-3 text-white">Quick Links</h3>
@@ -195,7 +213,7 @@ export default function FooterComponent() {
                   </div>
                 </div>
 
-                <div>
+                {/* <div>
                   <h3 className="font-semibold mb-3 text-white">Discovery</h3>
                   <div>
                     <ul className="space-y-2">
@@ -216,7 +234,7 @@ export default function FooterComponent() {
                       )}
                     </ul>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

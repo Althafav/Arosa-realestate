@@ -2,6 +2,7 @@ import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Contactpage } from "@/models/contactpage";
 import Globals from "@/modules/Globals";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { FaPhone, FaCheck } from "react-icons/fa";
@@ -282,16 +283,19 @@ export default function ContactUs() {
       icon: <IoMail size={22} />,
       text: "info@arosarealestate.com",
       type: "email",
+      link: "mailto:info@arosarealestate.com"
     },
     {
       icon: <FaPhone size={22} />,
       text: "+971 56 991 6229",
       type: "phone",
+      link: "tel:+971569916229"
     },
     {
       icon: <HiMapPin size={22} />,
       text: "Office 703, Sobha Ivory 1 Building Business Bay, Dubai, UAE",
       type: "address",
+      link: "https://maps.app.goo.gl/7f54ooKBuXztGink6"
     },
   ];
 
@@ -376,13 +380,14 @@ export default function ContactUs() {
           <div className="floating-section-wrapper bg-white mt-10 p-5 rounded-xl lg:absolute lg:-bottom-15 lg:left-1/2 lg:-translate-x-1/2 lg:w-4/5 shadow-lg">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {contactInfoItems.map((item, index) => (
-                <div
+                <Link
+                href={item.link}
                   key={index}
                   className="bg-primary rounded-xl text-white p-5 flex items-center justify-center flex-col hover:bg-primary-dark transition-colors"
                 >
                   <div className="mb-2">{item.icon}</div>
                   <p className="text-center">{item.text}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

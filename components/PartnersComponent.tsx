@@ -34,7 +34,7 @@ export default function PartnersComponent({ pageData, type }: Props) {
             768: { slidesPerView: 4 },
             1024: { slidesPerView: type === "partner" ? 4 : 5 },
           }}
-          className="mySwiper "
+          className="mySwiper flex justify-center"
         >
           {pageData.map((m: any, index: number) => {
             const item: Partneritem = m;

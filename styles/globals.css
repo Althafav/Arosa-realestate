@@ -52,6 +52,11 @@ a, button{
 }
 
 
+.swiper-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 
 
 
