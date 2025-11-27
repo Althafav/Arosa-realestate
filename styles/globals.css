@@ -2,9 +2,9 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-primary: #A2625E;
-  --color-primarydark: #A15652;
-  --color-secondary: #F1E7E7;
+  --color-primary: #4d4d4f;
+  --color-primarydark: #000000;
+  --color-secondary: #f8f8f8;
   --color-tertiary: #4e4d4d;
   --color-gradient: linear-gradient(86.02deg, rgba(162, 98, 94, 0.75) 0%, rgba(197, 118, 113, 0.75) 96.4%);
 }
@@ -52,10 +52,7 @@ a, button{
 }
 
 
-.swiper-wrapper {
-  display: flex;
-  justify-content: center;
-}
+
 
 
 

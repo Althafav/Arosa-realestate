@@ -347,17 +347,16 @@ export default function Page({ pageData }: PageProps) {
       </div>
 
       {/* Arosa Team */}
-
-     
     </div>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  const { locale } = context;
+  const languageCode = locale === "ar" ? "ar" : "default";
   try {
-    const response: any = await Globals.KontentClient.item(
-      "about_page_2025"
-    )
+    const response: any = await Globals.KontentClient.item("about_page_2025")
+      .languageParameter(languageCode)
       .withParameter("depth", "4")
       .toPromise();
 

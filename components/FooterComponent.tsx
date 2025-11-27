@@ -28,7 +28,7 @@ export default function FooterComponent() {
 
   return (
     <>
-      <div className="floating-card  bg-white    ">
+      <div className=" bg-white    ">
         <div className="container mx-auto">
           <div className="flex lg:flex-row flex-col gap-5 justify-between items-center py-10 w-full">
             <div>
@@ -116,12 +116,7 @@ export default function FooterComponent() {
                     <FaYoutube size={20} className="text-white" />
                   </Link>
 
-                  <Link href={pageData.xlink.value} target="_blank">
-                    <FaXTwitter
-                      size={20}
-                      className="text-white"
-                    />
-                  </Link>
+                
                 </div>
               </div>
             </div>

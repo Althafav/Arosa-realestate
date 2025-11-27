@@ -17,6 +17,7 @@ import { MdKeyboardArrowDown, MdOutlineMenu } from "react-icons/md";
 
 export default function MenuComponent() {
   const router = useRouter();
+  const { asPath, locale, push, locales } = useRouter();
   const [pageData, setPageData] = useState<Menu | null>(null);
   const [menuToggle, setIsMenuToggle] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
@@ -182,10 +183,6 @@ export default function MenuComponent() {
             <Link href={pageData.youtubelink.value} target="_blank">
               <FaYoutube size={34} className="bg-white p-[8px] rounded" />
             </Link>
-
-            <Link href={pageData.xlink.value} target="_blank">
-              <FaXTwitter size={34} className="bg-white p-[8px] rounded" />
-            </Link>
           </div>
 
           <div className="flex items-center gap-10  ">
@@ -215,49 +212,65 @@ export default function MenuComponent() {
           </div>
         </div>
         <hr className="border-t-2 border-gray-300 my-4" />
-        <ul className="menu-items lg:flex hidden gap-10">
-          {pageData.menuitems.value.map((m: any, index: number) => {
-            const item: Menuitem = m;
-            return (
-              <li key={`menuitem-${index}`} className="relative group">
-                <Link
-                  href={item.link.value}
-                  className="inline-flex items-center font-medium text-black"
-                >
-                  {item.name.value}
-                  {/* only show arrow if there are sub-items */}
-                  {item.items?.value?.length > 0 && (
-                    <MdKeyboardArrowDown
-                      className="
+        <div className="flex justify-between items-center">
+          <ul className="menu-items lg:flex hidden gap-10">
+            {pageData.menuitems.value.map((m: any, index: number) => {
+              const item: Menuitem = m;
+              return (
+                <li key={`menuitem-${index}`} className="relative group">
+                  <Link
+                    href={item.link.value}
+                    className="inline-flex items-center font-medium text-black"
+                  >
+                    {item.name.value}
+                    {/* only show arrow if there are sub-items */}
+                    {item.items?.value?.length > 0 && (
+                      <MdKeyboardArrowDown
+                        className="
               ml-1 
               transform 
               transition-transform 
               duration-300 
               group-hover:rotate-180
             "
-                    />
-                  )}
-                </Link>
+                      />
+                    )}
+                  </Link>
 
-                {item.items.value.length > 0 && (
-                  <div className="absolute z-10 bg-white hidden group-hover:block top-full rounded-xl">
-                    <ul>
-                      {item.items.value.map((child: any, j: number) => (
-                        <li key={j} className="px-4 py-2 whitespace-nowrap">
-                          <Link href={child.link.value}>
-                            <span className="font-medium text-black hover:text-primary transition duration-300">
-                              {child.name.value}
-                            </span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+                  {item.items.value.length > 0 && (
+                    <div className="absolute z-10 bg-white hidden group-hover:block top-full rounded-xl">
+                      <ul>
+                        {item.items.value.map((child: any, j: number) => (
+                          <li key={j} className="px-4 py-2 whitespace-nowrap">
+                            <Link href={child.link.value}>
+                              <span className="font-medium text-black hover:text-primary transition duration-300">
+                                {child.name.value}
+                              </span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+
+          <div className="flex gap-1">
+            {locales!.map((loc) => (
+              <button
+                key={loc}
+                className={`bg-primary text-white px-2 py-1 ${
+                  loc === locale ? "active" : ""
+                }`}
+                onClick={() => push(asPath, asPath, { locale: loc })}
+              >
+                {loc === "en" ? "En" : "Ar"}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

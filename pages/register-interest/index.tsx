@@ -1,6 +1,7 @@
 import SpinnerComponent from "@/components/UI/SpinnerComponent";
 import { Contactpage } from "@/models/contactpage";
 import Globals from "@/modules/Globals";
+import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,20 +10,22 @@ import { FaPhone, FaCheck } from "react-icons/fa";
 import { HiMapPin } from "react-icons/hi2";
 import { IoMail } from "react-icons/io5";
 
-export default function ContactUs() {
+export default function Page() {
   const router = useRouter();
   const [referrerTitle, setReferrerTitle] = useState<string | null>(null);
   const [mainsource, setMainSource] = useState<string | null>("Website");
   const [subsource, setSubSource] = useState<string | null>(null);
+  const [property, setProperty] = useState<string | null>(null);
   const [pageData, setPageData] = useState<Contactpage | null>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
-    inquiryType: "",
-    leadType: "",
-    message: "",
+
+    budgetRange: "",
+    bedroomType: "",
+
     agreeTerms: false,
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -33,13 +36,17 @@ export default function ContactUs() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const { referrer, mainsource, subsource } = router.query;
+    const { referrer, mainsource, subsource, property } = router.query;
     if (mainsource && typeof mainsource === "string") {
       setMainSource(mainsource);
     }
 
     if (subsource && typeof subsource === "string") {
       setSubSource(subsource);
+    }
+
+    if (property && typeof property === "string") {
+      setProperty(property);
     }
 
     if (referrer && typeof referrer === "string") {
@@ -68,7 +75,7 @@ export default function ContactUs() {
   };
 
   useEffect(() => {
-    Globals.KontentClient.item("contact_page")
+    Globals.KontentClient.item("campaign_form_page")
       .toObservable()
       .subscribe((response: any) => {
         setPageData(response.item);
@@ -82,6 +89,7 @@ export default function ContactUs() {
       /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,4}[-\s.]?[0-9]{1,9}$/;
 
     if (!formData.firstName.trim()) errors.firstName = "First name is required";
+
     if (!formData.email.trim()) {
       errors.email = "Email is required";
     } else if (!emailRegex.test(formData.email)) {
@@ -92,7 +100,12 @@ export default function ContactUs() {
     } else if (!phoneRegex.test(formData.phone)) {
       errors.phone = "Please enter a valid phone number";
     }
-    if (!formData.message.trim()) errors.message = "Message is required";
+
+    if (!formData.budgetRange.trim())
+      errors.budgetRange = "Budget Range is required";
+    if (!formData.bedroomType.trim())
+      errors.bedroomType = "Bedroom Type is required";
+
     if (!formData.agreeTerms) errors.agreeTerms = "You must agree to the terms";
 
     setFormErrors(errors);
@@ -102,172 +115,86 @@ export default function ContactUs() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    if (!validateForm() || isLoading) return;
 
     setIsLoading(true);
     setFormStatus({ type: null, message: null });
 
     try {
-      const sender_email = "notification@arosarealestate.com";
-      const email_to = "camilla@arosarealestate.com";
-      const subject = "New Contact Form Submission";
-      const body = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .email-container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background-color: #A2625E; color: white; padding: 20px; text-align: center; }
-          .content { padding: 20px; background-color: #f9f9f9; }
-          .footer { padding: 10px; text-align: center; font-size: 12px; color: #777; }
-          .details-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-          .details-table th { text-align: left; padding: 8px; background-color: #eee; }
-          .details-table td { padding: 8px; border-bottom: 1px solid #ddd; }
-          .message-box { background-color: white; border: 1px solid #ddd; padding: 15px; margin-top: 10px; }
-        </style>
-      </head>
-      <body>
-        <div class="email-container">
-          <div class="header">
-            <h3>New Contact Form Submission</h3>
-            <p>Arosa RealEstate</p>
-          </div>
-          
-          <div class="content">
-            <p>You've received a new contact form submission with the following details:</p>
-            
-            <table class="details-table">
-              <tr>
-                <th>Name:</th>
-                <td>${formData.firstName} ${formData.lastName}</td>
-              </tr>
-              <tr>
-                <th>Email:</th>
-                <td><a href="mailto:${formData.email}">${
-        formData.email
-      }</a></td>
-              </tr>
-              <tr>
-                <th>Phone:</th>
-                <td><a href="tel:${formData.phone}">${formData.phone}</a></td>
-              </tr>
-              ${
-                formData.inquiryType
-                  ? `
-              <tr>
-                <th>Inquiry Type:</th>
-                <td>${formData.inquiryType}</td>
-              </tr>
-              `
-                  : ""
-              }
-              ${
-                formData.leadType
-                  ? `
-              <tr>
-                <th>How they heard about us:</th>
-                <td>${formData.leadType}</td>
-              </tr>
-              `
-                  : ""
-              }
-              ${
-                referrerTitle
-                  ? `
-             <tr>
-               <th>Referrer Title:</th>
-               <td>${referrerTitle}</td>
-             </tr>
-             `
-                  : ""
-              }
-               ${
-                 mainsource
-                   ? `
-              <tr>
-                <th>Main Source:</th>
-                <td>${mainsource}</td>
-              </tr>
-              `
-                   : ""
-               }
+      const apiUrl =
+        "https://my.remapp.ae/api/create-lead/0bafee87cb510040069b9083e050215c";
 
-               ${
-                 subsource
-                   ? `
-             <tr>
-               <th>SubSource Source:</th>
-               <td>${subsource}</td>
-             </tr>
-             `
-                   : ""
-               }
-            </table>
-            
-            <h3>Message:</h3>
-            <div class="message-box">
-              ${formData.message.replace(/\n/g, "<br>")}
-            </div>
-            
-            <p style="margin-top: 20px;">
-              <strong>Submission Time:</strong> ${new Date().toLocaleString()}
-            </p>
-          </div>
-          
-          <div class="footer">
-            <p>This email was sent from the contact form on ArosA Real Estate website.</p>
-            <p>© ${new Date().getFullYear()} ArosA Real Estate. All rights reserved.</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `;
+      // Build a safe current URL (client-side only)
+      const currentUrl =
+        typeof window !== "undefined"
+          ? window.location.href
+          : `https://arosarealestate.com${
+              router.asPath || "/register-interest"
+            }`;
 
-      const response = await fetch(
-        "https://payment.aimcongress.com/api/Generic/SendEmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            sender_email,
-            email_to,
-            subject,
-            body,
-          }),
-        }
-      );
+      const notesLines = [
+        `Property: ${property || "-"}`,
+        `Budget Range: ${formData.budgetRange || "-"}`,
+        `Bedroom Type: ${formData.bedroomType || "-"}`,
+        `Main Source (query): ${mainsource || "-"}`,
+        `Sub Source (query): ${subsource || "-"}`,
+        `Page URL: ${currentUrl}`,
+      ];
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
+      const postData = {
+        source: "website",
+
+        contact_name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        phone: formData.phone,
+
+        notes: notesLines.join("\n"),
+      };
+
+      const response = await axios.post(apiUrl, postData, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        // optional: give yourself some protection against hangs
+        timeout: 15000,
+      });
+
+      // Handle success heuristically (since we don't know the exact contract)
+      if (response.status >= 200 && response.status < 300) {
+        console.log(response, "Form submission response");
+        setFormStatus({
+          type: "success",
+          message: "Thanks! Your message has been sent successfully.",
+        });
+
+        // Reset the form after success
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          budgetRange: "",
+          bedroomType: "",
+          agreeTerms: false,
+        });
+      } else {
+        setFormStatus({
+          type: "error",
+          message:
+            "We couldn't submit your request right now. Please try again shortly.",
+        });
       }
-
-      const data = await response.json();
-      console.log("Success:", data);
-
-      setFormStatus({
-        type: "success",
-        message: "Your message has been sent successfully!",
-      });
-
-      // Reset form
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        inquiryType: "",
-        leadType: "",
-        message: "",
-        agreeTerms: false,
-      });
-    } catch (error) {
-      console.error("Form submission error:", error);
+    } catch (err: any) {
+      // Axios-aware error messaging
+      const msg =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Network error. Please check your connection and try again.";
+      console.error("Form submission error:", err);
       setFormStatus({
         type: "error",
-        message: "Error submitting form. Please try again later.",
+        message: msg,
       });
     } finally {
       setIsLoading(false);
@@ -491,59 +418,42 @@ export default function ContactUs() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="inquiryType" className="font-semibold">
-                    Inquiry Type
+                  <label htmlFor="lastName" className="font-semibold">
+                    Whats your budget range for the property?
                   </label>
-                  <select
+                  <input
                     className="bg-gray-50 p-3 w-full rounded border border-gray-200"
-                    name="inquiryType"
-                    value={formData.inquiryType}
+                    type="text"
+                    placeholder="eg: AED200,000 - AED300,000"
+                    name="budgetRange"
+                    value={formData.budgetRange}
                     onChange={handleChange}
-                  >
-                    <option value="">Select Inquiry Type</option>
-                    {inquiryTypes.map((type, index) => (
-                      <option key={index} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
+                  />
+
+                  {formErrors.budgetRange && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.budgetRange}
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="leadType" className="font-semibold">
-                    How Did You Hear About Us?
+                  <label htmlFor="lastName" className="font-semibold">
+                    What bedroom unit type are you interested in?
                   </label>
-                  <select
+                  <input
                     className="bg-gray-50 p-3 w-full rounded border border-gray-200"
-                    name="leadType"
-                    value={formData.leadType}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select an option</option>
-                    {leadSources.map((source, index) => (
-                      <option key={index} value={source}>
-                        {source}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="md:col-span-2 flex flex-col gap-2">
-                  <label htmlFor="message" className="font-semibold">
-                    Message <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    rows={5}
-                    className={`bg-gray-50 p-3 w-full rounded border ${
-                      formErrors.message ? "border-red-500" : "border-gray-200"
-                    }`}
-                    placeholder="Enter your Message here.."
-                    name="message"
-                    value={formData.message}
+                    type="text"
+                    placeholder="eg: 1 BHK, 2 BHK, etc."
+                    name="bedroomType"
+                    value={formData.bedroomType}
                     onChange={handleChange}
                   />
-                  {formErrors.message && (
-                    <p className="text-red-500 text-sm">{formErrors.message}</p>
+
+                  {formErrors.bedroomType && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.bedroomType}
+                    </p>
                   )}
                 </div>
 
@@ -559,21 +469,19 @@ export default function ContactUs() {
                     />
                     <label htmlFor="agreeTerms">
                       I agree with{" "}
-                      <Link
-                        href="/terms-conditions"
-                        target="_blank"
+                      <a
+                        href="/terms"
                         className="underline cursor-pointer mx-1 text-primary hover:text-primary-dark"
                       >
                         Terms of Use
-                      </Link>{" "}
+                      </a>{" "}
                       and{" "}
-                      <Link
-                        target="_blank"
-                        href="/privacy-policy"
+                      <a
+                        href="/privacy"
                         className="underline cursor-pointer mx-1 text-primary hover:text-primary-dark"
                       >
                         Privacy Policy
-                      </Link>
+                      </a>
                       <span className="text-red-500">*</span>
                     </label>
                   </div>

@@ -13,7 +13,7 @@
     "@kentico/kontent-delivery": "^10.4.1",
     "@kentico/kontent-management": "^2.9.2",
     "@vercel/analytics": "^1.5.0",
-    "axios": "^1.8.4",
+    "axios": "^1.11.0",
     "framer-motion": "^12.12.1",
     "next": "15.2.2",
     "next-sitemap": "^4.2.3",

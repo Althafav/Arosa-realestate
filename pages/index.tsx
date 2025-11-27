@@ -77,11 +77,11 @@ export default function Page({ pageData }: PageProps) {
             height={600}
             src={pageData.bannerimage.value[0]?.url}
             alt=""
-            className="inset-0 w-full h-full absolute -z-10"
+            className="inset-0 w-full h-full absolute -z-10 object-cover brightness-75"
           />
           <div className="container mx-auto flex items-center justify-center h-full flex-col">
             <div className="">
-              <h1 className="lg:text-6xl text-3xl text-white font-bold text-center mb-3">
+              <h1 className="lg:text-6xl text-3xl text-white font-medium  text-center mb-3">
                 {pageData.bannerheading.value}
               </h1>
               <h3 className="text-white lg:text-2xl  text-center">
@@ -273,9 +273,12 @@ export default function Page({ pageData }: PageProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  const { locale } = context;
+  const languageCode = locale === "ar" ? "ar" : "default";
   try {
     const response: any = await Globals.KontentClient.item("home_page_2025")
+      .languageParameter(languageCode)
       .withParameter("depth", "4")
       .toPromise();
 
