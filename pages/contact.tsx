@@ -293,9 +293,9 @@ export default function ContactUs() {
     },
     {
       icon: <HiMapPin size={22} />,
-      text: "Office 703, Sobha Ivory 1 Building Business Bay, Dubai, UAE",
+      text: "Office 1006, Opal Tower Business Bay, Dubai",
       type: "address",
-      link: "https://maps.app.goo.gl/7f54ooKBuXztGink6",
+      link: "https://maps.app.goo.gl/eSJCXacwK99fSaff6",
     },
   ];
 

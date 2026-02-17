@@ -3,7 +3,13 @@ import Globals from "@/modules/Globals";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaFacebook, FaInstagram, FaLinkedinIn, FaTiktok, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedinIn,
+  FaTiktok,
+  FaYoutube,
+} from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { GoArrowUpRight } from "react-icons/go";
 import { HiOutlinePhone } from "react-icons/hi2";
@@ -115,8 +121,6 @@ export default function FooterComponent() {
                   <Link href={pageData.youtubelink.value} target="_blank">
                     <FaYoutube size={20} className="text-white" />
                   </Link>
-
-                
                 </div>
               </div>
             </div>
@@ -202,7 +206,7 @@ export default function FooterComponent() {
                               </Link>
                             </li>
                           );
-                        }
+                        },
                       )}
                     </ul>
                   </div>
@@ -243,8 +247,6 @@ export default function FooterComponent() {
 
             <div className="flex items-center gap-5 text-white">
               <Link href="terms-conditions">Terms & Conditions</Link>
-
-              <Link href="/sitemap.xml">Sitemap</Link>
             </div>
           </div>
         </div>
