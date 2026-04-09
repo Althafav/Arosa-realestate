@@ -61,7 +61,11 @@ export default function EoiPage() {
       { method: "POST", body: fileData },
     );
 
-    if (!resp.ok) throw new Error("Upload failed");
+    const json = await resp.json();
+
+    if (!resp.ok || json?.Code >= 400) {
+      throw new Error(json?.Message || "Upload failed");
+    }
 
     const uploadJson = await resp.json();
     return uploadJson.FileUrl || "";
@@ -75,13 +79,28 @@ export default function EoiPage() {
     try {
       setLoading(true);
 
-      // 1) upload file -> get url
       let fileUrl = "";
       if (data.passportOrEidCopyFile) {
-        fileUrl = await uploadAsset(data.passportOrEidCopyFile);
+        const json = await fetch(
+          "https://media.aimcongress.com/api/Upload/Asset?foldername=Arosa Tilal Binghatti",
+          {
+            method: "POST",
+            body: (() => {
+              const f = new FormData();
+              f.append("file", data.passportOrEidCopyFile);
+              return f;
+            })(),
+          },
+        ).then((r) => r.json());
+
+        if (!json?.FileUrl || json?.Code >= 400) {
+          alert(json?.Message || "File upload failed.");
+          return;
+        }
+
+        fileUrl = json.FileUrl;
       }
 
-      // 2) string-only payload (no declaration)
       const payload = {
         projectName: PROJECT_NAME,
         name: String(data.name || ""),
